@@ -26,7 +26,7 @@ create table restaurant (
     primary key (restaurantId)
 );
 
-create table pictures (
+create table picture (
     pictureId binary (16) not null,
     pictureAlt varchar (64),
     pictureRestaurantId binary (16) not null,
