@@ -10,6 +10,9 @@
 			 <br>
 			<strong>Profile</strong>
 			<li>profileId (primary Key)</li>
+			<li>profileActivationToken</li>
+			<li>profileFirstName</li>
+			<li>profileLastName</li>
 			<li>profileEmail</li>
 			<li>profileHash</li>
 			 <br>
@@ -24,17 +27,16 @@
 			<li>restaurantReviewRating</li>
 			 <br>
 			<strong>Favorite</strong>
-			<li>favoriteId</li>
-			<li>Remove button</li>
 			<li>favoriteProfileId (foreign key)</li>
 			<li>favoriteRestaurantId (foreign Key)</li>
 			 <br>
 			<strong>Pictures</strong>
 			<li>pictureId</li>
 			<li>pictureRestaurantId (foreign key)</li>
+			<li>pictureAlt</li>
 			<li>pictureUrl</li>
 		</ul>
-			<img src="revisedERD.jpg" width="700px" alt="ERD">
+			<img src="capstoneERD-Revised.jpg" width="700px" alt="ERD">
 
 	</body>
 </html>
