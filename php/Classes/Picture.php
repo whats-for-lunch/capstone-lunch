@@ -42,13 +42,13 @@ class picture implements \JsonSerializable {
      *this is the web based photo for yelp
      * @var string $restuarantId
      */
-    public function __construct($newPictureId, $newPictureAlt, $newPictureRestauarntId, $newPictureUrl = null) {
+    public function __construct($newPictureId, string $newPictureAlt, string $newPictureRestauarntId, string $newPictureUrl) {
         try {
             $this->setPictureId($newPictureId);
             $this->setPictureAlt($newPictureAlt);
             $this->setPictureRestaurantId($newPictureRestaurantId);
             $this->setPictureUrl($newPictureUrl);
-
+        }
             // determined what exception type was thrown
         catch
             (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
@@ -60,5 +60,5 @@ class picture implements \JsonSerializable {
     /**
      *
      */
-}
+
 }//last line
