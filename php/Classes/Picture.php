@@ -23,8 +23,39 @@ class picture implements \JsonSerializable {
      *@var Uuid $pictureId
      **/
     private $pictureId;
-    /** id of picture that sent this from profile
+    /**
+     * id of picture that sent this from $pictureResturantId is a foreign key
      * @var Uuid  $pictureRestuarantId
+     **/
+    private $pictureAlt;
+    /**
+     * this is a alternate picture for profile
+     * @var string $pictureRestaurantId
+     **/
+    private $pictureRestaurantId;
+    /**
+     * this is the profile picture of restauarant
+     * @var string $pictureId
      */
+    private $pictureUrl;
+    /**
+     *this is the web based photo for yelp
+     * @var string $restuarantId
+     */
+    public function __construct($newPictureId, $newPictureAlt, $newPictureRestauarntId, $newPictureUrl = null) {
+        try {
+            $this->setPictureId($newPictureId);
+            $this->setPictureAlt($newPictureAlt);
+            $this->setPictureRestaurantId($newPictureRestaurantId);
+            $this->setPictureUrl($newPictureUrl);
 
+            // determined what exception type was thrown
+        catch
+            (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+                $exceptionType = get_class($exception);
+                throw(new $exceptionType($exception->getMessage(), 0, $exception));
+
+            }
+    }
+}
 }//last line
