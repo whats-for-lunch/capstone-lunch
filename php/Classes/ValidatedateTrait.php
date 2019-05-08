@@ -1,5 +1,5 @@
 <?php
-namespace jsilva85\capstonelunch;
+namespace whatsforlunch\capstonelunch;
 /**
  * Trait to Validate a mySQL Date
  *
