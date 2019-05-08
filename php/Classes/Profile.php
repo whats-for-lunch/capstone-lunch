@@ -221,4 +221,36 @@ class profile {
 		}
 		$this->profileLastName = $newProfileLastName;
 	}
+
+	/**
+	 * accessor method for profile hash
+	 * @return string value of the hash
+	 */
+	public function getProfileHash() : string {
+		return ($this->profileHash);
+	}
+
+	/**
+	 * mutator method for the profile hash
+	 * @param string $newProfileHash new value of hash
+	 * @throws \InvalidArgumentException if the new profile hash is not a string or is insecure
+	 * @throws \RangeException if the new profile hash is too large
+	 * @throws \TypeError if the new profile hash is not a string
+	 */
+	public function setProfileHash(string $newProfileHash) : void {
+		$newProfileHash = trim($newProfileHash);
+		if(empty($newProfileHash) === true) {
+			throw(new \InvalidArgumentException("profile hash is empty or is insecure"));
+		}
+		$profileHashInfo = password_get_info($newProfileHash);
+		if($newProfileHash["algoName"] !== "argon2i") {
+			throw(new \InvalidArgumentException("profile hash is not a valid hash"));
+		}
+		if(strlen($newProfileHash) > 97) {
+			throw(new \RangeException("profile hash is too large"));
+		}
+		$this->profileHash = $newProfileHash;
+	}
+
+
 }
