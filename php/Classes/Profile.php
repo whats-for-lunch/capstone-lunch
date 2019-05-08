@@ -23,7 +23,7 @@ class profile {
 	/**
 	 * activation token for this profile;
 	 * token handed out to verify that the profile is valid and not malicious.
-	 *@var $profileActivationToken
+	 * @var $profileActivationToken
 	 */
 	private $profileActivationToken;
 	/**
@@ -65,7 +65,7 @@ class profile {
 	 */
 
 	public function __construct(string $newProfileId, string $newProfileActivationToken, string $newProfileEmail,
-	string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
+										 string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileLastName);
@@ -96,7 +96,7 @@ class profile {
 	 * @throws \TypeError if the profileId is not valid
 	 */
 	public function setProfileId($newProfileId): void {
-		try{
+		try {
 			$Uuid = self::validateUuid($newProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -110,7 +110,7 @@ class profile {
 	 * accessor method for profile activation token
 	 * @return string value of the activation token
 	 */
-	public function getProfileActivationToken() : string {
+	public function getProfileActivationToken(): string {
 		return ($this->profileActivationToken);
 	}
 
@@ -122,8 +122,8 @@ class profile {
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setProfileActivationToken(string $newProfileActivationToken) : void {
-		if ($newProfileActivationToken === null) {
+	public function setProfileActivationToken(string $newProfileActivationToken): void {
+		if($newProfileActivationToken === null) {
 			$this->profileActivationToken = null;
 			return;
 		}
@@ -142,7 +142,7 @@ class profile {
 	 * accessor method for profile email
 	 * @return string value for profile email
 	 */
-	public function getProfileEmail() : string {
+	public function getProfileEmail(): string {
 		return ($this->profileEmail);
 	}
 
@@ -154,7 +154,7 @@ class profile {
 	 * @throws \RangeException if the $newProfileEmail is more than 128 characters
 	 * @throws \TypeError if the new email is not a string
 	 */
-	public function setProfileEmail(string $newProfileEmail) : void {
+	public function setProfileEmail(string $newProfileEmail): void {
 		$newProfileEmail = trim($newProfileEmail);
 		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
 		if(empty($newProfileEmail) === true) {
@@ -165,11 +165,12 @@ class profile {
 		}
 		$this->profileEmail = $newProfileEmail;
 	}
+
 	/**
 	 * accessor method for profileFirstName
 	 * @return string value for profile first name
 	 */
-	public function getProfileFirstName() : string {
+	public function getProfileFirstName(): string {
 		return ($this->profileFirstName);
 	}
 
@@ -181,7 +182,7 @@ class profile {
 	 * @throws \RangeException if the first name is more than 128 characters
 	 * @throws \TypeError if the first name is not a string
 	 */
-	public function setProfileFirstName(string $newProfileFirstName) : void {
+	public function setProfileFirstName(string $newProfileFirstName): void {
 		$newProfileFirstName = trim($newProfileFirstName);
 		$newProfileFirstName = filter_var($newProfileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileFirstName) === true) {
@@ -192,3 +193,32 @@ class profile {
 		}
 		$this->profileFirstName = $newProfileFirstName;
 	}
+
+	/**
+	 * accessor method for profileLastName
+	 * @return string value for profile last name
+	 */
+	public function getProfileLastName(): string {
+		return ($this->profileLastName);
+	}
+
+	/**
+	 * mutator method for the last name of the profile user
+	 *
+	 * @param string $newProfileLastName
+	 * @throws \InvalidArgumentException if the last name is not a string or is insecure
+	 * @throws \RangeException if the last name is more than 128 characters
+	 * @throws \TypeError if the last name is not a string
+	 */
+	public function setProfileLastName(string $newProfileLastName): void {
+		$newProfileLastName = trim($newProfileLastName);
+		$newProfileLastName = filter_var($newProfileLastName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileLastName) === true) {
+			throw(new \InvalidArgumentException("profile last name is empty or insecure"));
+		}
+		if(strlen($newProfileLastName) > 128){
+			throw(new \RangeException("profile last name is too large"));
+		}
+		$this->profileLastName = $newProfileLastName;
+	}
+}
