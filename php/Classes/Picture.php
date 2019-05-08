@@ -1,11 +1,9 @@
 <?php
-namespace jsilva\capstonelunch;
+namespace whatsforlunch\capstonelunch;
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) . "/vendor/autoload.php");
 
-use jsilva85\capstonelunch\ValidateDate;
-use jsilva85\capstonelunch\ValidateUuid;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -13,7 +11,7 @@ use Ramsey\Uuid\Uuid;
  *
  *This whats for lunch can be considered a small example of what services like whats for lunch store when messages are sent and received using whats for lunch. This can easily be extended to emulate more features of What's for Lunch.
  *
- * @author Jesse, Jamie, Jeff, Nic <thebestjesse76@gmail.com>
+ * @author Jesse, Jamie, Jeff, <thebestjesse76@gmail.com>
  * @version 3.0.0
  **/
 
@@ -25,5 +23,8 @@ class picture implements \JsonSerializable {
      *@var Uuid $pictureId
      **/
     private $pictureId;
-    /** id of picture that sent this from profile */
+    /** id of picture that sent this from profile
+     * @var Uuid  $pictureRestuarantId
+     */
+
 }//last line

@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
  * 2. binary string (16 bytes)
  * 3. Ramsey\Uuid\Uuid object
  *
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
+ * @author Jamie, Jesse, Jeff <thebestjesse76@gmail.com>
  * @package Edu\Cnm\Misquote
  **/
 trait ValidateUuid {
