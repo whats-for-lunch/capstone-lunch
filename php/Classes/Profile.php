@@ -79,4 +79,27 @@ class profile {
 		}
 	}
 
+
+	public function getProfileId(): Uuid {
+		return ($this->profileId);
+	}
+
+	/**
+	 * mutator method for profileId
+	 *
+	 * @param Uuid| string $newProfileId value for new profile id
+	 * @throws \RangeException if the $newProfileId is not positive
+	 * @throws \TypeError if the profileId is not valid
+	 */
+	public function setProfileId($newProfileId): void {
+		try{
+			$Uuid = self::validateUuid($newProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the profileId
+		$this->profileId = $Uuid;
+	}
+
 }
