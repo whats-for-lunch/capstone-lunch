@@ -4,6 +4,7 @@ namespace jgallegos\capstonelunch;
 
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
+use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -46,4 +47,36 @@ class profile {
 	 * @var $profileHash
 	 */
 	private $profileHash;
+
+
+	/**
+	 * Constructor for this profile
+	 * @param Uuid| string $newProfileId value for new profileId
+	 * @param string $newProfileActivationToken
+	 * @param string $newProfileEmail
+	 * @param string $newProfileFirstName
+	 * @param string $newProfileLastName
+	 * @param string $newProfileHash
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values entered are too long
+	 * @throws \TypeError if data types violate hints
+	 * @throws \Exception
+	 */
+
+	public function __construct(string $newProfileId, string $newProfileActivationToken, string $newProfileEmail,
+	string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
+		try {
+			$this->setProfileId($newProfileId);
+			$this->setProfileActivationToken($newProfileLastName);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileFirstName($newProfileFirstName);
+			$this->setProfileLastName($newProfileLastName);
+			$this->setProfileHash($newProfileHash);
+		} //Determine the exception that was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
+
 }
