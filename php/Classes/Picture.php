@@ -54,11 +54,31 @@ class picture implements \JsonSerializable {
             (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
                 $exceptionType = get_class($exception);
                 throw(new $exceptionType($exception->getMessage(), 0, $exception));
-
-            }
+        }
     }
     /**
-     *
+     *accessor method for picture id
+     * @return Uuid value of picture id
      */
+public function getPictureId() : Uuid {
+    return($this->pictureId);
+}
+/**mutator method for picture Id
+ *
+ * @param Uuid|string $newPictureId new value of picture id
+ * @throw \RangeException if $newPictureId is not postive
+ * @throw \TypeError if $newPictureId is not a uuid or string
+ **/
+public function setPictureId( $newPictureId) :void {
+    try {
+        $uuid = self::validateUuid($newPictureId);
+    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        $exceptionType = get_class($exception);
+        throw(new $exceptionType($exception->getMessage(), 0, $exception));
+    }
+    //convert and store the picture id
+    $this->pictureId = $uuid;
+}
+
 
 }//last line
