@@ -50,5 +50,10 @@ class restaurant{
 	 * Thumbnail for restaurant
 	 * @var $restaurantThumbnail
 	 */
-	private $restaurantThumbnail
+	private $restaurantThumbnail;
+
+	/**
+	 * constructor for restaurant
+	 *
+	 */
 }
