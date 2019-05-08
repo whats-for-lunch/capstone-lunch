@@ -51,6 +51,7 @@ class profile {
 
 	/**
 	 * Constructor for this profile
+	 *
 	 * @param Uuid| string $newProfileId value for new profileId
 	 * @param string $newProfileActivationToken
 	 * @param string $newProfileEmail
@@ -79,7 +80,10 @@ class profile {
 		}
 	}
 
-
+	/**
+	 * accessor method for the profile id
+	 * @return Uuid value of the profile id
+	 */
 	public function getProfileId(): Uuid {
 		return ($this->profileId);
 	}
@@ -102,4 +106,35 @@ class profile {
 		$this->profileId = $Uuid;
 	}
 
+	/**
+	 * accessor method for profile activation token
+	 * @return string value of the activation token
+	 */
+	public function getProfileActivationToken() : string {
+		return ($this->profileActivationToken);
+	}
+
+	/**
+	 * mutator method for profile activation token
+	 *
+	 * @param string $newProfileActivationToken
+	 * @throws \InvalidArgumentException if the token is not a string or is insecure
+	 * @throws \RangeException if the token is not exactly 32 characters
+	 * @throws \TypeError if the activation token is not a string
+	 */
+	public function setProfileActivationToken(string $newProfileActivationToken) : void {
+		if ($newProfileActivationToken === null) {
+			$this->profileActivationToken = null;
+			return;
+		}
+		$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+		if(ctype_xdigit($newProfileActivationToken) === false) {
+			throw (new\RangeException("profile activation token is not valid"));
+		}
+		//to determine if the activation token has 32 characters
+		if(strlen($newProfileActivationToken) !== 32) {
+			throw (new\RangeException("profile activation token has to be 32 characters"));
+		}
+		$this->profileActivationToken = $newProfileActivationToken;
+	}
 }
