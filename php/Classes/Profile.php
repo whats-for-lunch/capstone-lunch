@@ -137,4 +137,33 @@ class profile {
 		}
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
+
+	/**
+	 * accessor method for profile email
+	 * @return string value for profile email
+	 */
+	public function getProfileEmail() : string {
+		return ($this->profileEmail);
+	}
+
+	/**
+	 * mutator method for the profile email
+	 *
+	 * @param string $newProfileEmail of new value of email
+	 * @throws \InvalidArgumentException if $newProfileEmail is not a string or is insecure
+	 * @throws \RangeException if the $newProfileEmail is more than 128 characters
+	 * @throws \TypeError if the new email is not a string
+	 */
+	public function setProfileEmail(string $newProfileEmail) : void {
+		$newProfileEmail = trim($newProfileEmail);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		if(empty($newProfileEmail) === true) {
+			throw (new \InvalidArgumentException("profile email is empty or insecure"));
+		}
+		if(strlen($newProfileEmail) > 128) {
+			throw(new \RangeException("profile email is too large"));
+		}
+		$this->profileEmail = $newProfileEmail;
+	}
+	
 }
