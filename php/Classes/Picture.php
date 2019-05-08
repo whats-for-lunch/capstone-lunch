@@ -57,5 +57,8 @@ class picture implements \JsonSerializable {
 
             }
     }
+    /**
+     *
+     */
 }
 }//last line
