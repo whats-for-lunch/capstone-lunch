@@ -165,5 +165,30 @@ class profile {
 		}
 		$this->profileEmail = $newProfileEmail;
 	}
-	
-}
+	/**
+	 * accessor method for profileFirstName
+	 * @return string value for profile first name
+	 */
+	public function getProfileFirstName() : string {
+		return ($this->profileFirstName);
+	}
+
+	/**
+	 * mutator method for the first name of the profile user
+	 *
+	 * @param string $newProfileFirstName
+	 * @throws \InvalidArgumentException if the first name is not a string or is insecure
+	 * @throws \RangeException if the first name is more than 128 characters
+	 * @throws \TypeError if the first name is not a string
+	 */
+	public function setProfileFirstName(string $newProfileFirstName) : void {
+		$newProfileFirstName = trim($newProfileFirstName);
+		$newProfileFirstName = filter_var($newProfileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileFirstName) === true) {
+			throw(new \InvalidArgumentException("profile first name is empty or insecure"));
+		}
+		if(strlen($newProfileFirstName) > 128) {
+			throw(new \RangeException("profile first name is too large"));
+		}
+		$this->profileFirstName = $newProfileFirstName;
+	}
