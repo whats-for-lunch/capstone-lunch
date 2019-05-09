@@ -1,10 +1,9 @@
 <?php
 
-namespace jgallegos\capstonelunch;
+namespace whatsforlunch\capstonelunch;
 
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
-use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
