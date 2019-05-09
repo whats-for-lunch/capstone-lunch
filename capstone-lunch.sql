@@ -19,7 +19,7 @@ create table restaurant (
     restaurantAddress varchar (256) not null,
     restaurantName varchar (128) not null,
     restaurantLng decimal (9,6) not null,
-    restaurantLat decimal (9,6) not null,
+    restaurantLat decimal (9 ,6) not null,
     restaurantPrice varchar (6) not null,
     restaurantReviewRating decimal (2,2) not null,
     restaurantThumbnail varchar (255) not null,
