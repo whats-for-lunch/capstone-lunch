@@ -25,4 +25,26 @@ class Favorite {
 	 * @var
 	 */
 	private $favoriteRestaurantId;
+
+	/**
+	 * Constructor for Favorites
+	 *
+	 * @param Uuid| string $newFavoriteProfileId value for the favorite profile id
+	 * @param Uuid| string $newFavoriteRestaurantId value for the favorite restaurant id
+	 * @throws \InvalidArgumentException if the data types are not valid
+	 * @throws \RangeException if the data values entered are too large
+	 * @throws \TypeError if the data type violate hints
+	 * @throws \Exception
+	 */
+	public function __construct(string $newFavoriteProfileId, string $newFavoriteRestaurantId) {
+		try {
+			$this->setFavoriteProfileId($newFavoriteProfileId);
+			$this->setFavoriteRestaurantId($newFavoriteRestaurantId);
+		} //Determine the exception that was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+}
+
 }
