@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class profile {
+class Profile {
 	use validateUuid;
 	/**
 	 * id for this profile; this is the primary key
@@ -22,13 +22,13 @@ class profile {
 	/**
 	 * activation token for this profile;
 	 * token handed out to verify that the profile is valid and not malicious.
-	 * @var $profileActivationToken
+	 * @var uuid $profileActivationToken
 	 */
 	private $profileActivationToken;
 	/**
 	 * email for the profile; this is a unique index
 	 * email used for verification of profile on sign in.
-	 * @@var string profileEmail
+	 * @var string profileEmail
 	 */
 	private $profileEmail;
 	/**
@@ -42,8 +42,8 @@ class profile {
 	 */
 	private $profileLastName;
 	/**
-	 *the hash for the profile's password;
-	 * @var $profileHash
+	 * the hash for the profile's password;
+	 * @var string $profileHash
 	 */
 	private $profileHash;
 
@@ -67,7 +67,7 @@ class profile {
 										 string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
 		try {
 			$this->setProfileId($newProfileId);
-			$this->setProfileActivationToken($newProfileLastName);
+			$this->setProfileActivationToken($newProfileActivationToken);
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileFirstName($newProfileFirstName);
 			$this->setProfileLastName($newProfileLastName);
@@ -242,7 +242,7 @@ class profile {
 			throw(new \InvalidArgumentException("profile hash is empty or is insecure"));
 		}
 		$profileHashInfo = password_get_info($newProfileHash);
-		if($newProfileHash["algoName"] !== "argon2i") {
+		if($profileHashInfo["algoName"] !== "argon2i") {
 			throw(new \InvalidArgumentException("profile hash is not a valid hash"));
 		}
 		if(strlen($newProfileHash) > 97) {
