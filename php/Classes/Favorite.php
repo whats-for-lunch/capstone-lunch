@@ -4,7 +4,7 @@ namespace whatsforlunch\capstonelunch;
 
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
-use http\Exception\BadQueryStringException;
+
 use Ramsey\Uuid\Uuid;
 
 /**
