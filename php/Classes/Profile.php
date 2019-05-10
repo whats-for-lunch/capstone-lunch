@@ -301,4 +301,35 @@ class Profile {
 		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * get profile by profile id statement
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid| string $profileId profile id to search for
+	 * @return Profile|null profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable is not the correct data type
+	 */
+	public function getProfileByProfileId (\PDO $pdo, $profileId) : ?Profile {
+		//sanitize the profileId before searching
+		try {
+			$profileId = self :: validateUuid ($profileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		//create a query template
+		$query = "select profileId from profile where profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile id to the template place holder
+		$parameters = ["profileId" => $profileId->getBytes()];
+		$statement->execute($parameters);
+		try {
+			$profile = null;
+			$statement->setFetchMode()
+		}
+	}
+
+
 }
