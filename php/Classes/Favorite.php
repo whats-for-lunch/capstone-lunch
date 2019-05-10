@@ -47,4 +47,11 @@ class Favorite {
 		}
 }
 
+/**
+ * accessor method for the favoriteProfileId
+ * @return Uuid value of the the favorite profile id
+ */
+	public function getFavoriteProfileIdBegan 
+
+
 }
