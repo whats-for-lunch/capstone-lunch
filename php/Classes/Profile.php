@@ -252,5 +252,22 @@ class Profile {
 		$this->profileHash = $newProfileHash;
 	}
 
+	/**
+	 * Insert statement for the profile class
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		//create a query template
+		$query = "insert into profile(profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash)
+					values(:profileId, :profileActivationToken, :profileEmail, :profileFirstName, :profileLastName, :profileHash)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken->getBytes(), "profileEmail" => $this->profileEmail->getBytes(),
+			"profileFirstName" => $this->profileFirstName->getBytes(), "profileLastName" => $this->profileLastName->getBytes(), "profileHash" => $this->profileHash->getBytes()];
+		$statement->execute($parameters);
+	}
 
 }
