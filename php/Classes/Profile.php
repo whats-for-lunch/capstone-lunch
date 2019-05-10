@@ -258,7 +258,7 @@ class Profile {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function insert(\PDO $pdo) {
+	public function insert(\PDO $pdo) : void {
 		//create a query template
 		$query = "insert into profile(profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash)
 					values(:profileId, :profileActivationToken, :profileEmail, :profileFirstName, :profileLastName, :profileHash)";
@@ -276,7 +276,7 @@ class Profile {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection type
 	 */
-	public function delete(\PDO $pdo) {
+	public function delete(\PDO $pdo) : void {
 		//create a query template
 		$query = "delete from profile where profileId = :profileId";
 		$statement = $pdo->prepare($query);
@@ -286,4 +286,19 @@ class Profile {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * Update statement for the profile class
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection type
+	 */
+	public function update(\PDO $pdo) : void {
+		//create a query template
+		$query = "update profile set profileEmail = :profileEmail, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$statement->execute($parameters);
+	}
 }
