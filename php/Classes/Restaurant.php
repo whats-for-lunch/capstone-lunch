@@ -72,19 +72,19 @@ use ValidateDate;
 	 * @throws \TypeError if data types violate hints
 	 **/
 	public function __construct($restaurantId, $restaurantAddress, $restaurantName, float $restaurantLat, float $restaurantLng, string $restaurantPrice, string $restaurantReviewRating, string $restaurantThumbnail = null) {
-		try {
-			$this->setRestaurantId($newRestaurantid);
-			$this->setRestaurantAddress($newRestaurantAddress);
-			$this->setRestaurnatName($newRestaurantName);
-			$this->setRestaurantLat($newRestaurantLat);
-			$this->setRestaurantLng($newRestaurantLng);
-			$this->setRestaurantPrice($newRestaurantPrice);
-			$this->setRestaurantReviewRating($newRestaurantReviewRating);
-			$this->setRestaurantThumbnail($newRestaurantThumbnail);
+	try {
+		$this->setRestaurantId($newRestaurantid);
+		$this->setRestaurantAddress($newRestaurantAddress);
+		$this->setRestaurnatName($newRestaurantName);
+		$this->setRestaurantLat($newRestaurantLat);
+		$this->setRestaurantLng($newRestaurantLng);
+		$this->setRestaurantPrice($newRestaurantPrice);
+		$this->setRestaurantReviewRating($newRestaurantReviewRating);
+		$this->setRestaurantThumbnail($newRestaurantThumbnail);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		$exceptionType = get_class($exception);
+		throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
 
@@ -94,7 +94,7 @@ use ValidateDate;
 	 **/
 
 	public function getRestaurantId(): Uuid {
-		return $this->restaurantId;
+	return $this->restaurantId;
 	}
 
 	/**
@@ -107,10 +107,10 @@ use ValidateDate;
 	public function setRestaurantId($newRestaurantId): void {
 		// verify the id a valid uuid
 		try {
-			$uuid = self::validateUuid($newRestaurantId);
+		$uuid = self::validateUuid($newRestaurantId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		$exceptionType = get_class($exception);
+		throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		//convert and store the restaurant id
@@ -123,7 +123,7 @@ use ValidateDate;
 	 * @return restaurant address
 	 */
 	public function getRestaurantAddress(): string {
-		return ($this->restaurantAddress);
+	return ($this->restaurantAddress);
 	}
 
 	/**
@@ -138,12 +138,12 @@ use ValidateDate;
 		$newRestaurantAddress = trim($newRestaurantAddress);
 		$newRestaurantAddress = filter_var($newRestaurantAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newRestaurantAddress) === true) {
-			throw(new \InvalidArgumentException("Invalid Address"));
+		throw(new \InvalidArgumentException("Invalid Address"));
 		}
 
 		//verify the restaurant address will fit in the database
 		if(strlen($newRestaurantAddress) > 256) {
-			throw(new \RangeException("Address content too long"));
+		throw(new \RangeException("Address content too long"));
 		}
 		//store the restaurant address
 		$this->restaurantAddress = $newRestaurantAddress;
@@ -154,7 +154,7 @@ use ValidateDate;
 	 * @return string value of restaurant name
 	 * */
 	public function getRestaurantName(): string {
-		return ($this->restaurantName);
+	return ($this->restaurantName);
 	}
 
 	/**
@@ -169,12 +169,12 @@ use ValidateDate;
 		$newRestaurantName = trim($newRestaurantName);
 		$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newRestaurantName) === true) {
-			throw(new \InvalidArgumentException("Restaurant name invalid "));
+		throw(new \InvalidArgumentException("Restaurant name invalid "));
 		}
 
 		//verify the restaurant name will fit in the database
 		if(strlen($newRestaurantName) > 128) {
-			throw (new \RangeException("Name is too long"));
+		throw (new \RangeException("Name is too long"));
 		}
 		// store the restaurant name
 		$this->restauranName = $newRestaurantName;
@@ -197,10 +197,10 @@ use ValidateDate;
 	public function setRestaurantLat(float $newRestaurantLat): void {
 		// verify the latitude exists on earth
 		if($newRestaurantLat > 90) {
-			throw(new \RangeException("Location latitude is not between -90 and 90"));
+		throw(new \RangeException("Location latitude is not between -90 and 90"));
 		}
 		if($newRestaurantLat < -90) {
-			throw(new \RangeException("location latitude is not between -90 and 90"));
+		throw(new \RangeException("location latitude is not between -90 and 90"));
 		}
 		// store the latitude
 		$this->restaurantLat = $newRestaurantLat;
@@ -211,7 +211,7 @@ use ValidateDate;
 	 * @return float longitude
 	 */
 	public function getRestaurantLng(): float {
-			return ($this->restaurantLng);
+	return ($this->restaurantLng);
 	}
 	/** mutator method for restaurantLng
 	 *
@@ -223,10 +223,10 @@ use ValidateDate;
 	public function setRestaurantLng(float $newRestaurantLng): void {
 		// verify the longitude exists on earth
 		if ($newRestaurantLng > 180) {
-			throw(new \RangeException("location longitude is not between -180 and 180"));
+		throw(new \RangeException("location longitude is not between -180 and 180"));
 		}
 		if($newRestaurantLng < -180) {
-			throw(new \RangeException("location longitude is not between -180 and 180"));
+		throw(new \RangeException("location longitude is not between -180 and 180"));
 		}
 		// store the longitude
 		$this->restaurantLng = $newRestaurantLng;
@@ -256,7 +256,7 @@ use ValidateDate;
 		if(($newRestaurantPrice) <=0 ) {
 		}
 		else {
-			throw (new \RangeException("need a price"));
+		throw (new \RangeException("need a price"));
 		}
 		//store restaurant price
 		$this->$this->restaurantPrice = $newRestaurantPrice;
