@@ -134,14 +134,9 @@ private $restaurantThumbnail;
 	 * @throws \TypeError if $newRestaurantAddress violates type hints
 	 */
 	public function setNewRestaurantAddress(string $newRestaurantAddress): void {
-		// verify the restaurant address exists if not throw a suggested or close to address
+		// verify the restaurant address exists if not throw a suggested or close to address verify the restaurant address will fit in the database
 		$newRestaurantAddress = trim($newRestaurantAddress);
 		$newRestaurantAddress = filter_var($newRestaurantAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newRestaurantAddress) === true) {
-		throw(new \InvalidArgumentException("Invalid Address"));
-		}
-
-		//verify the restaurant address will fit in the database
 		if(strlen($newRestaurantAddress) > 256) {
 		throw(new \RangeException("Address content too long"));
 		}
@@ -261,5 +256,56 @@ private $restaurantThumbnail;
 		//store restaurant price
 		$this->$this->restaurantPrice = $newRestaurantPrice;
 	}
+	/**
+	 * accessor method for restaurant review rating
+	 *
+	 * @return int value of review rating
+	 **/
+	public function getRestaurantReviewRating(): int {
+		return ($this->restaurantReviewRating);
+	}
+	/**
+	 * mutator method for restaurant review rating
+	 *
+	 * @param int $newRestaurantReviewRating new value of rating
+	 * @throws \InvalidArgumentException if $newRestaurantReviewRating is not a string or insecure
+	 * @throws \RangeException if $newRestaurantReviewRating is not positive
+	 **/
+	public Function setRestaurantReviewRating(int $newRestaurantReviewRating): void {
+		// if new restaurant rating is less than min or greater than max throw range exception
+		if ($newRestaurantReviewRating < 0 || $newRestaurantReviewRating > 5) {
+			throw(new \RangeException("no rating yet"));
+		}
+		$this->restaurantReviewRating = $newRestaurantReviewRating;
+	}
+	/**mutator method for restaurant thumbnail
+	 *
+	 * @return string value of restaurant thumbnail
+	 * */
+	public function getRestaurantThumbnail(): string {
+		return ($this->restaurantThumbnail);
+	}
 
+	/**
+	 * Mutator method for restaurant thumbnail
+	 *
+	 * @param string $newRestaurantThumbnail new value of restaurant thumbnail
+	 * @thorws \InvalidArgumentException if $newRestaurantThumbnail is not a string or insecure
+	 * @throws \RangeException if $newRestaurantThumbnail is not a string
+	 */
+	public function setRestaurantThumbnail(string $newRestaurantThumbnail): void {
+		// verify the restaurant thumbnail is secure
+		$newRestaurantThumbnail = trim($newRestaurantThumbnail);
+		$newRestaurantThumbnail = filter_var($newRestaurantThumbnail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantThumbnail) === true) {
+			throw(new \InvalidArgumentException("Restaurant Thumbnail "));
+		}
+
+		//verify the restaurant thumbnail will fit in the database
+		if(strlen($newRestaurantThumbnail) > 128) {
+			throw (new \RangeException("too long"));
+		}
+		// store the restaurant name
+		$this->restaurantThumbnail = $newRestaurantThumbnail;
+	}
 }
