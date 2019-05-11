@@ -12,47 +12,47 @@ use Ramsey\Uuid\Uuid;
 class restaurant {
 use validateUuid;
 use ValidateDate;
-	/**
-	 * Id and P.K for restaurant
-	 * @var string|uuid $restaurantId
-	 */
-	//declare properties
-	private $restaurantId;
-	/**
-	 * Address for restaurants
-	 * @var string $restaurantAddress
-	 */
-	private $restaurantAddress;
-	/**
-	 * name of restaurant
-	 * @var string $restaurantName
-	 */
-	private $restaurantName;
-	/**
-	 *latitude of restaurant
-	 * @var float restaurant latitude
-	 */
-	private $restaurantLat;
-	/**
-	 * longitude of restaurant
-	 * @var float restaurant longitude
-	 */
-	private $restaurantLng;
-	/**
-	 * price of or range of price at restaurant
-	 * @var float $restaurantPrice
-	 */
-	private $restaurantPrice;
-	/**
-	 * review rating for restaurant
-	 * @var string $restaurantReviewRating
-	 */
-	private $restaurantReviewRating;
-	/**
-	 * Thumbnail for restaurant
-	 * @var string $restaurantThumbnail
-	 */
-	private $restaurantThumbnail;
+/**
+ * Id and P.K for restaurant
+ * @var string|uuid $restaurantId
+ */
+//declare properties
+private $restaurantId;
+/**
+ * Address for restaurants
+ * @var string $restaurantAddress
+ */
+private $restaurantAddress;
+/**
+ * name of restaurant
+ * @var string $restaurantName
+ */
+private $restaurantName;
+/**
+ *latitude of restaurant
+ * @var float restaurant latitude
+ */
+private $restaurantLat;
+/**
+ * longitude of restaurant
+ * @var float restaurant longitude
+ */
+private $restaurantLng;
+/**
+ * price of or range of price at restaurant
+ * @var float $restaurantPrice
+ */
+private $restaurantPrice;
+/**
+ * review rating for restaurant
+ * @var string $restaurantReviewRating
+ */
+private $restaurantReviewRating;
+/**
+ * Thumbnail for restaurant
+ * @var string $restaurantThumbnail
+ */
+private $restaurantThumbnail;
 
 
 	/**
