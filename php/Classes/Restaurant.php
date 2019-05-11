@@ -12,36 +12,36 @@ use Ramsey\Uuid\Uuid;
 class restaurant {
 use validateUuid;
 use ValidateDate;
-/**
- * Id and P.K for restaurant
- * @var string|uuid $restaurantId
- */
-//declare properties
-private $restaurantId;
-/**
- * Address for restaurants
- * @var string $restaurantAddress
- */
-private $restaurantAddress;
-/**
- * name of restaurant
- * @var string $restaurantName
- */
-private $restaurantName;
-/**
- * longitude of restaurant
- * @var float restaurant longitude
- */
-private $restaurantLat;
-/**
- * price of or range of price at restaurant
- * @var float $restaurantPrice
- */
-private $restaurantLng;
-/**
- *latitude of restaurant
- * @var float restaurant latitude
- */
+	/**
+	 * Id and P.K for restaurant
+	 * @var string|uuid $restaurantId
+	 */
+	//declare properties
+	private $restaurantId;
+	/**
+	 * Address for restaurants
+	 * @var string $restaurantAddress
+	 */
+	private $restaurantAddress;
+	/**
+	 * name of restaurant
+	 * @var string $restaurantName
+	 */
+	private $restaurantName;
+	/**
+	 * longitude of restaurant
+	 * @var float restaurant longitude
+	 */
+	private $restaurantLat;
+	/**
+	 * price of or range of price at restaurant
+	 * @var float $restaurantPrice
+	 */
+	private $restaurantLng;
+	/**
+	 *latitude of restaurant
+	 * @var float restaurant latitude
+	 */
 	private $restaurantPrice;
 	/**
 	 * review rating for restaurant
@@ -90,8 +90,7 @@ private $restaurantLng;
 
 	/**
 	 * accessor method for restaurant id
-	 *
-	 * @return Uuid value of restaurant id
+	 *@return Uuid value of restaurant id
 	 **/
 
 	public function getRestaurantId(): Uuid {
@@ -180,11 +179,11 @@ private $restaurantLng;
 		// store the restaurant name
 		$this->restauranName = $newRestaurantName;
 	}
-		/**
-		 * accessor method for restaurant latitude
-		 *
-		 * @return float lat coordinates
-		 */
+	/**
+	 * accessor method for restaurant latitude
+	 *
+	 * @return float lat coordinates
+	 */
 	public function getRestaurantLat(): float {
 		return ($this->restaurantLat);
 		}
@@ -200,66 +199,67 @@ private $restaurantLng;
 		if($newRestaurantLat > 90) {
 			throw(new \RangeException("Location latitude is not between -90 and 90"));
 		}
-			if($newRestaurantLat < -90) {
-				throw(new \RangeException("location latitude is not between -90 and 90"));
-			}
-			// store the latitude
-			$this->restaurantLat = $newRestaurantLat;
+		if($newRestaurantLat < -90) {
+			throw(new \RangeException("location latitude is not between -90 and 90"));
 		}
-		/**
-		 * accessor method for restaurantLng
-		 *
-		 * @return float longitude
-		 */
+		// store the latitude
+		$this->restaurantLat = $newRestaurantLat;
+	}
+	/**
+	 * accessor method for restaurantLng
+	 *
+	 * @return float longitude
+	 */
 	public function getRestaurantLng(): float {
 			return ($this->restaurantLng);
-		}
-		/** mutator method for restaurantLng
-		 *
-		 * @param float $newRestaurantLng new value of longitude
-		 * @throws \InvalidArgumentException if $newRestaurantLng is not a float or insecure
-		 * @throws \RangeException if $newRestaurantLng is not within -90 to 90
-		 * @throws \TypeError if $newRestaurantLng is not a float
-		 **/
-	public function setRestaurantLng(float $newRestaurantLng): void {
-			// verify the longitude exists on earth
-			if ($newRestaurantLng > 180) {
-				throw(new \RangeException("location longitude is not between -180 and 180"));
-			}
-			if($newRestaurantLng < -180) {
-				throw(new \RangeException("location longitude is not between -180 and 180"));
-			}
-			// store the longitude
-			$this->restaurantLng = $newRestaurantLng;
-		}
-		/**
-		 *  accessor method for restaurant price
-		 * @return float value of restaurant price
-		 */
-	public function getRestaurantPrice() {
-			return ($this->restaurantPrice);
-		}
-		/**
-		 * mutator method for restaurant price
-		 * @param string $newRestaurantPrice new value of restaurant price
-		 * @throws \InvalidArgumentException if $newRestaurantPrice is not a float or insecure
-		 * @throws \RangeException if $newRestaurantPrice is > $0
-		 * @throws \TypeError if $newRestaurantPrice is not a float
-		 */
-	public function setRestaurantPrice(string $newRestaurantPrice) : void {
-			// verify the restaurant price is secure
-			$newRestaurantPrice = trim($newRestaurantPrice);
-			$newRestaurantPrice = filter_var($newRestaurantPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newRestaurantPrice) === true) {
-				throw(new \InvalidArgumentException("$"));
 	}
-			// verify the restaurant price will fit into the database
-		if(($newRestaurantPrice) <=0 ){
-		}else {
+	/** mutator method for restaurantLng
+	 *
+	 * @param float $newRestaurantLng new value of longitude
+	 * @throws \InvalidArgumentException if $newRestaurantLng is not a float or insecure
+	 * @throws \RangeException if $newRestaurantLng is not within -90 to 90
+	 * @throws \TypeError if $newRestaurantLng is not a float
+	 **/
+	public function setRestaurantLng(float $newRestaurantLng): void {
+		// verify the longitude exists on earth
+		if ($newRestaurantLng > 180) {
+			throw(new \RangeException("location longitude is not between -180 and 180"));
+		}
+		if($newRestaurantLng < -180) {
+			throw(new \RangeException("location longitude is not between -180 and 180"));
+		}
+		// store the longitude
+		$this->restaurantLng = $newRestaurantLng;
+	}
+	/**
+	 *  accessor method for restaurant price
+	 * @return float value of restaurant price
+	 */
+	public function getRestaurantPrice() {
+		return ($this->restaurantPrice);
+	}
+	/**
+	 * mutator method for restaurant price
+	 * @param string $newRestaurantPrice new value of restaurant price
+	 * @throws \InvalidArgumentException if $newRestaurantPrice is not a float or insecure
+	 * @throws \RangeException if $newRestaurantPrice is > $0
+	 * @throws \TypeError if $newRestaurantPrice is not a float
+	 */
+	public function setRestaurantPrice(string $newRestaurantPrice) : void {
+		// verify the restaurant price is secure
+		$newRestaurantPrice = trim($newRestaurantPrice);
+		$newRestaurantPrice = filter_var($newRestaurantPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantPrice) === true) {
+		throw(new \InvalidArgumentException("$"));
+	}
+		// verify the restaurant price will fit into the database
+		if(($newRestaurantPrice) <=0 ) {
+		}
+		else {
 			throw (new \RangeException("need a price"));
 		}
 		//store restaurant price
-			$this->$this->restaurantPrice = $newRestaurantPrice;
-		}
+		$this->$this->restaurantPrice = $newRestaurantPrice;
+	}
 
 }
