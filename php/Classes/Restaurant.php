@@ -180,7 +180,6 @@ class restaurant {
 		}
 		// store the restaurant name
 		$this->restauranName = $newRestaurantName;
-
 	}
 		/**
 		 * accessor method for restaurant latitude
@@ -236,21 +235,18 @@ class restaurant {
 		}
 		/**
 		 *  accessor method for restaurant price
-		 * @return string value of restaurant price
+		 * @return float value of restaurant price
 		 */
 		public
-		function getRestaurantPrice(): string {
+		function getRestaurantPrice() {
 			return ($this->restaurantPrice);
 		}
-
-
-
 		/**
 		 * mutator method for restaurant price
 		 * @param string $newRestaurantPrice new value of restaurant price
-		 * @throws \InvalidArgumentException if $newRestaurantPrice is not a string or insecure
+		 * @throws \InvalidArgumentException if $newRestaurantPrice is not a float or insecure
 		 * @throws \RangeException if $newRestaurantPrice is > $0
-		 * @throws \TypeError if $newRestaurantPrice is not a string
+		 * @throws \TypeError if $newRestaurantPrice is not a float
 		 */
 		public function setRestaurantPrice(string $newRestaurantPrice) : void {
 			// verify the restaurant price is secure
@@ -259,7 +255,13 @@ class restaurant {
 			if(empty($newRestaurantPrice) === true) {
 				throw(new \InvalidArgumentException("$"));
 	}
-			// verify the restaurant price will fit in the database
-			if(strlen($newRestaurantPrice) > 0 ) {
-				throw (new \RangeException("missing price"));
+			// verify the restaurant price will fit into the database
+		if(($newRestaurantPrice) <=0 ){
+		}else {
+			throw (new \RangeException("need a price"));
 		}
+		//store restaurant price
+			$this->$this->restaurantPrice = $newRestaurantPrice;
+		}
+
+}
