@@ -71,7 +71,6 @@ class restaurant {
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate hints
 	 **/
-
 	public function __construct($restaurantId, $restaurantAddress, $restaurantName, float $restaurantLat, float $restaurantLng, string $restaurantPrice, string $restaurantReviewRating, string $restaurantThumbnail = null) {
 		try {
 			$this->setRestaurantId($newRestaurantid);
@@ -186,8 +185,8 @@ class restaurant {
 		 *
 		 * @return float lat coordinates
 		 */
-		public function getRestaurantLat(): float {
-			return ($this->restaurantLat);
+	public function getRestaurantLat(): float {
+		return ($this->restaurantLat);
 		}
 		/** mutator method for restaurantLat
 		 *
@@ -196,11 +195,11 @@ class restaurant {
 		 * @throws \RangeException if $newRestaurantLat is not within -90 to 90
 		 * @throws \TypeError if $newRestaurantLat is not a float
 		 **/
-		public function setRestaurantLat(float $newRestaurantLat): void {
-			// verify the latitude exists on earth
-			if($newRestaurantLat > 90) {
-				throw(new \RangeException("Location latitude is not between -90 and 90"));
-			}
+	public function setRestaurantLat(float $newRestaurantLat): void {
+		// verify the latitude exists on earth
+		if($newRestaurantLat > 90) {
+			throw(new \RangeException("Location latitude is not between -90 and 90"));
+		}
 			if($newRestaurantLat < -90) {
 				throw(new \RangeException("location latitude is not between -90 and 90"));
 			}
@@ -212,7 +211,7 @@ class restaurant {
 		 *
 		 * @return float longitude
 		 */
-		public function getRestaurantLng(): float {
+	public function getRestaurantLng(): float {
 			return ($this->restaurantLng);
 		}
 		/** mutator method for restaurantLng
@@ -222,7 +221,7 @@ class restaurant {
 		 * @throws \RangeException if $newRestaurantLng is not within -90 to 90
 		 * @throws \TypeError if $newRestaurantLng is not a float
 		 **/
-		public function setRestaurantLng(float $newRestaurantLng): void {
+	public function setRestaurantLng(float $newRestaurantLng): void {
 			// verify the longitude exists on earth
 			if ($newRestaurantLng > 180) {
 				throw(new \RangeException("location longitude is not between -180 and 180"));
@@ -237,8 +236,7 @@ class restaurant {
 		 *  accessor method for restaurant price
 		 * @return float value of restaurant price
 		 */
-		public
-		function getRestaurantPrice() {
+	public function getRestaurantPrice() {
 			return ($this->restaurantPrice);
 		}
 		/**
@@ -248,7 +246,7 @@ class restaurant {
 		 * @throws \RangeException if $newRestaurantPrice is > $0
 		 * @throws \TypeError if $newRestaurantPrice is not a float
 		 */
-		public function setRestaurantPrice(string $newRestaurantPrice) : void {
+	public function setRestaurantPrice(string $newRestaurantPrice) : void {
 			// verify the restaurant price is secure
 			$newRestaurantPrice = trim($newRestaurantPrice);
 			$newRestaurantPrice = filter_var($newRestaurantPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
