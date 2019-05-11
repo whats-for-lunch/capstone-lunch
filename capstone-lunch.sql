@@ -19,14 +19,14 @@ create table restaurant (
     restaurantAddress varchar (256) not null,
     restaurantName varchar (128) not null,
     restaurantLng decimal (9,6) not null,
-    restaurantLat decimal (9,6) not null,
+    restaurantLat decimal (9 ,6) not null,
     restaurantPrice varchar (6) not null,
     restaurantReviewRating decimal (2,2) not null,
     restaurantThumbnail varchar (255) not null,
     primary key (restaurantId)
 );
 
-create table pictures (
+create table picture (
     pictureId binary (16) not null,
     pictureAlt varchar (64),
     pictureRestaurantId binary (16) not null,
