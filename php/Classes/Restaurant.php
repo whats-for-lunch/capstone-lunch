@@ -29,18 +29,18 @@ use ValidateDate;
 	 */
 	private $restaurantName;
 	/**
-	 * longitude of restaurant
-	 * @var float restaurant longitude
+	 *latitude of restaurant
+	 * @var float restaurant latitude
 	 */
 	private $restaurantLat;
 	/**
-	 * price of or range of price at restaurant
-	 * @var float $restaurantPrice
+	 * longitude of restaurant
+	 * @var float restaurant longitude
 	 */
 	private $restaurantLng;
 	/**
-	 *latitude of restaurant
-	 * @var float restaurant latitude
+	 * price of or range of price at restaurant
+	 * @var float $restaurantPrice
 	 */
 	private $restaurantPrice;
 	/**
