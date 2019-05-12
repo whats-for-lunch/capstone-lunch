@@ -324,10 +324,21 @@ class Profile {
 		//bind the profile id to the template place holder
 		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
+
+		//get author from mySQL
 		try {
 			$profile = null;
-			$statement->setFetchMode()
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+					$row["profileLastName"], $row["profileHash"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row could not be converted rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
+		return($profile);
 	}
 
 
