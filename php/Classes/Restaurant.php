@@ -331,7 +331,22 @@ class restaurant {
 		$query = "INSERT INTO restaurants(restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail) VALUES(:restaurantId, :restaurantAddress, :restaurantName, :restaurantLat, :restaurantLng, :restaurantPrice, :restaurantReviewRating, :restaurantThumbnail)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the placeholders in the template
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
+		$statement->execute($parameters);
+	}
+	/**
+	 * deletes this restaurant from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo): void {
+		// create query template
+		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
+		// bind the member variables to the placeholder in the template
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes()];
 		$statement->execute($parameters);
 	}
 }
