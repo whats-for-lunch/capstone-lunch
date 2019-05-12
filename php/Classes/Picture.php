@@ -281,6 +281,27 @@ public static function getPictureByPictureUrl(\PDO $pdo, string $pictureUrl): \S
     }
     return($pictures);
 }
+public statuc function getAllPictures(\PDO $pdo) : \SplFixedArray {
+    // create query template
+    $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture";
+    $statement = $pdo->prepare($query);
+    $statement->execute();
+
+    //build an array of pictures
+    $pictures = new \SplFixedArray($statement->rowCount());
+    $statement->setFetchMode(\PDO::FETCH_ASSOC);
+    while(($row = $statement->fetch()) !==false) {
+        try {
+            $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+            $pictures[$pictures->key()] = $picture;
+            $pictures->next();
+        } catch (\Exception $exception) {
+            //if the row coudn't be coverted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+    }
+    return ($pictures);
+}
 
 
 
