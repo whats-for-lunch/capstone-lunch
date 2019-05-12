@@ -103,6 +103,7 @@ class picture implements \JsonSerializable
      * accessor method for picture content
      *
      * @return string value of picture content
+     * @return Uuid\
      **/
     public function getPictureRestaurantId(): Uuid
     {
@@ -294,7 +295,7 @@ class picture implements \JsonSerializable
         if (empty($pictureUrl) === true) {
             throw(new \PDOException("picture url is invalid"));
         }
-        // escapet any mySQL wild cards
+        // escape any mySQL wild cards
         $pictureUrl = str_replace("_", "\\_", str_replace("%", "\\%", $pictureUrl));
         //create query template
         $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureUrl LIKE :pictureUrl";
@@ -344,7 +345,7 @@ public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
             $pictures[$pictures->key()] = $picture;
             $pictures->next();
         } catch (\Exception $exception) {
-            //if the row coudn't be coverted, rethrow it
+            //if the row couldn't be converted, rethrow it
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
     }
@@ -361,9 +362,8 @@ public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
         $fields = get_object_vars($this);
 
         $fields["pictureId"] = $this->pictureId->toString();
-        $fields ["pictureRestauarantId"] = $this->pictureRestaurantId->toString();
+        $fields ["pictureRestaurantId"] = $this->pictureRestaurantId->toString();
     }
-}
 
 
 }//last line
