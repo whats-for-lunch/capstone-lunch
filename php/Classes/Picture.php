@@ -194,8 +194,63 @@ public function insert(\PDO $pdo) : void {
     $statement->execute($parameters);
 }
 public function delete (\PDO $pdo) : void {
-    $query = "DELETE from picture WHERE pictureId = :pictureId"
+    $query = "DELETE from picture WHERE pictureId = :pictureId";
+    $statement = $pdo->prepare($query);
+
+    //bind the member variables to the place holder in the template
+    $parameters = ["pictureId" => $this->pictureId->getBytes()];
+    $statement->execute($parameters);
 }
+
+    /**
+     * gets the picture by picture id
+     * @param Uuid| string $pictureId picture id to search for
+     * @param \PDO $pdo PDO connection object
+     * @return picture|null Picture found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when a variable are not the correct data type
+     */
+public static function getPictureByPictureId(\PDO $pdo, $pictureId) : ?Picture
+{
+    //sanitize the pictureId before searching
+    try {
+        $pictureId = self::validateUuid($pictureId);
+    } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        throw(new \PDOException($exception->getMessage(), 0, $exception));
+    }
+    return ($picture);
+}
+
+public static function getPictureByPictureRestaurantId (\PDO $pdo, $pictureRestaurantId) : \SplFixedArray {
+    try {
+        $pictureRestaurantId = self ::validateUuid($pictureRestaurantId);
+    } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        throw(new \PDOException($exception->getMessage(), 0,$exception));
+    }
+// create query template
+$query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
+$statement = $pdo->prepare($query);
+//bind the picture Restaurant Id to the place holder in the template
+    $parameters = ["pictureRestaurantId" => $pictureRestaurantId->getBytes ()];
+    $statement->execute($parameters);
+    //build an array of pictures
+    $pictures = new \SplFixedArray($statement->rowCount());
+    $statement->setFetchMode(\PDO::FETCH_ASSOC);
+    while (($row = $statement->fetch()) !== false) {
+    try {
+        $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+        $pictures[$pictures->key()] = $picture;
+        $pictures->next();
+    } catch (\Exception $exception) {
+        // if the row couldn't be converted, rethrow it
+        throw(new\PDOException($exception->getMessage(), 0 $exception));
+    }
+    }
+    return($pictures);
+}
+
+
+
 
 
 
