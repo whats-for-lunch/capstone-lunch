@@ -248,6 +248,40 @@ $statement = $pdo->prepare($query);
     }
     return($pictures);
 }
+public static function getPictureByPictureUrl(\PDO $pdo, string $pictureUrl): \SplFixedArray {
+    // sanitize the description before searching
+    $pictureUrl = trim($pictureUrl);
+    $pictureUrl = filter_var($pictureUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    if(empty($pictureUrl) === true) {
+        throw(new \PDOException("picture url is invalid"));
+    }
+    // escapet any mySQL wild cards
+    $pictureUrl = str_replace("_","\\_",str_replace("%", "\\%", $pictureUrl));
+    //create query template
+    $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureUrl LIKE :pictureUrl";
+    $statement = $pdo->prepare($query);
+
+    //bind the picture url to the place holder in teh the template
+    $pictureUrl = "%pictureUrl%";
+    $parameters = ["pictureUrl" => $pictureUrl];
+    $statement->execute($parameters);
+
+    //build an array of pictures
+    $pictures = new \SplFixedArray($statement->rowCount());
+    $statement -> setFetchMode(\PDO::FETCH_ASSOC);
+    while(($row = $statement->fetch()) !==false){
+        try {
+            $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+            $pictures[$pictures->key()] =$picture;
+            $pictures->next();
+        } catch(\Exception $exception){
+            //if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+    }
+    return($pictures);
+}
+
 
 
 
