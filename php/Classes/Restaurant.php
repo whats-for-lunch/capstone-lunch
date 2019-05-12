@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
  *
  */
 
-class restaurant {
+class restaurant implements\jsonserialization{
 	use validateUuid;
 	use ValidateDate;
 
@@ -416,12 +416,38 @@ class restaurant {
 		}
 		// escape any mySQL wild cards
 		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
+
 		// create query template
 		$query = "SELECT restaurantId, restaurantAdress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
 		$statement = $pdo->prepare($query);
+
 		// bind the restaurant Name to the placeholder in the template
 		$restaurantName = "%$restaurantName%";
 		$parameters = ["restaurantName" => $restaurantName];
 		$statement->execute($parameters);
+
+		//build array of restaurants
+		$restaurant = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+		try {
+		$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+		$restaurant[$restaurant->key()] = $restaurant;
+		$restaurant->next();
+		} catch(\Exception $exception) {
+		//if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+		return ($restaurant);
+	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize(): array {
+		$fields = get_object_vars($this);
+		return ($fields);
 	}
 }
