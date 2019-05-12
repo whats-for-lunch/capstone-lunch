@@ -349,4 +349,18 @@ class restaurant {
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes()];
 		$statement->execute($parameters);
 	}
+	/**
+	 * updates this restaurant in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo): void {
+		//create query template
+		$query = "UPDATE restaurant SET restaurantId = :restaurantId, restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviwRating, restaurantThumbnail = :restaurantThumbnail WHERE foodTruckId = :foodTruckId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
+		$statement->execute($parameters);
+	}
 }
