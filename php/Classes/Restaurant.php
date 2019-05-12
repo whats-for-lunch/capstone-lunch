@@ -15,9 +15,9 @@ class restaurant {
 
 	/**
 	 * Id and P.K for restaurant
-	 * @var string|uuid $restaurantId
+	 * @var uuid|string $restaurantId
 	 */
-//declare properties
+	//declare properties
 	private $restaurantId;
 	/**
 	 * Address for restaurants
@@ -328,8 +328,9 @@ class restaurant {
 	public function insert(\PDO $pdo): void {
 
 		//create query template
-		$query = "INSERT INTO restaurants(restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail) VALUES(:restaurantId, :restaurantAddress, :restaurantName, :restaurantLat, :restaurantLng, :restaurantPrice, :restaurantReviewRating, :restaurantThumbnail)";
+		$query = "INSERT INTO restaurant(restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail) VALUES(:restaurantId, :restaurantAddress, :restaurantName, :restaurantLat, :restaurantLng, :restaurantPrice, :restaurantReviewRating, :restaurantThumbnail)";
 		$statement = $pdo->prepare($query);
+
 		//bind the member variables to the placeholders in the template
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
@@ -363,4 +364,36 @@ class restaurant {
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
+	/**
+	 * gets the restaurant by restaurantId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|string $restaurantId restaurant id to search for
+	 * @return restaurant|null restaurant found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getrestaurantByrestaurantId(\PDO $pdo, $restaurantId): ?restaurant {
+		//sanitize the restaurantId before searching
+		try {
+		$restaurantId = self::validateUuid($restaurantId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw (new \PDOException($exception->getMessage(), 0, $exception));
+	}
+		// grab the restaurant from mySQL
+		try {
+		$restaurant = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+		$restaurant = new Restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+	}
+		} catch(\Exception $exception) {
+		//if the row couldn't be converted, rethrow it
+		throw (new \PDOException($exception->getMessage(), 0, $exception));
+	}
+		return ($restaurant);
+	}
+
 }
+
