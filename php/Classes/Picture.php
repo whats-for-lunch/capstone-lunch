@@ -238,6 +238,16 @@ class picture implements \JsonSerializable
         return ($picture);
     }
 
+    /**
+     * gets the Picture by Restaurant id
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param Uuid|string $pictureRestaurantId profile id to search by
+     * @return \SplFixedArray SplFixedArray of Pictures found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    
     public static function getPictureByPictureRestaurantId(\PDO $pdo, $pictureRestaurantId): \SplFixedArray
     {
         try {
@@ -267,6 +277,15 @@ class picture implements \JsonSerializable
         return ($pictures);
     }
 
+    /**
+     * gets the Picture by Url
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $pictureUrl picture content to search for
+     * @return \SplFixedArray SplFixedArray of Pictures found
+     * @throws \PDOException when mySQl realted errors found
+     * @throws \TypeError when variables are not the correct data type
+     **/
     public static function getPictureByPictureUrl(\PDO $pdo, string $pictureUrl): \SplFixedArray
     {
         // sanitize the description before searching
@@ -301,6 +320,14 @@ class picture implements \JsonSerializable
         }
         return ($pictures);
     }
+    /**
+     *gets all Pictures
+     *@param \PDO $pdo PDO connection object
+     *@return \SplFixedArray SplFixedArray of Pictures found or null if not found
+     * @throws \PDOException when mySQL related error occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+
 public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
 {
     // create query template
@@ -324,6 +351,11 @@ public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
     return ($pictures);
 }
 
+    /**
+     * formats the state variables for JSON serialization
+     *
+     * @return array resulting state variables to serialize
+     **/
     public function jsonSerialize(): array
     {
         $fields = get_object_vars($this);
