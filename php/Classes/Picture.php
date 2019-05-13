@@ -302,7 +302,7 @@ class picture implements \JsonSerializable
         $statement = $pdo->prepare($query);
 
         //bind the picture url to the place holder in teh the template
-        $pictureUrl = "%pictureUrl%";
+        $pictureUrl = "%$pictureUrl%";
         $parameters = ["pictureUrl" => $pictureUrl];
         $statement->execute($parameters);
 
@@ -329,7 +329,7 @@ class picture implements \JsonSerializable
      * @throws \TypeError when variables are not the correct data type
      **/
 
-public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
+public static function getAllPictures(\PDO $pdo): \SplFixedArray
 {
     // create query template
     $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture";
