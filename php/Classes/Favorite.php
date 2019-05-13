@@ -152,7 +152,8 @@ class Favorite {
 		$statement->execute($parameters);
 	}
 
-	//TODO
+	//TODO getbyboth statements
+	//TODO get by foreign keys
 
 
 }
