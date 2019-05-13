@@ -101,5 +101,10 @@ class Favorite {
 		$this->favoriteRestaurantId = $uuid;
 	}
 
+	/**
+	 * Insert statement for favorite class
+	 * 
+	 */
+
 
 }
