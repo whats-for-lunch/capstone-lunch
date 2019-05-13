@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
  *
  */
 
-class restaurant implements\jsonserialization{
+class Restaurant implements\jsonserialization{
 	use validateUuid;
 	use ValidateDate;
 
@@ -134,7 +134,7 @@ class restaurant implements\jsonserialization{
 	 * @throws \RangeException if $newRestaurantAddress is <256 characters
 	 * @throws \TypeError if $newRestaurantAddress violates type hints
 	 */
-	public function setNewRestaurantAddress(string $newRestaurantAddress): void {
+	public function setRestaurantAddress(string $newRestaurantAddress): void {
 		// verify the restaurant address exists if not throw a suggested or close to address verify the restaurant address will fit in the database
 		$newRestaurantAddress = trim($newRestaurantAddress);
 		$newRestaurantAddress = filter_var($newRestaurantAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -361,7 +361,7 @@ class restaurant implements\jsonserialization{
 	 **/
 	public function update(\PDO $pdo): void {
 		//create query template
-		$query = "UPDATE restaurant SET restaurantId = :restaurantId, restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviwRating, restaurantThumbnail = :restaurantThumbnail WHERE foodTruckId = :foodTruckId";
+		$query = "UPDATE restaurant SET restaurantId = :restaurantId, restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviwRating, restaurantThumbnail = :restaurantThumbnail WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
@@ -415,7 +415,7 @@ class restaurant implements\jsonserialization{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getrestaurantByrestaurantName(\PDO $pdo, string $restaurantName): \SplFixedArray {
+	public static function getRestaurantByRestaurantName(\PDO $pdo, string $restaurantName): \SplFixedArray {
 		//sanitize the description before searching
 		$restaurantName = trim($restaurantName);
 		$restaurantName = filter_var($restaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -426,7 +426,7 @@ class restaurant implements\jsonserialization{
 		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
 
 		// create query template
-		$query = "SELECT restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
+		$query = "SELECT restaurantId, restaurantAdress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
 		$statement = $pdo->prepare($query);
 
 		// bind the restaurant Name to the placeholder in the template
