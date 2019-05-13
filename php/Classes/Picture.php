@@ -345,7 +345,7 @@ class Picture implements \JsonSerializable
      * @throws \TypeError when variables are not the correct data type
      **/
 
-public statuc function getAllPictures(\PDO $pdo): \SplFixedArray
+public static function getAllPictures(\PDO $pdo): \SplFixedArray
 {
     // create query template
     $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture";
