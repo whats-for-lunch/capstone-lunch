@@ -118,5 +118,7 @@ class Favorite {
 		$statement->execute($parameters);
 	}
 
+	
+
 
 }
