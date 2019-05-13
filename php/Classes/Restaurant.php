@@ -426,7 +426,7 @@ class restaurant implements\jsonserialization{
 		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
 
 		// create query template
-		$query = "SELECT restaurantId, restaurantAdress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
+		$query = "SELECT restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
 		$statement = $pdo->prepare($query);
 
 		// bind the restaurant Name to the placeholder in the template
