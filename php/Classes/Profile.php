@@ -326,7 +326,7 @@ class Profile {
 		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
 
-		//get author from mySQL
+		//get profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -341,6 +341,11 @@ class Profile {
 		}
 		return($profile);
 	}
+
+	/**
+	 *
+	 */
+
 
 
 }
