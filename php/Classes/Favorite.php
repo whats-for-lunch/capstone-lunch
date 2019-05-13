@@ -104,13 +104,13 @@ class Favorite {
 	/**
 	 * Insert statement for favorite class
 	 *
-	 * @param \$pdo PDO connection object
+	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
 	public function insert(\PDO $pdo) : void {
 		// create a query template
-		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId values (:favoriteProfileId, favoriteRestaurantId))";
+		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, favoriteRestaurantId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -118,7 +118,41 @@ class Favorite {
 		$statement->execute($parameters);
 	}
 
-	
+	/**
+	 * Delete statement for the favorite class
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) : void {
+		//create a query template
+		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId";
+		$statement = $pdo->prepare($query);
+
+		//Bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $this->favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Update statement for the favorite class
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) : void {
+		//create a query template
+		$query = "update favorite set favoriteProfileId = :favoriteProfileId, favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//Bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	//TODO
 
 
 }
