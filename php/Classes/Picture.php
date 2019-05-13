@@ -49,7 +49,7 @@ class Picture implements \JsonSerializable
      *
      * @param string|Uuid $newPictureId of this restaurant or null if a new restaurant
      * @param string $newPictureAlt profile picture of restaurant
-     * @param string $newPictureRestaurantId id of the profile for the picture restaurant
+     * @param string|Uuid string $newPictureRestaurantId id of the profile for the picture restaurant
      * @param string $newPictureUrl string for restaurant image url
      * @throws \InvalidArgumentException if data types are not valid
      * @throws \RangeException if data values are out of bounds (e.g., strings to long, negative integers)
@@ -57,7 +57,7 @@ class Picture implements \JsonSerializable
      * @throws \Exception if some other exception occurs
      * @Docutmentation https://php.net/manual/en/language.oop5.php
      **/
-    public function __construct($newPictureId, string $newPictureAlt, string $newPictureRestaurantId, string $newPictureUrl)
+    public function __construct($newPictureId, string $newPictureAlt, $newPictureRestaurantId, string $newPictureUrl)
     {
         try {
             $this->setPictureId($newPictureId);
@@ -112,7 +112,7 @@ class Picture implements \JsonSerializable
 
     /**
      * mutator method for Picture
-     * @param Uuid\string $newPictureRestaurantId new value of picture id
+     * @param Uuid|string $newPictureRestaurantId new value of picture id
      * @throws \RangeException if $newPictureRestaurantId is not positive
      * @throws \TypeError if $newPictureRestaurantId is not a uuid or string
      **/
