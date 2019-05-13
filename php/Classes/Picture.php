@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * @version 3.0.0
  **/
 
-class picture implements \JsonSerializable
+class Picture implements \JsonSerializable
 {
     use ValidateDate;
     use ValidateUuid;
