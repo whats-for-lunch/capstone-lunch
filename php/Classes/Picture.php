@@ -111,7 +111,7 @@ class picture implements \JsonSerializable
     /**
      * mutator method for Picture
      * @param Uuid\string $newPictureRestaurantId new value of picture id
-     * @throws \RangeException if $newPictureRestaurantId is not postive
+     * @throws \RangeException if $newPictureRestaurantId is not positive
      * @throws \TypeError if $newPictureRestaurantId is not a uuid or string
      **/
     public function setPictureRestaurantId($newPictureRestaurantId): void
