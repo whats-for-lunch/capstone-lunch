@@ -4,6 +4,7 @@ namespace whatsforlunch\capstonelunch;
 
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
+use http\Exception\BadQueryStringException;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -49,9 +50,55 @@ class Favorite {
 
 /**
  * accessor method for the favoriteProfileId
- * @return Uuid value of the the favorite profile id
+ * @return Uuid value of the favorite profile id
  */
-	public function getFavoriteProfileIdBegan 
+	public function getFavoriteProfileId() : Uuid {
+		return($this->favoriteProfileId);
+	}
+
+	/**
+	 * Mutator method for the favoriteProfileId
+	 *
+	 * @param Uuid| string $newFavoriteProfileId new value of favorite profile id
+	 * @throws \RangeException if the $newFavoriteProfileId is not positive
+	 * @throws \TypeError if $newFavoriteProfileId is not a Uuid or string
+	 */
+	public function setFavoriteProfileId($newFavoriteProfileId) : void {
+		try {
+			$uuid = self::validateUuid($newFavoriteProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the new favorite profile id
+		$this->favoriteProfileId=$uuid;
+	}
+
+	/**
+	 * accessor method for the favoriteRestaurantId
+	 * @return Uuid value of the favorite Restaurant id
+	 */
+	public  function getFavoriteRestaurantId() : Uuid {
+		return($this->favoriteRestaurantId);
+	}
+
+	/**
+	 * Mutator method for the favoriteRestaurantId
+	 *
+	 * @param Uuid| string $newFavoriteRestaurantId new value of favorite restaurant id
+	 * @throws \RangeException if the $newFavoriteRestaurantId is not positive
+	 * @throws \TypeError if $newRestaurantId is not a uuid or a string
+	 */
+	public function setFavoriteRestaurantId($newFavoriteRestaurantId) : void {
+		try {
+			$uuid = self::validateUuid($newFavoriteRestaurantId);
+		} catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the favoriteRestaurantId
+		$this->favoriteRestaurantId = $uuid;
+	}
 
 
 }
