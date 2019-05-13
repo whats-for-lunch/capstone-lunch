@@ -1,8 +1,9 @@
 <?php
+
 namespace whatsforlunch\capstonelunch;
 
-require_once ("autoload.php");
-require_once (dirname(__DIR__) . "/vendor/autoload.php");
+require_once("autoload.php");
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
@@ -14,7 +15,6 @@ use Ramsey\Uuid\Uuid;
  * @author Jesse, Jamie, Jeff, <thebestjesse76@gmail.com>
  * @version 3.0.0
  **/
-
 class Picture implements \JsonSerializable
 {
     use ValidateDate;
@@ -105,7 +105,8 @@ class Picture implements \JsonSerializable
      *
      * @return Uuid value of picture restaurant id
      **/
-    public function getPictureRestaurantId(): Uuid {
+    public function getPictureRestaurantId(): Uuid
+    {
         return ($this->pictureRestaurantId);
     }
 
@@ -192,7 +193,7 @@ class Picture implements \JsonSerializable
             throw(new \RangeException("Picture URL is too large"));
         }
         $this->pictureUrl = $newPictureUrl;
-}
+    }
 
     /**
      * @param \PDO $pdo PDO connection object
@@ -251,11 +252,12 @@ class Picture implements \JsonSerializable
                 $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
             }
         } catch (\Exception $exception) {
-        // if the row couldn't be converted, rethrow it
-        throw(new \PDOException($exception->getMessage(), 0, $exception));
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($picture);
     }
-    return ($picture);
-    }
+
     /**
      * gets the Picture by Restaurant id
      *
@@ -265,7 +267,7 @@ class Picture implements \JsonSerializable
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    
+
     public static function getPictureByPictureRestaurantId(\PDO $pdo, $pictureRestaurantId): \SplFixedArray
     {
         try {
@@ -290,84 +292,11 @@ class Picture implements \JsonSerializable
             } catch (\Exception $exception) {
                 // if the row couldn't be converted, rethrow it
                 throw(new\PDOException($exception->getMessage(), 0, $exception));
-    }
-        }
-        return ($pictures);
-    }
-
-    /**
-     * gets the Picture by Url
-     *
-     * @param \PDO $pdo PDO connection object
-     * @param string $pictureUrl picture content to search for
-     * @return \SplFixedArray SplFixedArray of Pictures found
-     * @throws \PDOException when mySQl realted errors found
-     * @throws \TypeError when variables are not the correct data type
-     **/
-    public static function getPictureByPictureUrl(\PDO $pdo, string $pictureUrl): \SplFixedArray
-    {
-        // sanitize the description before searching
-        $pictureUrl = trim($pictureUrl);
-        $pictureUrl = filter_var($pictureUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($pictureUrl) === true) {
-            throw(new \PDOException("picture url is invalid"));
-        }
-        // escape any mySQL wild cards
-        $pictureUrl = str_replace("_", "\\_", str_replace("%", "\\%", $pictureUrl));
-        //create query template
-        $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureUrl LIKE :pictureUrl";
-        $statement = $pdo->prepare($query);
-
-        //bind the picture url to the place holder in teh the template
-        $pictureUrl = "%$pictureUrl%";
-        $parameters = ["pictureUrl" => $pictureUrl];
-        $statement->execute($parameters);
-
-        //build an array of pictures
-        $pictures = new \SplFixedArray($statement->rowCount());
-        $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        while (($row = $statement->fetch()) !== false) {
-            try {
-                $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
-                $pictures[$pictures->key()] = $picture;
-                $pictures->next();
-            } catch (\Exception $exception) {
-                //if the row couldn't be converted, rethrow it
-                throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
         }
         return ($pictures);
     }
-    /**
-     *gets all Pictures
-     *@param \PDO $pdo PDO connection object
-     *@return \SplFixedArray SplFixedArray of Pictures found or null if not found
-     * @throws \PDOException when mySQL related error occur
-     * @throws \TypeError when variables are not the correct data type
-     **/
-
-public static function getAllPictures(\PDO $pdo): \SplFixedArray
-{
-    // create query template
-    $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture";
-    $statement = $pdo->prepare($query);
-    $statement->execute();
-
-    //build an array of pictures
-    $pictures = new \SplFixedArray($statement->rowCount());
-    $statement->setFetchMode(\PDO::FETCH_ASSOC);
-    while (($row = $statement->fetch()) !== false) {
-        try {
-            $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
-            $pictures[$pictures->key()] = $picture;
-            $pictures->next();
-        } catch (\Exception $exception) {
-            //if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
-        }
-    }
-    return ($pictures);
-}
+    
 
     /**
      * formats the state variables for JSON serialization
@@ -380,6 +309,7 @@ public static function getAllPictures(\PDO $pdo): \SplFixedArray
 
         $fields["pictureId"] = $this->pictureId->toString();
         $fields ["pictureRestaurantId"] = $this->pictureRestaurantId->toString();
+        return $fields;
     }
 
 
