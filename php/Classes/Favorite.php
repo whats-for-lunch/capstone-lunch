@@ -103,8 +103,20 @@ class Favorite {
 
 	/**
 	 * Insert statement for favorite class
-	 * 
+	 *
+	 * @param \$pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
+	public function insert(\PDO $pdo) : void {
+		// create a query template
+		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId values (:favoriteProfileId, favoriteRestaurantId))";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteRestaurantId" => $this->favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+	}
 
 
 }
