@@ -36,7 +36,7 @@ class Picture implements \JsonSerializable
     private $pictureRestaurantId;
     /**
      * this is the profile picture of restaurant
-     * @var string $pictureId
+     * @var string $pictureAlt
      */
     private $pictureUrl;
     /**
@@ -46,14 +46,15 @@ class Picture implements \JsonSerializable
 
     /**
      * picture constructor.
-     * @param $newPictureId
-     * @param string $newPictureAlt
-     * @param string $newPictureRestaurantId
-     * @param string $newPictureUrl
-     * @throws \InvalidArgumentException
-     * @throws \RangeException
-     * @throws \TypeError
-     * @throws \Exception
+     *
+     * @param string|Uuid $newPictureId of this restaurant or null if a new restaurant
+     * @param string $newPictureAlt profile picture of restaurant
+     * @param string $newPictureRestaurantId id of the profile for the picture restaurant
+     * @param string $newPictureUrl string for restaurant image url
+     * @throws \InvalidArgumentException if data types are not valid
+     * @throws \RangeException if data values are out of bounds (e.g., strings to long, negative integers)
+     * @throws \TypeError if data types violate type hints
+     * @throws \Exception if some other exception occurs
      * @Docutmentation https://php.net/manual/en/language.oop5.php
      **/
     public function __construct($newPictureId, string $newPictureAlt, string $newPictureRestaurantId, string $newPictureUrl)
