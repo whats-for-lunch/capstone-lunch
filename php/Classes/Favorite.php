@@ -71,14 +71,14 @@ class Favorite {
 			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		//convert and store the new favorite profile id
-		$this->favoriteProfileId=$uuid;
+		$this->favoriteProfileId = $uuid;
 	}
 
 	/**
 	 * accessor method for the favoriteRestaurantId
 	 * @return Uuid value of the favorite Restaurant id
 	 */
-	public  function getFavoriteRestaurantId() : Uuid {
+	public function getFavoriteRestaurantId() : Uuid {
 		return($this->favoriteRestaurantId);
 	}
 
