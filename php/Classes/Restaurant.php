@@ -376,13 +376,21 @@ class restaurant implements\jsonserialization{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getrestaurantByrestaurantId(\PDO $pdo, $restaurantId): ?restaurant {
+	public static function getRestaurantByRestaurantId(\PDO $pdo, $restaurantId): ?restaurant {
 		//sanitize the restaurantId before searching
 		try {
 			$restaurantId = self::validateUuid($restaurantId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
+		// create query template
+		$query = "SELECT restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
+
+		// bind the restaurant id to the place holder in the template
+		$parameters = ["restaurantId" => $restaurantId->getBytes()];
+		$statement->execute($parameters);
+
 		// grab the restaurant from mySQL
 		try {
 			$restaurant = null;
