@@ -102,11 +102,9 @@ class picture implements \JsonSerializable
     /**
      * accessor method for picture content
      *
-     * @return string value of picture content
-     * @return Uuid\
+     * @return Uuid value of picture restaurant id
      **/
-    public function getPictureRestaurantId(): Uuid
-    {
+    public function getPictureRestaurantId(): Uuid {
         return ($this->pictureRestaurantId);
     }
 
@@ -192,7 +190,7 @@ class picture implements \JsonSerializable
         if (strlen($newPictureUrl) > 255) {
             throw(new \RangeException("Picture URL is too large"));
         }
-        this->$this->pictureUrl = $newPictureUrl;
+        $this->pictureUrl = $newPictureUrl;
 }
 
     /**
@@ -236,9 +234,27 @@ class picture implements \JsonSerializable
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($picture);
-    }
+        //create query template
+        $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureId = :pictureId";
+        $statement = $pdo->prepare($query);
 
+        //bind the picture id to the place holder in the template
+        $parameters = ["pictureId" => $pictureId->getBytes()];
+        $statement->execute($parameters);
+        // grab the picture from mySQL
+        try {
+            $picture = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if ($row !== false) {
+                $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+            }
+        } catch (\Exception $exception) {
+        // if the row couldn't be converted, rethrow it
+        throw(new \PDOException($exception->getMessage(), 0, $exception));
+    }
+    return ($picture);
+    }
     /**
      * gets the Picture by Restaurant id
      *
@@ -272,7 +288,7 @@ class picture implements \JsonSerializable
                 $pictures->next();
             } catch (\Exception $exception) {
                 // if the row couldn't be converted, rethrow it
-                throw(new\PDOException($exception->getMessage(), 0 $exception));
+                throw(new\PDOException($exception->getMessage(), 0, $exception));
     }
         }
         return ($pictures);
@@ -302,7 +318,7 @@ class picture implements \JsonSerializable
         $statement = $pdo->prepare($query);
 
         //bind the picture url to the place holder in teh the template
-        $pictureUrl = "%pictureUrl%";
+        $pictureUrl = "%$pictureUrl%";
         $parameters = ["pictureUrl" => $pictureUrl];
         $statement->execute($parameters);
 
