@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class profile {
+class Profile {
 	use validateUuid;
 	/**
 	 * id for this profile; this is the primary key
