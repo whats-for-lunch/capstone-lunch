@@ -348,8 +348,50 @@ class Profile {
 	//TODO add a json serialize method that unsets profileHash and activation token
 
 	/**
+	 *get profile by profile email statement
 	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|String $profileEmail to search by
+	 * @return \SplFixedArray of profiles found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
 	 */
+	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) {
+		//sanitize the description before searching
+		$profileEmail = trim($profileEmail);
+		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileEmail) === true) {
+			throw(new \PDOException("profile email is invalid"));
+		}
+		//escape any mySQL wild cards
+		$profileEmail = str_replace("_", "\\", str_replace("%", "\\%", $profileEmail));
+
+		//create a query template
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash
+		from profile where profileEmail like :profileEmail";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile email to the place holder in the template
+		$profileEmail = "%$profileEmail%";
+		$parameters = ["profileEmail" => $profileEmail];
+		$statement->execute($parameters);
+
+		// build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+				$row["profileLastName"], $row["profileHash"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			}catch(\Exception $exception) {
+				//if the row couldn't be convert it, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($profiles);
+	}
 
 
 
