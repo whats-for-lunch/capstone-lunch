@@ -9,13 +9,13 @@ use Ramsey\Uuid\Uuid;
  *
  */
 
-class Restaurant implements\jsonserialization{
+class Restaurant implements \jsonSerialization{
 	use validateUuid;
 	use ValidateDate;
 
 	/**
 	 * Id and P.K for restaurant
-	 * @var uuid|string $restaurantId
+	 * @var uuid $restaurantId
 	 */
 	//declare properties
 	private $restaurantId;
@@ -59,7 +59,7 @@ class Restaurant implements\jsonserialization{
 	/**
 	 * constructor for restaurant
 	 *
-	 * @param Uuid | $newRestaurantId id of restaurant
+	 * @param Uuid $newRestaurantId id of restaurant
 	 * @param string $newRestaurantAddress new address exists
 	 * @param string $newRestaurantName new or null if exists
 	 * @param float $newRestaurantLng new longitude
@@ -173,7 +173,7 @@ class Restaurant implements\jsonserialization{
 			throw (new \RangeException("Name is too long"));
 		}
 		// store the restaurant name
-		$this->restauranName = $newRestaurantName;
+		$this->restaurantName = $newRestaurantName;
 	}
 
 	/**
