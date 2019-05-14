@@ -405,7 +405,6 @@ class Restaurant implements\jsonserialization{
 		}
 		return ($restaurant);
 	}
-
 	/**
 	 * gets the restaurant by Name
 	 *
@@ -422,6 +421,7 @@ class Restaurant implements\jsonserialization{
 		if(empty($restaurantName) === true) {
 			throw(new \PDOException("Restaurant Name is invalid"));
 		}
+
 		// escape any mySQL wild cards
 		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
 
@@ -433,6 +433,20 @@ class Restaurant implements\jsonserialization{
 		$restaurantName = "%$restaurantName%";
 		$parameters = ["restaurantName" => $restaurantName];
 		$statement->execute($parameters);
+	}
+		/**
+		 * gets all restaurant
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @return \SplFixedArray SplFixedArray of restaurants found or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getAllrestaurants(\PDO $pdo): \SPLFixedArray {
+			//create query template
+			$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
+			$statement = $pdo->prepare($query);
+			$statement->execute();
 
 		//build array of restaurants
 		$restaurant = new \SplFixedArray($statement->rowCount());
