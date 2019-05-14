@@ -202,7 +202,7 @@ class Picture implements \JsonSerializable {
      * @throws \TypeError if $pdo is not a PDO connection object
      */
     public function insert(\PDO $pdo): void
-    {
+    {//todo fixt insert into
         //making a query template
 
         $query = "INSERT INTO picture(pictureId, pictureRestaurantId, pictureAlt,  pictureUrl) VALUES (:pictureId, :pictureRestaurantId, :pictureAlt, :pictureUrl)";
@@ -210,7 +210,9 @@ class Picture implements \JsonSerializable {
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
+
         $parameters = ["pictureId" => $this->pictureId->getBytes(), "pictureRestaurantId" => $this->getPictureRestaurantId()->getBytes(), "pictureAlt" => $this->pictureAlt, "pictureUrl" => $this->pictureUrl];
+
         $statement->execute($parameters);
     }
 
@@ -223,7 +225,6 @@ class Picture implements \JsonSerializable {
 
     public function delete(\PDO $pdo): void
     {
-
         //create query template
         $query = "DELETE from picture WHERE pictureId = :pictureId";
 
@@ -242,6 +243,7 @@ class Picture implements \JsonSerializable {
      **/
     public function update(\PDO $pdo) : void
     {
+        //todo figure this stuff out
         //create query template
         $query = "UPDATE Picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
