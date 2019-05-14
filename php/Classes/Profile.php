@@ -2,7 +2,9 @@
 
 namespace whatsforlunch\capstonelunch;
 
+require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
+
 
 use Ramsey\Uuid\Uuid;
 
@@ -250,6 +252,149 @@ class Profile {
 		}
 		$this->profileHash = $newProfileHash;
 	}
+
+	/**
+	 * Insert statement for the profile class
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) : void {
+		//create a query template
+		$query = "insert into profile(profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash)
+					values(:profileId, :profileActivationToken, :profileEmail, :profileFirstName, :profileLastName, :profileHash)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken->getBytes(), "profileEmail" => $this->profileEmail->getBytes(),
+			"profileFirstName" => $this->profileFirstName->getBytes(), "profileLastName" => $this->profileLastName->getBytes(), "profileHash" => $this->profileHash->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Delete statement for the profile class
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection type
+	 */
+	public function delete(\PDO $pdo) : void {
+		//create a query template
+		$query = "delete from profile where profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Update statement for the profile class
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection type
+	 */
+	public function update(\PDO $pdo) : void {
+		//create a query template
+		$query = "update profile set profileEmail = :profileEmail, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * get profile by profile id statement
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid| string $profileId profile id to search for
+	 * @return Profile|null profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable is not the correct data type
+	 */
+	public function getProfileByProfileId (\PDO $pdo, $profileId) : ?Profile {
+		//sanitize the profileId before searching
+		try {
+			$profileId = self :: validateUuid ($profileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		//create a query template
+		$query = "select profileId from profile where profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile id to the template place holder
+		$parameters = ["profileId" => $profileId->getBytes()];
+		$statement->execute($parameters);
+
+		//get profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+					$row["profileLastName"], $row["profileHash"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row could not be converted rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profile);
+	}
+
+
+
+	//TODO write getProfileByProfileEmail(returns a profile object) (done)
+	//TODO write a getProfileByProfileActivation Token (returns a profile object)
+	//TODO add a json serialize method that unsets profileHash and activation token
+
+	/**
+	 *get profile by profile email statement
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|String $profileEmail to search by
+	 * @return \SplFixedArray of profiles found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) {
+		//sanitize the description before searching
+		$profileEmail = trim($profileEmail);
+		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileEmail) === true) {
+			throw(new \PDOException("profile email is invalid"));
+		}
+		//escape any mySQL wild cards
+		$profileEmail = str_replace("_", "\\", str_replace("%", "\\%", $profileEmail));
+
+		//create a query template
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash
+		from profile where profileEmail like :profileEmail";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile email to the place holder in the template
+		$profileEmail = "%$profileEmail%";
+		$parameters = ["profileEmail" => $profileEmail];
+		$statement->execute($parameters);
+
+		// build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+				$row["profileLastName"], $row["profileHash"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			}catch(\Exception $exception) {
+				//if the row couldn't be convert it, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($profiles);
+	}
+
 
 
 }
