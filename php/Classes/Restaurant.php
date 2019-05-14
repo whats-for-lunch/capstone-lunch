@@ -405,7 +405,7 @@ class Restaurant implements \jsonSerialization{
 		}
 		return ($restaurant);
 	}
-	
+
 		/**
 		 * gets all restaurant
 		 *
@@ -414,7 +414,7 @@ class Restaurant implements \jsonSerialization{
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-		public static function getAllrestaurants(\PDO $pdo): \SPLFixedArray {
+		public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
 			//create query template
 			$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
 			$statement = $pdo->prepare($query);
