@@ -5,6 +5,10 @@ namespace whatsforlunch\capstonelunch;
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
+<<<<<<< HEAD
+=======
+use http\Exception\BadQueryStringException;
+>>>>>>> feature-favorite
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -100,5 +104,62 @@ class Favorite {
 		$this->favoriteRestaurantId = $uuid;
 	}
 
+<<<<<<< HEAD
+=======
+	/**
+	 * Insert statement for favorite class
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) : void {
+		// create a query template
+		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, favoriteRestaurantId)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteRestaurantId" => $this->favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Delete statement for the favorite class
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) : void {
+		//create a query template
+		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId";
+		$statement = $pdo->prepare($query);
+
+		//Bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $this->favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Update statement for the favorite class
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) : void {
+		//create a query template
+		$query = "update favorite set favoriteProfileId = :favoriteProfileId, favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//Bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	//TODO getbyboth statements
+	//TODO get by foreign keys
+
+>>>>>>> feature-favorite
 
 }
