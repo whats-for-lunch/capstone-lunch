@@ -151,9 +151,9 @@ class Favorite {
 		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes()];
 		$statement->execute($parameters);
 	}
-
-	//TODO getbyboth statements
-	//TODO get by foreign keys
+	
+	//TODO getFavoriteByProfileId
+	//TODO getFavoriteByRestaurantId
 
 
 }
