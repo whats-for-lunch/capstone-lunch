@@ -1,9 +1,9 @@
 <?php
 
-namespace whatsforlunch\capstonelunch;
+namespace whatsforlunch\capstoneLunch;
 
 require_once ("autoload.php");
-require_once (dirname(__DIR__) .  "/classes/autoload.php");
+require_once (dirname(__DIR__) .  "/vendor/autoload.php");
 
 
 use Ramsey\Uuid\Uuid;
@@ -14,7 +14,8 @@ use Ramsey\Uuid\Uuid;
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class Favorite {
+class Favorite implements \JsonSerializable
+{
 	use ValidateUuid;
 
 	/**
@@ -155,5 +156,13 @@ class Favorite {
 	//TODO getbyboth statements
 	//TODO get by foreign keys
 
-
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize(): array {
+		$fields = get_object_vars($this);
+		return ($fields);
+	}
 }
