@@ -405,35 +405,7 @@ class Restaurant implements \jsonSerialization{
 		}
 		return ($restaurant);
 	}
-	/**
-	 * gets the restaurant by Name
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $restaurantName exact name to search for
-	 * @return \SplFixedArray SplFixedArray of restaurants found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getRestaurantByRestaurantName(\PDO $pdo, string $restaurantName): \SplFixedArray {
-		//sanitize the description before searching
-		$restaurantName = trim($restaurantName);
-		$restaurantName = filter_var($restaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($restaurantName) === true) {
-			throw(new \PDOException("Restaurant Name is invalid"));
-		}
-
-		// escape any mySQL wild cards
-		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
-
-		// create query template
-		$query = "SELECT restaurantId, restaurantAdress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
-		$statement = $pdo->prepare($query);
-
-		// bind the restaurant Name to the placeholder in the template
-		$restaurantName = "%$restaurantName%";
-		$parameters = ["restaurantName" => $restaurantName];
-		$statement->execute($parameters);
-	}
+	
 		/**
 		 * gets all restaurant
 		 *
