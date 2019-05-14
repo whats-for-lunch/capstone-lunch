@@ -202,11 +202,12 @@ class Picture implements \JsonSerializable
      * @throws \TypeError if $pdo is not a PDO connection object
      */
     public function insert(\PDO $pdo): void
-    {
+    {//todo fixt insert into
         //making a query template
         $query = "INSERT INTO Picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
         $statement = $pdo->prepare($query);
 
+        // bind the member variables to the place holders in the template
         $parameters = ["pictureId" => $this->pictureId->getBytes()];
         $statement->execute($parameters);
     }
@@ -220,6 +221,8 @@ class Picture implements \JsonSerializable
 
     public function delete(\PDO $pdo): void
     {
+//todo variables throwing error
+        //create query template
         $query = "DELETE from Picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
@@ -236,6 +239,7 @@ class Picture implements \JsonSerializable
      **/
     public function update(\PDO $pdo) : void
     {
+        //todo figure this stuff out
         //create query template
         $query = "UPDATE Picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
@@ -260,6 +264,7 @@ class Picture implements \JsonSerializable
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
+
         //create query template
         $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
