@@ -343,7 +343,7 @@ class Profile {
 		return($profile);
 	}
 
-	//TODO write getProfileByProfileEmail(returns a profile object)
+	//TODO write getProfileByProfileEmail(returns a profile object) (done)
 	//TODO write a getProfileByProfileActivation Token (returns a profile object)
 	//TODO add a json serialize method that unsets profileHash and activation token
 
