@@ -202,11 +202,12 @@ class Picture implements \JsonSerializable
      * @throws \TypeError if $pdo is not a PDO connection object
      */
     public function insert(\PDO $pdo): void
-    {
+    {//todo fixt insert into
         //making a query template
-        $query = "INSERT INTO picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
+        $query = "INSERT INTO Picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
         $statement = $pdo->prepare($query);
 
+        // bind the member variables to the place holders in the template
         $parameters = ["pictureId" => $this->pictureId->getBytes()];
         $statement->execute($parameters);
     }
@@ -220,7 +221,9 @@ class Picture implements \JsonSerializable
 
     public function delete(\PDO $pdo): void
     {
-        $query = "DELETE from picture WHERE pictureId = :pictureId";
+//todo variables throwing error
+        //create query template
+        $query = "DELETE from Picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         //bind the member variables to the place holder in the template
@@ -234,10 +237,13 @@ class Picture implements \JsonSerializable
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
-    public function update(\PDO $pdo) : void {
-
+    public function update(\PDO $pdo) : void
+    {
+        //todo figure this stuff out
         //create query template
-        $query = "UPDATE picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $query = "UPDATE Picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $statement = $pdo->prepare($query);
+
         $parameters = ["pictureId" => $this->pictureId->getBytes(),"pictureAlt" => $this->pictureAlt, "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureUrl" => $this->pictureUrl];
         $statement->execute($parameters);
     }
@@ -258,6 +264,7 @@ class Picture implements \JsonSerializable
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
+
         //create query template
         $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
