@@ -1,9 +1,9 @@
 <?php
 
-namespace whatsforlunch\capstonelunch;
+namespace whatsforlunch\capstoneLunch;
 
 require_once ("autoload.php");
-require_once (dirname(__DIR__) .  "/classes/autoload.php");
+require_once (dirname(__DIR__) .  "/vendor/autoload.php");
 
 
 use Ramsey\Uuid\Uuid;
@@ -14,17 +14,18 @@ use Ramsey\Uuid\Uuid;
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class Profile {
+class Profile implements \JsonSerializable
+{
 	use validateUuid;
 	/**
 	 * id for this profile; this is the primary key
-	 * @var uuid profileId
+	 * @var Uuid profileId
 	 */
 	private $profileId;
 	/**
 	 * activation token for this profile;
 	 * token handed out to verify that the profile is valid and not malicious.
-	 * @var uuid $profileActivationToken
+	 * @var Uuid $profileActivationToken
 	 */
 	private $profileActivationToken;
 	/**
@@ -270,6 +271,7 @@ class Profile {
 			"profileFirstName" => $this->profileFirstName->getBytes(), "profileLastName" => $this->profileLastName->getBytes(), "profileHash" => $this->profileHash->getBytes()];
 		$statement->execute($parameters);
 	}
+	//TODO only use getBytes for Uuid's not activationToken as well
 
 	/**
 	 * Delete statement for the profile class
@@ -297,6 +299,7 @@ class Profile {
 		//create a query template
 		$query = "update profile set profileEmail = :profileEmail, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash";
 		$statement = $pdo->prepare($query);
+		//TODO and a where statement to update
 
 		//bind the member variables to the place holders in the template
 		$parameters = ["profileId" => $this->profileId->getBytes()];
@@ -322,6 +325,7 @@ class Profile {
 		//create a query template
 		$query = "select profileId from profile where profileId = :profileId";
 		$statement = $pdo->prepare($query);
+		//TODO need all variables in select profileId
 
 		//bind the profile id to the template place holder
 		$parameters = ["profileId" => $profileId->getBytes()];
@@ -345,7 +349,7 @@ class Profile {
 
 
 
-	//TODO write getProfileByProfileEmail(returns a profile object) (done)
+	//TODO write getProfileByProfileEmail(returns a profile object). Double check if it is necessary after unit testing
 	//TODO write a getProfileByProfileActivation Token (returns a profile object)
 	//TODO add a json serialize method that unsets profileHash and activation token
 
@@ -353,7 +357,7 @@ class Profile {
 	 *get profile by profile email statement
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|String $profileEmail to search by
+	 * @param  String $profileEmail to search by
 	 * @return \SplFixedArray of profiles found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -367,6 +371,7 @@ class Profile {
 		}
 		//escape any mySQL wild cards
 		$profileEmail = str_replace("_", "\\", str_replace("%", "\\%", $profileEmail));
+
 
 		//create a query template
 		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash
@@ -393,6 +398,16 @@ class Profile {
 			}
 		}
 		return($profiles);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize(): array {
+		$fields = get_object_vars($this);
+		return ($fields);
 	}
 
 
