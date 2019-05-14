@@ -260,7 +260,7 @@ class Restaurant implements \jsonSerialization{
 			throw (new \RangeException("need a price"));
 		}
 		//store restaurant price
-		$this->$this->restaurantPrice = $newRestaurantPrice;
+		$this->restaurantPrice = $newRestaurantPrice;
 	}
 
 	/**
