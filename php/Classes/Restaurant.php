@@ -332,7 +332,7 @@ class Restaurant implements \jsonSerialization{
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the template
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
 
