@@ -81,7 +81,41 @@ class Picture implements \JsonSerializable
     {
         return ($this->pictureId);
     }
+    /**
+     * accessor method for picture profile id
+     *
+     * @return Uuid value of picture profile id
+     */
+    public function getPictureAlt(): string
+    {
+        return ($this->pictureAlt);
+    }
 
+    /** mutator method for picture alternate
+     *
+     * @param string $newPictureAlt new value of picture alternate
+     * @throws \InvalidArgumentException if $newPictureAlt is not a string or insecure
+     * @throws \RangeException if $newPictureAlt is > 1 picture
+     * @throws \TypeError if $newPictureAlt is not a string
+     */
+
+    public function setPictureAlt(string $newPictureAlt): void
+    {
+        // verify the picture alternate is secure
+        $newPictureALt = trim($newPictureAlt);
+        $newPictureALt = filter_var($newPictureALt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newPictureALt) === true) {
+            throw(new\InvalidArgumentException("If alternate picture is insecure."));
+        }
+
+        //verify the picture alternate will fit in the database
+        if (strlen($newPictureALt) > 1) {
+            throw(new\RangeException("picture can't be more than one"));
+        }
+
+        //store picture alternate
+        $this->pictureAlt = $newPictureALt;
+    }
     /**mutator method for picture Id
      *
      * @param Uuid|string $newPictureId new value of picture id
@@ -128,41 +162,7 @@ class Picture implements \JsonSerializable
         $this->pictureRestaurantId = $uuid;
     }
 
-    /**
-     * accessor method for picture profile id
-     *
-     * @return Uuid value of picture profile id
-     */
-    public function getPictureAlt(): string
-    {
-        return ($this->pictureAlt);
-    }
 
-    /** mutator method for picture alternate
-     *
-     * @param string $newPictureAlt new value of picture alternate
-     * @throws \InvalidArgumentException if $newPictureAlt is not a string or insecure
-     * @throws \RangeException if $newPictureAlt is > 1 picture
-     * @throws \TypeError if $newPictureAlt is not a string
-     */
-
-    public function setPictureAlt(string $newPictureAlt): void
-    {
-        // verify the picture alternate is secure
-        $newPictureALt = trim($newPictureAlt);
-        $newPictureALt = filter_var($newPictureALt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newPictureALt) === true) {
-            throw(new\InvalidArgumentException("If alternate picture is insecure."));
-        }
-
-        //verify the picture alternate will fit in the database
-        if (strlen($newPictureALt) > 1) {
-            throw(new\RangeException("picture can't be more than one"));
-        }
-
-        //store picture alternate
-        $this->pictureAlt = $newPictureALt;
-    }
 
     /**
      * accessor method for pictureUrl
