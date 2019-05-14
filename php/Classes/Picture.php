@@ -1,6 +1,6 @@
 <?php
 
-namespace whatsforlunch\capstonelunch;
+namespace whatsforlunch\capstoneLunch;
 
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
@@ -31,7 +31,7 @@ class Picture implements \JsonSerializable
     private $pictureAlt;
     /**
      * this is a alternate picture for profile
-     * @var string $pictureRestaurantId
+     * @var Uuid $pictureRestaurantId
      **/
     private $pictureRestaurantId;
     /**
@@ -72,15 +72,7 @@ class Picture implements \JsonSerializable
         }
     }
 
-    /**
-     *accessor method for picture id
-     *
-     * @return Uuid value of picture id
-     */
-    public function getPictureId(): Uuid
-    {
-        return ($this->pictureId);
-    }
+
     /**
      * accessor method for picture profile id
      *
@@ -95,7 +87,7 @@ class Picture implements \JsonSerializable
      *
      * @param string $newPictureAlt new value of picture alternate
      * @throws \InvalidArgumentException if $newPictureAlt is not a string or insecure
-     * @throws \RangeException if $newPictureAlt is > 1 picture
+     * @throws \RangeException if $newPictureAlt is > 10 picture
      * @throws \TypeError if $newPictureAlt is not a string
      */
 
@@ -109,12 +101,21 @@ class Picture implements \JsonSerializable
         }
 
         //verify the picture alternate will fit in the database
-        if (strlen($newPictureALt) > 1) {
+        if (strlen($newPictureALt) > 10) {
             throw(new\RangeException("picture can't be more than one"));
         }
 
         //store picture alternate
         $this->pictureAlt = $newPictureALt;
+    }
+    /**
+     *accessor method for picture id
+     *
+     * @return Uuid value of picture id
+     */
+    public function getPictureId(): Uuid
+    {
+        return ($this->pictureId);
     }
     /**mutator method for picture Id
      *
@@ -210,6 +211,13 @@ class Picture implements \JsonSerializable
         $statement->execute($parameters);
     }
 
+    /**
+     * deletes this picture from mySQL
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @thows \TypeError if $pdo is not a PDO connection object
+     */
+
     public function delete(\PDO $pdo): void
     {
         $query = "DELETE from picture WHERE pictureId = :pictureId";
@@ -217,6 +225,20 @@ class Picture implements \JsonSerializable
 
         //bind the member variables to the place holder in the template
         $parameters = ["pictureId" => $this->pictureId->getBytes()];
+        $statement->execute($parameters);
+    }
+
+    /**
+     * updates this picture in mySQL
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function update(\PDO $pdo) : void {
+
+        //create query template
+        $query = "UPDATE picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $parameters = ["pictureId" => $this->pictureId->getBytes(),"pictureAlt" => $this->pictureAlt, "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureUrl" => $this->pictureUrl];
         $statement->execute($parameters);
     }
 
@@ -275,13 +297,16 @@ class Picture implements \JsonSerializable
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-// create query template
+
+        // create query template
         $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
         $statement = $pdo->prepare($query);
-//bind the picture Restaurant Id to the place holder in the template
+
+        // bind the picture Restaurant Id to the place holder in the template
         $parameters = ["pictureRestaurantId" => $pictureRestaurantId->getBytes()];
         $statement->execute($parameters);
-        //build an array of pictures
+
+        // build an array of pictures
         $pictures = new \SplFixedArray($statement->rowCount());
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
         while (($row = $statement->fetch()) !== false) {
@@ -290,6 +315,7 @@ class Picture implements \JsonSerializable
                 $pictures[$pictures->key()] = $picture;
                 $pictures->next();
             } catch (\Exception $exception) {
+
                 // if the row couldn't be converted, rethrow it
                 throw(new\PDOException($exception->getMessage(), 0, $exception));
             }
