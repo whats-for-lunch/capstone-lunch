@@ -5,10 +5,7 @@ namespace whatsforlunch\capstonelunch;
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
 
-<<<<<<< HEAD
-=======
-use http\Exception\BadQueryStringException;
->>>>>>> feature-favorite
+
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -104,8 +101,6 @@ class Favorite {
 		$this->favoriteRestaurantId = $uuid;
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * Insert statement for favorite class
 	 *
@@ -160,6 +155,5 @@ class Favorite {
 	//TODO getbyboth statements
 	//TODO get by foreign keys
 
->>>>>>> feature-favorite
 
 }
