@@ -393,6 +393,41 @@ class Profile {
 		return($profiles);
 	}
 
+	/**
+	 * get profile by profile activation token statement
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $profileActivationToken to search for
+	 * @return profile found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables aren't the correct data type
+	 */
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : Profile {
+		//create a query template
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash from
+ 					profile where profileActivationToken = :profileActivationToken";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile activation token to the place holder in the template
+		$parameters = ["profileActivationToken" => $profileActivationToken];
+		$statement->execute($parameters);
+
+		//grab the profile from mySQL
+		try {
+			$profileActivationToken = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileActivationToken = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"],
+				$row["profileFirstName"], $row["profileLastName"], $row["profileHash"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profileActivationToken);
+	}
+
 
 
 }
