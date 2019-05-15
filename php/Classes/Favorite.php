@@ -136,27 +136,41 @@ class Favorite implements \JsonSerializable
 		$statement->execute($parameters);
 	}
 
-	/**
-	 * Update statement for the favorite class
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function update(\PDO $pdo) : void {
-		//create a query template
-		$query = "update favorite set favoriteProfileId = :favoriteProfileId, favoriteRestaurantId = :favoriteRestaurantId";
-		$statement = $pdo->prepare($query);
-
-		//Bind the member variables to the place holders in the template
-		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes()];
-		$statement->execute($parameters);
-	}
 	
 	//TODO getFavoriteByProfileId
 	//TODO getFavoriteByRestaurantId
+	//TODO getFavoriteByProfileRestaurantId
 
-	
+	/**
+	 * get favorite by profile id statement
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param Uuid|string $profileId profile id to search for
+	 * @return Favorite|null profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable is not the correct data type
+	 */
+	public static function getFavoriteByProfileId(\PDO $pdo, $profileId) : \SplFixedArray {
+		//sanitize the profileId before searching
+		try{
+			$profileId = self::validateUuid($profileId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		//create a query template
+		$query = "select favoriteProfileId, favoriteRestaurantId from profile where profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile id to the place holder in the template
+		$parameters = ["profileId" => $profileId->getBytes()];
+		$statement->execute($parameters);
+
+		//grab the favoriteProfile id from mySQL
+		try{
+			$profile =
+		}
+	}
 
 	/**
 	 * formats the state variables for JSON serialization
