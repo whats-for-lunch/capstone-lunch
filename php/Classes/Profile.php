@@ -352,8 +352,8 @@ class Profile {
 	 *get profile by profile email statement
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|String $profileEmail to search by
-	 * @return \SplFixedArray of profiles found
+	 * @param  String $profileEmail to search by
+	 * @return  profile found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
