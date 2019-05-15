@@ -156,6 +156,8 @@ class Favorite implements \JsonSerializable
 	//TODO getFavoriteByProfileId
 	//TODO getFavoriteByRestaurantId
 
+	
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
