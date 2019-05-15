@@ -202,7 +202,7 @@ class Picture implements \JsonSerializable
      * @throws \TypeError if $pdo is not a PDO connection object
      */
     public function insert(\PDO $pdo): void
-    {//todo fixt insert into
+    {//todo fix insert into
         //making a query template
         $query = "INSERT INTO Picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
         $statement = $pdo->prepare($query);
