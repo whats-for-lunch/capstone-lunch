@@ -320,7 +320,8 @@ class Profile {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		//create a query template
-		$query = "select profileId from profile where profileId = :profileId";
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash 
+		from profile where profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile id to the template place holder
@@ -344,7 +345,7 @@ class Profile {
 	}
 
 	//TODO write getProfileByProfileEmail(returns a profile object) (done)
-	//TODO write a getProfileByProfileActivation Token (returns a profile object)
+	//TODO write a getProfileByProfileActivation Token (returns a profile object) (done)
 	//TODO add a json serialize method that unsets profileHash and activation token
 
 	/**
@@ -405,7 +406,7 @@ class Profile {
 	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : Profile {
 		//create a query template
 		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash from
- 					profile where profileActivationToken = :profileActivationToken";
+ 		profile where profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile activation token to the place holder in the template
