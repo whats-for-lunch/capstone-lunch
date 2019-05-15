@@ -9,7 +9,7 @@ require_once (dirname(__DIR__) .  "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
- * Favorite class for the users of the whatsforlunch application
+ * Favorite class for the users of the whatsForLunch application
  * This Favorite class describes the attributes that make up the user's favorite list.
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
