@@ -357,41 +357,30 @@ class Profile {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) {
-		//sanitize the description before searching
-		$profileEmail = trim($profileEmail);
-		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileEmail) === true) {
-			throw(new \PDOException("profile email is invalid"));
-		}
-		//escape any mySQL wild cards
-		$profileEmail = str_replace("_", "\\", str_replace("%", "\\%", $profileEmail));
-
+	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) : Profile {
 		//create a query template
 		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash
-		from profile where profileEmail like :profileEmail";
+		from profile where profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile email to the place holder in the template
-		$profileEmail = "%$profileEmail%";
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
 
-		// build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
-				$row["profileLastName"], $row["profileHash"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			}catch(\Exception $exception) {
-				//if the row couldn't be convert it, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// grab the profile from mySQL
+		try {
+			$profileEmail = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileEmail = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+					$row["profileLastName"], $row["profileHash"]);
 			}
+		}catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profiles);
+		return($profileEmail);
 	}
 
 	/**
