@@ -14,7 +14,8 @@ use Ramsey\Uuid\Uuid;
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class Profile {
+class Profile implements \JsonSerializable
+{
 	use validateUuid;
 	/**
 	 * id for this profile; this is the primary key
