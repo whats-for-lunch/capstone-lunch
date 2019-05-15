@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
  *
  */
 
-class Restaurant implements \jsonSerialization{
+class Restaurant implements \jsonSerializable{
 	use validateUuid;
 	use ValidateDate;
 
