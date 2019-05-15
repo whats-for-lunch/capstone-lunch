@@ -204,7 +204,7 @@ class Picture implements \JsonSerializable
     public function insert(\PDO $pdo): void
     {//todo fix insert into
         //making a query template
-        $query = "INSERT INTO Picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
+        $query = "INSERT INTO picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
@@ -223,7 +223,7 @@ class Picture implements \JsonSerializable
     {
 //todo variables throwing error
         //create query template
-        $query = "DELETE from Picture WHERE pictureId = :pictureId";
+        $query = "DELETE from picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         //bind the member variables to the place holder in the template
@@ -241,7 +241,7 @@ class Picture implements \JsonSerializable
     {
         //todo figure this stuff out
         //create query template
-        $query = "UPDATE Picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $query = "UPDATE picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         $parameters = ["pictureId" => $this->pictureId->getBytes(),"pictureAlt" => $this->pictureAlt, "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureUrl" => $this->pictureUrl];
