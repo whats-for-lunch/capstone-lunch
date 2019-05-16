@@ -139,37 +139,45 @@ class Favorite implements \JsonSerializable
 	
 	//TODO getFavoriteByProfileId
 	//TODO getFavoriteByRestaurantId
-	//TODO getFavoriteByProfileRestaurantId
+	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId
 
 	/**
 	 * get favorite by profile id statement
 	 *
 	 * @param \PDO $pdo connection object
-	 * @param Uuid|string $profileId profile id to search for
-	 * @return Favorite|null profile found or null if not found
+	 * @param string $favoriteProfileId profile id to search for
+	 * @return \SplFixedArray SplFixedArray of favorites fround or null
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable is not the correct data type
 	 */
-	public static function getFavoriteByProfileId(\PDO $pdo, $profileId) : \SplFixedArray {
-		//sanitize the profileId before searching
-		try{
-			$profileId = self::validateUuid($profileId);
+	public static function getFavoriteByFavoriteProfileId(\PDO $pdo, string $favoriteProfileId) : \SplFixedArray {
+		try {
+			$favoriteProfileId = self::validateUuid($favoriteProfileId);
 		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		//create a query template
-		$query = "select favoriteProfileId, favoriteRestaurantId from profile where profileId = :profileId";
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfileId = :favoriteProfileId";
 		$statement = $pdo->prepare($query);
 
-		//bind the profile id to the place holder in the template
-		$parameters = ["profileId" => $profileId->getBytes()];
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $favoriteProfileId->getBytes()];
 		$statement->execute($parameters);
 
-		//grab the favoriteProfile id from mySQL
-		try{
-			$profile =
+		//build an array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			}catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
+		return($favorites);
 	}
 
 	/**
