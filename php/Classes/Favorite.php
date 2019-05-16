@@ -138,7 +138,7 @@ class Favorite implements \JsonSerializable
 
 	
 	//TODO getFavoriteByProfileId (done)
-	//TODO getFavoriteByRestaurantId
+	//TODO getFavoriteByRestaurantId (done)
 	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId
 
 	/**
@@ -178,6 +178,45 @@ class Favorite implements \JsonSerializable
 			}
 		}
 		return($favorites);
+	}
+
+	/**
+	 *get favorite by restaurant id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $favoriteRestaurantId restaurant id search for
+	 * @return \SplFixedArray array of favorites found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 */
+	public static function getFavoriteByFavoriteRestaurantId(\PDO $pdo, string $favoriteRestaurantId) : \SplFixedArray {
+		try {
+			$favoriteRestaurantId = self::validateUuid($favoriteRestaurantId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		//create a query template
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteRestaurantId" => $favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+
+		//build an array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			}catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($favorites);
 	}
 
 	/**
