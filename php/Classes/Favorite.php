@@ -137,7 +137,7 @@ class Favorite implements \JsonSerializable
 	}
 
 	
-	//TODO getFavoriteByProfileId
+	//TODO getFavoriteByProfileId (done)
 	//TODO getFavoriteByRestaurantId
 	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId
 
