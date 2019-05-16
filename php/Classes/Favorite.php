@@ -139,7 +139,7 @@ class Favorite implements \JsonSerializable
 	
 	//TODO getFavoriteByProfileId (done)
 	//TODO getFavoriteByRestaurantId (done)
-	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId
+	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId (done)
 
 	/**
 	 * get favorite by profile id statement
@@ -217,6 +217,49 @@ class Favorite implements \JsonSerializable
 			}
 		}
 		return ($favorites);
+	}
+
+	/**
+	 * get favorite by favorite profile id and favorite restaurant id statement
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $favoriteProfileId profile id to search for
+	 * @param string $favoriteRestaurantId restaurant id to search for
+	 * @return Favorite|null Favorite found or null if not found
+	 */
+	public static function getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId(\PDO $pdo, string $favoriteProfileId, string $favoriteRestaurantId) : ?Favorite {
+		//
+		try {
+			$favoriteProfileId = self::validateUuid($favoriteProfileId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		try {
+			$favoriteRestaurantId = self::validateUuid($favoriteRestaurantId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		//create a query template
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfile = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//bind the restaurant id and profile id to the place holder in the template
+		$parameters = ["favoriteProfileId" => $favoriteProfileId->getBytes(), "favoriteRestaurantId" => $favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+
+		//grab the like from mySQL
+		try {
+			$favorite = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+			}
+		}catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+		}
+		return ($favorite);
 	}
 
 	/**
