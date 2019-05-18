@@ -20,7 +20,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class ProfileTest extends  {
+class ProfileTest extends {
 
 	/**
 	 * content of the profile activation token
@@ -51,10 +51,10 @@ class ProfileTest extends  {
 	 */
 	protected $VALID_PROFILE_HASH;
 
-/**
- * create dependent objects before running each test
- */
-	public final function setUp() : void {
+	/**
+	 * create dependent objects before running each test
+	 */
+	public final function setUp(): void {
 		//run the default setUp() method first
 		parent::setUp();
 		$password = "abc123";
@@ -65,14 +65,14 @@ class ProfileTest extends  {
 	/**
 	 * test inserting a valid Profile and verify that the actual mySQL data matches
 	 */
-	public function testInsertValidProfile() : void {
+	public function testInsertValidProfile(): void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create a new Profile and insert to into mySQL
 		$profileId = generateUuidV4();
 		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_FIRST_NAME
-		, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_HASH);
+			, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_HASH);
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -89,7 +89,7 @@ class ProfileTest extends  {
 	/**
 	 * test inserting a Profile, editing it, and then updating it
 	 */
-	public function testUpdateValidateProfile() : void {
+	public function testUpdateValidateProfile(): void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -114,5 +114,39 @@ class ProfileTest extends  {
 		$this->assertEquals($pdoProfile->getProfileLastName(), $this->VALID_PROFILE_LAST_NAME);
 		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_PROFILE_HASH);
 	}
+
+	/**
+	 * test creating a Profile and then deleting it
+	 */
+	public function testDeleteValidProfile() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert into mySQL
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_FIRST_NAME
+			, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_HASH);
+		$profile->insert($this->getPDO());
+
+		//delete the Profile from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		//test that this profile was deleted by grabbing profile id
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+	}
+
+	/**
+	 * test grabbing a profile that doesn't exist
+	 */
+	public function testGetInvalidProfileByProfileId() : void {
+		//grab profile id that exceeds the maximum allowable profile id
+		$profileId = generateUuidV4();
+		$profile = Profile::getProfileByProfileId($this->getPDO(), $profileId);
+		$this->assertNull($profile);
+	}
+
 
 }
