@@ -131,6 +131,29 @@ class FavoriteTest extends {
 		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
 	}
 
+	/**
+	 * gets the favorite by FavoriteRestaurantId
+	 */
+	public function testGetValidFavoriteByFavoriteRestaurantId() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+
+		//create new favorite and insert into mySQL
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+			$favorite->insert($this->getPDO());
+
+		//grab data from mySQL and enforce the fields match our expectations
+		$results = Favorite::getFavoriteByFavoriteRestaurantId($this->getPDO(), $favorite->getFavoriteRestaurantId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("whatsforlunch\\capstoneLunch\\Favorite", $results);
+
+		//grab the result from the array and validate it
+		$pdoFavorite = $results[0];
+		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
+	}
+
 
 
 
