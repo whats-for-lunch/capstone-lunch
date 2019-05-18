@@ -179,5 +179,36 @@ class ProfileTest extends {
 		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_PROFILE_HASH);
 	}
 
+	/**
+	 * test grabbing the Profile by profile email
+	 */
+	public function testGetValidProfileByProfileEmail() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert it into mySQL
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_FIRST_NAME
+			, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_HASH);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfileEmail($this->getPDO(), $this->VALID_PROFILE_EMAIL);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+
+		//enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("whatsForLunch\\capstoneLunch\\Profile", $results);
+
+		//grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILE_ACTIVATION_TOKEN);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILE_EMAIL);
+		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILE_FIRST_NAME);
+		$this->assertEquals($pdoProfile->getProfileLastName(), $this->VALID_PROFILE_LAST_NAME);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_PROFILE_HASH);
+	}
+
 
 }
