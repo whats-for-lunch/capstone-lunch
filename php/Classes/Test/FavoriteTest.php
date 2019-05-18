@@ -87,6 +87,27 @@ class FavoriteTest extends {
 		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
 	}
 
+	/**
+	 * test creating a favorite and then deleting
+	 */
+	public function testDeleteValidFavorite() : void {
+		//cound the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+
+		//create a new favorite and insert into mySQL
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+			$favorite->insert($this->getPDO());
+
+		//delete the favorite from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$favorite->delete($this->getPDO());
+
+		//grab data from mySQL and enforce the fields match our expectations
+		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteRestaurantId(), $favorite->getFavoriteProfileId());
+		$this->assertNull($pdoFavorite);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
+	}
+
 
 
 
