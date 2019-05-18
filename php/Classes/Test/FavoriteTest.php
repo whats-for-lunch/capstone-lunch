@@ -154,10 +154,6 @@ class FavoriteTest extends {
 		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
 	}
 
-
-
-
-
-
+	
 
 }
