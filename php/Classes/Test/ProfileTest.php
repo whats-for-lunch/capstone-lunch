@@ -148,9 +148,9 @@ class ProfileTest extends {
 	}
 
 	/**
-	 * test grabbing a Profile by profile name
+	 * test grabbing a Profile by profile email
 	 */
-	public function testGetValidProfileByProfileName() : void {
+	public function testGetValidProfileByProfileEmail() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -161,7 +161,7 @@ class ProfileTest extends {
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileFirstName($this->getPDO(), $profile->getProfileFirstName());
+		$results = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertCount(1, $results);
 
