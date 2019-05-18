@@ -70,7 +70,7 @@ class FavoriteTest extends {
 	/**
 	 * test inserting a valid favorite and verify that the actual mySQL data matches
 	 */
-	//TODO check to see if create new favorite and insert into mySQL is correct
+	//TODO check to see if create new favorite and insert into mySQL is correct in all functions - little red mark next to them
 	public function testInsertValidFavorite() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
@@ -106,6 +106,29 @@ class FavoriteTest extends {
 		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteRestaurantId(), $favorite->getFavoriteProfileId());
 		$this->assertNull($pdoFavorite);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
+	}
+
+	/**
+	 * gets the favorite by favoriteProfileId
+	 */
+	public function testGetValidFavoriteByFavoriteProfileId() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+
+		//create new favorite and insert into mySQL
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+			$favorite->insert($this->getPDO());
+
+		//grab data from mySQL and enforce the fields match our expectations
+		$results = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("whatsforlunch\\capstoneLunch\\Favorite", $results);
+
+		//grab the result from the array and validate it
+		$pdoFavorite = $results[0];
+		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
 	}
 
 
