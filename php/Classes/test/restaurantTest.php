@@ -34,6 +34,21 @@ class restaurantTest extends whatsForLunchTesting {
 	 */
 	protected $VALID_RESTAURANTADDRESS2 = "this is still a valid address for this restaurant";
 	/**
+	 * name os restaurant
+	 * @var string $VALID_RESTAURANTNAME
+	 */
+	protected $VALID_RESTAURANTNAME = "Foodz 4 Dayz";
+	/**
+	 * latitude coordinate for this restaurant
+	 * @var float $VALID_RESTAURANTLAT
+	 */
+	protected $VALID_RESTAURANTLAT = 35;
+	/**
+	 * longitude coordinate for this restaurant
+	 * @var float $VALID_RESTAURANTLNG
+	 */
+	protected $VALID_RESTAUTANTLNG = -106;
+	/**
 	 *
 	 */
 }
