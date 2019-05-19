@@ -65,7 +65,13 @@ class restaurantTest extends whatsForLunchTesting {
 	protected $VALID_RESTAURANTTHUMBNAIL = "img";
 
 	/**
-	 * test inserting a valid restaurant and verify that the actula mySQL data matches
+	 * test inserting a valid restaurant and verify that the actual mySQL data matches
 	 */
+public function testInsertValidRestaurant(): void {
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("restaurant");
+	// create a new restaurant and insert into mySQL
+	$restaurantId = generateUuidv4();
 
+}
 }
