@@ -2,6 +2,7 @@
 
 namespace whatsForLunch\capstone\test;
 
+// ask about these.. foreign keys that I dont have
 use whatsForLunch\capstone\favorite;
 use whatsForLunch\capstone\picture;
 use whatsForLunch\capstone\restaurant;
@@ -23,6 +24,16 @@ require_once (dirname(__DIR__,2). "/lib/uuid.php");
 
 class restaurantTest extends whatsForLunchTesting {
 	/**
-	 * 
+	 * address for this restaurant
+	 * @var string $VALID_RESTAURANTADDRESS
+	 */
+	protected $VALID_RESTAURANTADDRESS = "407 Hangry Ave NW";
+	/**
+	 * address of this restaurant
+	 * @var string $VALID_RESTAURANTADDRESS2
+	 */
+	protected $VALID_RESTAURANTADDRESS2 = "this is still a valid address for this restaurant";
+	/**
+	 *
 	 */
 }
