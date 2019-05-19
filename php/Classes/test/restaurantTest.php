@@ -49,6 +49,23 @@ class restaurantTest extends whatsForLunchTesting {
 	 */
 	protected $VALID_RESTAUTANTLNG = -106;
 	/**
-	 *
+	 * price range at restaurant
+	 * @var string $VALID_RESTAURANTPRICE
 	 */
+	protected $VALID_RESTAURTANTPRICE = "$$$$";
+	/**
+	 * Review of restaurant from yelps DB
+	 * @var float $VALID_RESTAURANTREVIEWRATING
+	 */
+	protected $VALID_RESTAURANTREVIEWRATING = "4.5";
+	/**
+	 * Thumbnail for restaurant
+	 * @var string $VALID_RESTAURANTTHUMBNAIL
+	 */
+	protected $VALID_RESTAURANTTHUMBNAIL = "img";
+
+	/**
+	 * test inserting a valid restaurant and verify that the actula mySQL data matches
+	 */
+
 }
