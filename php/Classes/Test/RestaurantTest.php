@@ -22,7 +22,7 @@ require_once (dirname(__DIR__,2). "/lib/uuid.php");
  *@author whatsForLunch capstone
  */
 
-class RestaurantTest extends whatsForLunchTesting {
+class RestaurantTest extends whatsForLunchTest {
 	/**
 	 * address for this restaurant
 	 * @var string $VALID_RESTAURANTADDRESS
