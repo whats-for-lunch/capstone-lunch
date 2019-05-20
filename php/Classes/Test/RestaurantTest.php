@@ -16,7 +16,7 @@ require_once (dirname(__DIR__). "/autoloader.php");
 require_once (dirname(__DIR__,2). "/lib/uuid.php");
 
 /**
- * Full PHPunit test of the Restaurant class
+ * Full PHPunit Test of the Restaurant class
  *
  *@see restaurant
  *@author whatsForLunch capstone
@@ -65,7 +65,7 @@ class restaurantTest extends whatsForLunchTesting {
 	protected $VALID_RESTAURANTTHUMBNAIL = "img";
 
 	/**
-	 * test inserting a valid restaurant and verify that the actual mySQL data matches
+	 * Test inserting a valid restaurant and verify that the actual mySQL data matches
 	 */
 	public function testInsertValidRestaurant(): void {
 		// count the number of rows and save it for later
@@ -91,7 +91,7 @@ class restaurantTest extends whatsForLunchTesting {
 	}
 
 	/**
-	 * test inserting a restaurant, editing it, and then updating it
+	 * Test inserting a restaurant, editing it, and then updating it
 	 */
 	public function testUpdateValidRestaurant(): void {
 
@@ -114,7 +114,7 @@ class restaurantTest extends whatsForLunchTesting {
 	}
 
 	/**
-	 * test creating a restaurant and then deleting it
+	 * Test creating a restaurant and then deleting it
 	 */
 	public function testDeleteValidRestaurant(): void {
 		//count the number of rows and save it for later
@@ -136,7 +136,7 @@ class restaurantTest extends whatsForLunchTesting {
 	}
 
 	/**
-	 * test grabbing a restaurant that does not exist
+	 * Test grabbing a restaurant that does not exist
 	 */
 	public function testGetInvalidRestaurantByRestaurantId(): void {
 		// grab a restaurant id that exceeds the maximum allowable restaurant id
@@ -145,7 +145,7 @@ class restaurantTest extends whatsForLunchTesting {
 	}
 
 	/**
-	 * test grabbing all restaurants
+	 * Test grabbing all restaurants
 	 */
 	public function testGetAllValidRestaurant(): void {
 		// count the number of rows and save it for later
