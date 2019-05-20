@@ -3,11 +3,9 @@
 namespace whatsForLunch\capstone\test;
 
 // ask about these.. foreign keys that I dont have
-use whatsForLunch\capstone\favorite;
-use whatsForLunch\capstone\picture;
-use whatsForLunch\capstone\restaurant;
+use whatsForLunch\capstone\Restaurant;
 
-require_once ("whatsForLunchTesting.php");
+require_once ("");
 
 // get the autoloader
 require_once (dirname(__DIR__). "/autoloader.php");
@@ -19,7 +17,7 @@ require_once (dirname(__DIR__,2). "/lib/uuid.php");
  * Full PHPunit Test of the Restaurant class
  *
  *@see restaurant
- *@author whatsForLunch capstone
+ *@author Jamie Amparan <jamparan3@cnm.edu>
  */
 
 class RestaurantTest extends whatsForLunchTesting {
