@@ -58,7 +58,7 @@ class FavoriteTest extends {
 
 		//create and insert a Profile to the test Favorite
 		$profileId = generateUuidV4();
-		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN)
+		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN,"test@test.com")
 			$this->profile->insert($this->getPDO());
 
 		//create and insert restaurant to test favorite
