@@ -48,7 +48,7 @@ class FavoriteTest extends WhatsForLunch {
 	/**
 	 * create dependent objects before running each test
 	 */
-	//TODO check the function for the two errors on create and insert profile and restaurant-What do I need here
+	//TODO for each insert on this statement add variables for profile and restaurant attributes - ref: profiletest
 	public final function setUp() : void {
 		//run the default setUp() method first
 		parent::setUp();
