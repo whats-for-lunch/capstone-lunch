@@ -111,6 +111,18 @@ public function testUpdateValidRestaurant(): void {
 	$pdoRestaurant = $restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 	$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS2);
-
 }
+	/**
+	 * test creating a restaurant and then deleting it
+	 */
+	public function testDeleteValidRestaurant(): void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getrowCount("restaurant");
+
+		//create a new restaurant and insert it into mySQL
+		$restaurantId = generateUuidv4();
+		$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant->insert($this->getPDO());
+
+	}
 }
