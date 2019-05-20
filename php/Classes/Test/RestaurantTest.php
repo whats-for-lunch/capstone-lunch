@@ -10,7 +10,7 @@ use whatsForLunch\capstone\restaurant;
 require_once("WhatsForLunchTest.php");
 
 // get the autoloader
-require_once (dirname(__DIR__). "/autoloader.php");
+require_once (dirname(__DIR__). "/autoload.php");
 
 // get the uuid generator
 require_once (dirname(__DIR__,2). "/lib/uuid.php");
