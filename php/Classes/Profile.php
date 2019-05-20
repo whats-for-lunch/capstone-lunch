@@ -1,5 +1,5 @@
 <?php
-namespace whatsforlunch\capstonelunch;
+namespace whatsforlunch\capstoneLunch;
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
@@ -411,5 +411,5 @@ class Profile implements \JsonSerializable
 		$fields = get_object_vars($this);
 		return ($fields);
 	}
-	
+
 }
