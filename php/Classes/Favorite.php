@@ -20,12 +20,12 @@ class Favorite implements \JsonSerializable
 
 	/**
 	 * foreign key for the profile id
-	 * @var
+	 * @var Uuid|string favoriteProfileId
 	 */
 	private $favoriteProfileId;
 	/**
 	 * foreign key for the restaurant id
-	 * @var
+	 * @var Uuid|string favoriteRestaurantId
 	 */
 	private $favoriteRestaurantId;
 
