@@ -20,7 +20,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class ProfileTest extends {
+class ProfileTest extends WhatsForLunchTest {
 
 	/**
 	 * content of the profile activation token
