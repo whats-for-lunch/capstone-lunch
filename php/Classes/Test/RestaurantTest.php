@@ -1,11 +1,9 @@
 <?php
 
-namespace whatsForLunch\capstone\test;
+namespace WhatsForLunch\CapstoneLunch\Test;
 
-// ask about these.. foreign keys that I dont have
-use whatsForLunch\capstone\favorite;
-use whatsForLunch\capstone\picture;
-use whatsForLunch\capstone\restaurant;
+
+use WhatsForLunch\CapstoneLunch\Restaurant;
 
 require_once("WhatsForLunchTest.php");
 
@@ -22,7 +20,7 @@ require_once (dirname(__DIR__,2). "/lib/uuid.php");
  *@author whatsForLunch capstone
  */
 
-class RestaurantTest extends whatsForLunchTest {
+class RestaurantTest extends WhatsForLunchTest {
 	/**
 	 * address for this restaurant
 	 * @var string $VALID_RESTAURANTADDRESS
