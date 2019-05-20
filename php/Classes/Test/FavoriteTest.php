@@ -19,7 +19,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
 
 //TODO check to see if I have everything needed for the FavoriteTest class
 
-class FavoriteTest extends {
+class FavoriteTest extends WhatsForLunch {
 
 	/**
 	 * Profile that created the Favorite; this is for foreign key relations
