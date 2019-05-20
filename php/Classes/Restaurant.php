@@ -1,21 +1,22 @@
 <?php
+
 namespace whatsForLunch\capstoneLunch;
-require_once ("autoload.php");
-require_once (dirname(__DIR__) . "/vendor/autoload.php");
+require_once("autoload.php");
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
+
 use Ramsey\Uuid\Uuid;
 
 /**
  * create a class for restaurant in project 'What's for lunch?'
  *
  */
-
-class Restaurant implements \jsonSerializable{
+class Restaurant implements \jsonSerializable {
 	use validateUuid;
 	use ValidateDate;
 
 	/**
 	 * Id and P.K for restaurant
-	 * @var uuid $restaurantId
+	 * @var Uuid $restaurantId
 	 */
 	//declare properties
 	private $restaurantId;
@@ -406,35 +407,36 @@ class Restaurant implements \jsonSerializable{
 		return ($restaurant);
 	}
 
-		/**
-		 * gets all restaurant
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @return \SplFixedArray SplFixedArray of restaurants found or null if not found
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError when variables are not the correct data type
-		 **/
-		public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
-			//create query template
-			$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
+	/**
+	 * gets all restaurant
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of restaurants found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
+		//create query template
+		$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
 		//build array of restaurants
 		$restaurant = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
-		try {
-		$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
-		$restaurant[$restaurant->key()] = $restaurant;
-		$restaurant->next();
-		} catch(\Exception $exception) {
-		//if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+			try {
+				$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+				$restaurant[$restaurant->key()] = $restaurant;
+				$restaurant->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
-	}
 		return ($restaurant);
 	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
