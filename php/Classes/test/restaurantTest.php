@@ -72,6 +72,8 @@ public function testInsertValidRestaurant(): void {
 	$numRows = $this->getConnection()->getRowCount("restaurant");
 	// create a new restaurant and insert into mySQL
 	$restaurantId = generateUuidv4();
+	$restaurant = new restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+	$restaurant->insert($this->getPDO());
 
 }
 }
