@@ -139,7 +139,7 @@ class restaurantTest extends whatsForLunchTesting {
 	 * test grabbing a restaurant that does not exist
 	 */
 	public function testGetInvalidRestaurantByRestaurantId(): void {
-		// grab a restaurant id that exceeds the maximum allowable restaurants id
+		// grab a restaurant id that exceeds the maximum allowable restaurant id
 		$restaurant = restaurant::getRestaurantByRestaurantId($this->getPDO(), generateUuidV4());
 		$this->assertNull($restaurant);
 	}
@@ -156,7 +156,7 @@ class restaurantTest extends whatsForLunchTesting {
 		$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce the fields match our expectations
+		// grab the data from mySQL and enforce the fields match expectations
 		$results = Restaurant::getAllRestaurant($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 		$this->assertCount(1, $results);
