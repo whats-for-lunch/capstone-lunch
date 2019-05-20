@@ -67,51 +67,52 @@ class restaurantTest extends whatsForLunchTesting {
 	/**
 	 * test inserting a valid restaurant and verify that the actual mySQL data matches
 	 */
-public function testInsertValidRestaurant(): void {
-	// count the number of rows and save it for later
-	$numRows = $this->getConnection()->getRowCount("restaurant");
+	public function testInsertValidRestaurant(): void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("restaurant");
 
-	// create a new restaurant and insert into mySQL
-	$restaurantId = generateUuidv4();
-	$restaurant = new restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
-	$restaurant->insert($this->getPDO());
+		// create a new restaurant and insert into mySQL
+		$restaurantId = generateUuidv4();
+		$restaurant = new restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant->insert($this->getPDO());
 
-	// grab the data from mySQL and enforce the fields match
-	$pdoRestaurant = Restaurant::getrestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
-	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		// grab the data from mySQL and enforce the fields match
+		$pdoRestaurant = Restaurant::getrestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 
-	$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
-	$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
-	$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
-	$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
-	$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAUTANTLNG);
-	$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURTANTPRICE);
-	$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
-	$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
-}
+		$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
+		$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
+		$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAUTANTLNG);
+		$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURTANTPRICE);
+		$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
+		$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
+	}
 
 	/**
 	 * test inserting a restaurant, editing it, and then updating it
 	 */
-public function testUpdateValidRestaurant(): void {
+	public function testUpdateValidRestaurant(): void {
 
-	//count the number of rows and save it for later
-	$numRows = $this->getConnection()->getrowCount("restaurant");
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getrowCount("restaurant");
 
-	//create a new restaurant and insert it into mySQL
-	$restaurantId = generateUuidv4();
-	$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
-	$restaurant->insert($this->getPDO());
+		//create a new restaurant and insert it into mySQL
+		$restaurantId = generateUuidv4();
+		$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant->insert($this->getPDO());
 
-	// edit the restaurant and update it in mySQL
-	$restaurant->setRestaurantAddress($this->VALID_RESTAURANTADDRESS2);
-	$restaurant->update($this->getPDO());
+		// edit the restaurant and update it in mySQL
+		$restaurant->setRestaurantAddress($this->VALID_RESTAURANTADDRESS2);
+		$restaurant->update($this->getPDO());
 
-	// grab the data from mySQL and enforce the fields match
-	$pdoRestaurant = $restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
-	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-	$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS2);
-}
+		// grab the data from mySQL and enforce the fields match
+		$pdoRestaurant = $restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS2);
+	}
+
 	/**
 	 * test creating a restaurant and then deleting it
 	 */
@@ -124,5 +125,52 @@ public function testUpdateValidRestaurant(): void {
 		$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
+		// delete the restaurant from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$restaurant->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the restaurant does not exist
+		$pdoRestaurant = restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+		$this->assertNull($pdoRestaurant);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("restaurant"));
+	}
+
+	/**
+	 * test grabbing a restaurant that does not exist
+	 */
+	public function testGetInvalidRestaurantByRestaurantId(): void {
+		// grab a restaurant id that exceeds the maximum allowable restaurants id
+		$restaurant = restaurant::getRestaurantByRestaurantId($this->getPDO(), generateUuidV4());
+		$this->assertNull($restaurant);
+	}
+
+	/**
+	 * test grabbing all restaurants
+	 */
+	public function testGetAllValidRestaurant(): void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("restaurant");
+
+		// create a new restaurant and insert to into mySQL
+		$restaurantId = generateUuidv4();
+		$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Restaurant::getAllRestaurant($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\whatsForLunch\\Restaurant", $results);
+		// grab the result from the array and validate it
+		$pdoRestaurant = $results[0];
+
+		$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
+		$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
+		$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAUTANTLNG);
+		$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURTANTPRICE);
+		$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
+		$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
 	}
 }
