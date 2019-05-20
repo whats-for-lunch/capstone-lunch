@@ -70,11 +70,13 @@ class restaurantTest extends whatsForLunchTesting {
 public function testInsertValidRestaurant(): void {
 	// count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("restaurant");
+
 	// create a new restaurant and insert into mySQL
 	$restaurantId = generateUuidv4();
 	$restaurant = new restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 	$restaurant->insert($this->getPDO());
-// grab the data from mySQL and enforce the fields match
+
+	// grab the data from mySQL and enforce the fields match
 	$pdoRestaurant = Restaurant::getrestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 
@@ -88,11 +90,27 @@ public function testInsertValidRestaurant(): void {
 	$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
 }
 
-/**
- * test inserting a restaurant, editing it, and then updating it
- */
+	/**
+	 * test inserting a restaurant, editing it, and then updating it
+	 */
 public function testUpdateValidRestaurant(): void {
+
 	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getrowCount("restaurant");
+
+	//create a new restaurant and insert it into mySQL
+	$restaurantId = generateUuidv4();
+	$restaurant = new restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+	$restaurant->insert($this->getPDO());
+
+	// edit the restaurant and update it in mySQL
+	$restaurant->setRestaurantAddress($this->VALID_RESTAURANTADDRESS2);
+	$restaurant->update($this->getPDO());
+
+	// grab the data from mySQL and enforce the fields match
+	$pdoRestaurant = $restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+	$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS2);
 
 }
 }
