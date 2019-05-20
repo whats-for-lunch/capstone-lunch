@@ -77,7 +77,7 @@ abstract class whatsForLunchTesting extends TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsForLunch");
+			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch");
 			$pdo = $secrets->getPdoObject();
 			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabaseName());
 		}
