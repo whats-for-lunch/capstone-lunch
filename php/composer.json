@@ -7,7 +7,7 @@
     "lcobucci/jwt": "3.2"
   },
   "scripts": {
-    "phpunit": "./vendor/bin/phpunit -c ./Classes/Tests --coverage-html coverage"
+    "phpunit": "./vendor/bin/phpunit -c ./Classes/Test --coverage-html coverage"
   }
 }
 

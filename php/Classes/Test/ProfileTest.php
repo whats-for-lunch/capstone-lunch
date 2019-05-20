@@ -1,9 +1,8 @@
 <?php
 
-namespace whatsforlunch\capstoneLunch;
+namespace WhatsForLunch\CapstoneLunch\Test;
 
-use whatsforlunch\capstoneLunch\Profile;
-require_once("");
+use WhatsForLunch\CapstoneLunch\Profile;
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 // grab the class under scrutiny

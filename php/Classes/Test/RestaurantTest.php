@@ -7,7 +7,7 @@ use whatsForLunch\capstone\favorite;
 use whatsForLunch\capstone\picture;
 use whatsForLunch\capstone\restaurant;
 
-require_once ("whatsForLunchTesting.php");
+require_once("WhatsForLunchTest.php");
 
 // get the autoloader
 require_once (dirname(__DIR__). "/autoloader.php");

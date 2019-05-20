@@ -1,5 +1,5 @@
 <?php
-namespace whatsforlunch\capstoneLunch;
+namespace WhatsForLunch\CapstoneLunch;
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/classes/autoload.php");
@@ -8,14 +8,13 @@ use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
- *Profile class for the users of the whatsforlunch application
+ *Profile class for the users of the WhatsForLunch application
  * This profile class describes the attributes that make up the user profile.
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class Profile implements \JsonSerializable
-{
-	use validateUuid;
+class Profile implements \JsonSerializable {
+	use ValidateUuid;
 	/**
 	 * id for this profile; this is the primary key
 	 * @var uuid profileId
