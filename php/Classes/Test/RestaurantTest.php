@@ -22,7 +22,7 @@ require_once (dirname(__DIR__,2). "/lib/uuid.php");
  *@author whatsForLunch capstone
  */
 
-class restaurantTest extends whatsForLunchTesting {
+class RestaurantTest extends whatsForLunchTesting {
 	/**
 	 * address for this restaurant
 	 * @var string $VALID_RESTAURANTADDRESS
@@ -133,15 +133,6 @@ class restaurantTest extends whatsForLunchTesting {
 		$pdoRestaurant = restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
 		$this->assertNull($pdoRestaurant);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("restaurant"));
-	}
-
-	/**
-	 * Test grabbing a restaurant that does not exist
-	 */
-	public function testGetInvalidRestaurantByRestaurantId(): void {
-		// grab a restaurant id that exceeds the maximum allowable restaurant id
-		$restaurant = restaurant::getRestaurantByRestaurantId($this->getPDO(), generateUuidV4());
-		$this->assertNull($restaurant);
 	}
 
 	/**
