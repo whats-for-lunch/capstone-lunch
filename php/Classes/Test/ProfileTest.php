@@ -31,7 +31,7 @@ class ProfileTest extends WhatsForLunchTest {
 	 * content of the profile email
 	 * @var string $profileEmail
 	 */
-	protected $VALID_PROFILE_EMAIL = "PHPUnit test passing";
+	protected $VALID_PROFILE_EMAIL = "someone@something.com";
 	/**
 	 * content of the profile first name; this starts as null and is assigned later
 	 * @var string $profileFirstName
@@ -148,7 +148,7 @@ class ProfileTest extends WhatsForLunchTest {
 
 	/**
 	 * test grabbing a Profile by profile last name
-	 */
+
 	public function testGetValidProfileByProfileLastName() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -177,6 +177,7 @@ class ProfileTest extends WhatsForLunchTest {
 		$this->assertEquals($pdoProfile->getProfileLastName(), $this->VALID_PROFILE_LAST_NAME);
 		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_PROFILE_HASH);
 	}
+	 */
 
 	/**
 	 * test grabbing the Profile by profile email
@@ -192,14 +193,11 @@ class ProfileTest extends WhatsForLunchTest {
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfileEmail($this->getPDO(), $this->VALID_PROFILE_EMAIL);
+		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(), $this->VALID_PROFILE_EMAIL);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 
-		//enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("whatsForLunch\\capstoneLunch\\Profile", $results);
 
 		//grab the result from the array and validate it
-		$pdoProfile = $results[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILE_ACTIVATION_TOKEN);

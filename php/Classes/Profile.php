@@ -2,7 +2,7 @@
 namespace WhatsForLunch\CapstoneLunch;
 
 require_once ("autoload.php");
-require_once (dirname(__DIR__) .  "/classes/autoload.php");
+require_once (dirname(__DIR__) .  "/Classes/autoload.php");
 
 use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -261,8 +261,8 @@ class Profile implements \JsonSerializable {
 					values(:profileId, :profileActivationToken, :profileEmail, :profileFirstName, :profileLastName, :profileHash)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken->getBytes(), "profileEmail" => $this->profileEmail->getBytes(),
-			"profileFirstName" => $this->profileFirstName->getBytes(), "profileLastName" => $this->profileLastName->getBytes(), "profileHash" => $this->profileHash->getBytes()];
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileEmail" => $this->profileEmail,
+			"profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileHash" => $this->profileHash];
 		$statement->execute($parameters);
 	}
 
@@ -289,10 +289,12 @@ class Profile implements \JsonSerializable {
 	 */
 	public function update(\PDO $pdo) : void {
 		//create a query template
-		$query = "update profile set profileEmail = :profileEmail, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash";
+		$query = "update profile set profileActivationToken = :profileActivationToken, profileEmail = :profileEmail, 
+		profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash where profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileEmail" => $this->profileEmail,
+			"profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileHash" => $this->profileHash];
 		$statement->execute($parameters);
 	}
 
