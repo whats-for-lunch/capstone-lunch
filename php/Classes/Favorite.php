@@ -136,11 +136,6 @@ class Favorite implements \JsonSerializable
 		$statement->execute($parameters);
 	}
 
-	
-	//TODO getFavoriteByProfileId (done)
-	//TODO getFavoriteByRestaurantId (done)
-	//TODO getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId (done)
-
 	/**
 	 * get favorite by profile id statement
 	 *
