@@ -58,12 +58,13 @@ class FavoriteTest extends WhatsForLunch {
 
 		//create and insert a Profile to the test Favorite
 		$profileId = generateUuidV4();
-		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN,"test@test.com")
+		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN,"test@test.com","Herbert",
+			"McGroober", $this->VALID_PROFILE_HASH);
 			$this->profile->insert($this->getPDO());
 
 		//create and insert restaurant to test favorite
 		$restaurantId = generateUuidV4();
-		$this->restaurant = new Restaurant($restaurantId, $profileId)
+		$this->restaurant = new Restaurant($restaurantId, "")
 			$this->restaurant->insert($this->getPDO());
 	}
 
