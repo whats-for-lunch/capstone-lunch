@@ -64,7 +64,8 @@ class FavoriteTest extends WhatsForLunch {
 
 		//create and insert restaurant to test favorite
 		$restaurantId = generateUuidV4();
-		$this->restaurant = new Restaurant($restaurantId, "")
+		$this->restaurant = new Restaurant($restaurantId, "200 3rd St NW, Albuquerque, NM 87102",
+			"Friends Coffee & Sandwich Shop", "")
 			$this->restaurant->insert($this->getPDO());
 	}
 
