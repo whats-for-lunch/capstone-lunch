@@ -28,8 +28,8 @@ create table restaurant (
 
 create table picture (
     pictureId binary (16) not null,
-    pictureAlt varchar (64),
     pictureRestaurantId binary (16) not null,
+    pictureAlt varchar (64),
     pictureUrl varchar (255) not null,
     foreign key (pictureRestaurantId) references restaurant(restaurantId),
     primary key (pictureId)
