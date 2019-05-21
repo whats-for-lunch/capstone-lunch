@@ -13,7 +13,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * This is a complete PHPUnit test of the Favorite class. It is complete because *ALL* mySQL/PDO enabled methods are
  * tested for both invalid and valid inputs
  *
- * @see \whatsforlunch\capstoneLunch\Favorite
+ * @see \WhatsForLunch\CapstoneLunch\Favorite
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
