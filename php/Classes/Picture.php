@@ -28,28 +28,27 @@ class Picture implements \JsonSerializable
      * id of picture that sent this from $pictureRestaurantId is a foreign key
      * @var Uuid $pictureRestuarantId
      **/
-    private $pictureAlt;
-    /**
-     * this is a alternate picture for profile
-     * @var Uuid $pictureRestaurantId
-     **/
     private $pictureRestaurantId;
+
     /**
      * this is the profile picture of restaurant
      * @var string $pictureAlt
      */
-    private $pictureUrl;
+    private $pictureAlt;
+
     /**
-     *this is the web based photo for yelp
-     * @var string $restuarantId
+     * $pictureUrl to select different url from yelp
+     * @var string $pictureUrl
      */
+    private $pictureUrl;
+
 
     /**
      * picture constructor.
      *
      * @param string|Uuid $newPictureId of this restaurant or null if a new restaurant
-     * @param string $newPictureAlt profile picture of restaurant
      * @param string|Uuid string $newPictureRestaurantId id of the profile for the picture restaurant
+     * @param string $newPictureAlt profile picture of restaurant
      * @param string $newPictureUrl string for restaurant image url
      * @throws \InvalidArgumentException if data types are not valid
      * @throws \RangeException if data values are out of bounds (e.g., strings to long, negative integers)
@@ -57,12 +56,12 @@ class Picture implements \JsonSerializable
      * @throws \Exception if some other exception occurs
      * @Docutmentation https://php.net/manual/en/language.oop5.php
      **/
-    public function __construct($newPictureId, string $newPictureAlt, $newPictureRestaurantId, string $newPictureUrl)
+    public function __construct($newPictureId, $newPictureRestaurantId, string $newPictureAlt, string $newPictureUrl)
     {
         try {
             $this->setPictureId($newPictureId);
-            $this->setPictureAlt($newPictureAlt);
             $this->setPictureRestaurantId($newPictureRestaurantId);
+            $this->setPictureAlt($newPictureAlt);
             $this->setPictureUrl($newPictureUrl);
         } // determined what exception type was thrown
         catch
@@ -70,43 +69,6 @@ class Picture implements \JsonSerializable
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
         }
-    }
-
-
-    /**
-     * accessor method for picture profile id
-     *
-     * @return Uuid value of picture profile id
-     */
-    public function getPictureAlt(): string
-    {
-        return ($this->pictureAlt);
-    }
-
-    /** mutator method for picture alternate
-     *
-     * @param string $newPictureAlt new value of picture alternate
-     * @throws \InvalidArgumentException if $newPictureAlt is not a string or insecure
-     * @throws \RangeException if $newPictureAlt is > 10 picture
-     * @throws \TypeError if $newPictureAlt is not a string
-     */
-
-    public function setPictureAlt(string $newPictureAlt): void
-    {
-        // verify the picture alternate is secure
-        $newPictureALt = trim($newPictureAlt);
-        $newPictureALt = filter_var($newPictureALt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newPictureALt) === true) {
-            throw(new\InvalidArgumentException("If alternate picture is insecure."));
-        }
-
-        //verify the picture alternate will fit in the database
-        if (strlen($newPictureALt) > 10) {
-            throw(new\RangeException("picture can't be more than one"));
-        }
-
-        //store picture alternate
-        $this->pictureAlt = $newPictureALt;
     }
     /**
      *accessor method for picture id
@@ -135,6 +97,7 @@ class Picture implements \JsonSerializable
         $this->pictureId = $uuid;
     }
 
+
     /**
      * accessor method for picture content
      *
@@ -161,6 +124,43 @@ class Picture implements \JsonSerializable
         }
         //convert and store the picture id
         $this->pictureRestaurantId = $uuid;
+    }
+
+    /**
+     * accessor method for picture profile id
+     *
+     * @return Uuid value of picture profile id
+     */
+    public function getPictureAlt(): string
+    {
+        return ($this->pictureAlt);
+    }
+
+
+    /** mutator method for picture alternate
+     *
+     * @param string $newPictureAlt new value of picture alternate
+     * @throws \InvalidArgumentException if $newPictureAlt is not a string or insecure
+     * @throws \RangeException if $newPictureAlt is > 10 picture
+     * @throws \TypeError if $newPictureAlt is not a string
+     */
+
+    public function setPictureAlt(string $newPictureAlt): void
+    {
+        // verify the picture alternate is secure
+        $newPictureALt = trim($newPictureAlt);
+        $newPictureALt = filter_var($newPictureALt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newPictureALt) === true) {
+            throw(new\InvalidArgumentException("If alternate picture is insecure."));
+        }
+
+        //verify the picture alternate will fit in the database
+        if (strlen($newPictureALt) > 10) {
+            throw(new\RangeException("picture can't be more than one"));
+        }
+
+        //store picture alternate
+        $this->pictureAlt = $newPictureALt;
     }
 
 
@@ -202,9 +202,9 @@ class Picture implements \JsonSerializable
      * @throws \TypeError if $pdo is not a PDO connection object
      */
     public function insert(\PDO $pdo): void
-    {//todo fix insert into
+    {
         //making a query template
-        $query = "INSERT INTO picture(pictureId, pictureAlt, pictureRestaurantId, pictureUrl) VALUES (:pictureId, :pictureAlt, :pictureRestaurantId, :pictureUrl)";
+        $query = "INSERT INTO picture(pictureId, pictureRestaurantId, pictureAlt,  pictureUrl) VALUES (:pictureId, :pictureRestaurantId, :pictureAlt, :pictureUrl)";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
@@ -221,7 +221,6 @@ class Picture implements \JsonSerializable
 
     public function delete(\PDO $pdo): void
     {
-//todo variables throwing error
         //create query template
         $query = "DELETE from picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
@@ -239,12 +238,11 @@ class Picture implements \JsonSerializable
      **/
     public function update(\PDO $pdo) : void
     {
-        //todo figure this stuff out
         //create query template
-        $query = "UPDATE picture SET pictureId = :pictureId, pictureAlt = :pictureAlt, pictureRestaurantId = :pictureRestaurantId, pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $query = "UPDATE picture SET pictureRestaurantId = :pictureRestaurantId, pictureAlt = :pictureAlt,  pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
-        $parameters = ["pictureId" => $this->pictureId->getBytes(),"pictureAlt" => $this->pictureAlt, "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureUrl" => $this->pictureUrl];
+        $parameters = ["pictureId" => $this->pictureId->getBytes(), "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureAlt" => $this->pictureAlt,  "pictureUrl" => $this->pictureUrl];
         $statement->execute($parameters);
     }
 
@@ -266,7 +264,7 @@ class Picture implements \JsonSerializable
         }
 
         //create query template
-        $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureId = :pictureId";
+        $query = "SELECT pictureRestaurantId, pictureAlt,  pictureUrl FROM picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         //bind the picture id to the place holder in the template
@@ -278,7 +276,7 @@ class Picture implements \JsonSerializable
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !== false) {
-                $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+                $picture = new Picture($row["pictureId"], $row["pictureRestaurantId"],$row["pictureAlt"],  $row["pictureUrl"]);
             }
         } catch (\Exception $exception) {
             // if the row couldn't be converted, rethrow it
@@ -306,7 +304,7 @@ class Picture implements \JsonSerializable
         }
 
         // create query template
-        $query = "SELECT pictureId, pictureAlt, pictureRestaurantId, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
+        $query = "SELECT pictureId, pictureAlt, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
         $statement = $pdo->prepare($query);
 
         // bind the picture Restaurant Id to the place holder in the template
@@ -318,7 +316,7 @@ class Picture implements \JsonSerializable
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
         while (($row = $statement->fetch()) !== false) {
             try {
-                $picture = new Picture($row["pictureId"], $row["pictureAlt"], $row["pictureRestaurantId"], $row["pictureUrl"]);
+                $picture = new Picture($row["pictureId"], $row["pictureRestaurantId"], $row["pictureAlt"],  $row["pictureUrl"]);
                 $pictures[$pictures->key()] = $picture;
                 $pictures->next();
             } catch (\Exception $exception) {

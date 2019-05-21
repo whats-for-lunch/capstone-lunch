@@ -127,5 +127,5 @@ $picture->insert($this->getPDO());
         $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId();
         $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_URL);
-        
+
 }//last line
