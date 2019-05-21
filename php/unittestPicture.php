@@ -1,7 +1,7 @@
 <?php
-namespace whatsforlunch\capstonelunch;
+namespace WhatsForLunch\CapstoneLunch;
 
-use whatsforlunch\capstoneLunch\{Picture};
+use WhatsForLunch\CapstoneLunch\{Profile, Picture};
 
 // grab the class under scrutiny
 require_once (dirname(__DIR__) . "/autoload.php");
@@ -10,7 +10,7 @@ require_once (dirname(__DIR__) . "/autoload.php");
 require_once (dirname_(__DIR__, 2) . "/uuid.php");
 
 /**
- *Full PHPUnit tewst for the Picture class
+ *Full PHPUnit test for the Picture class
  *
  *This is a complete PHPUnit test of the Picture class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs
@@ -108,10 +108,9 @@ class PictureTest extends DataDesignTest {
 
         //grab the data from mySQL and enforce the fields match out expectations
         $pdoPicture =Picture::getPictureByPictureId($this->getPDO(), $picture->getPictureid());
-        $this->>assertEquals($pdoPicture->getPictureId(), $pictureId);
+        $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
-        $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId());
-        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREURL);
+        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
         $this->asserEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
     }
 /**
