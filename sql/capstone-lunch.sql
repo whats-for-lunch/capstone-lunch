@@ -21,7 +21,7 @@ create table restaurant (
     restaurantLat decimal (9 ,6) not null,
     restaurantLng decimal (9,6) not null,
     restaurantPrice varchar (6) not null,
-    restaurantReviewRating decimal (2,2) not null,
+    restaurantReviewRating decimal (2,1) not null,
     restaurantThumbnail varchar (255) not null,
     primary key (restaurantId)
 );
