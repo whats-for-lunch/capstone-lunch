@@ -43,12 +43,12 @@ class Restaurant implements \jsonSerializable {
 	private $restaurantLng;
 	/**
 	 * price of or range of price at restaurant
-	 * @var float $restaurantPrice
+	 * @var string $restaurantPrice
 	 */
 	private $restaurantPrice;
 	/**
 	 * review rating for restaurant
-	 * @var string $restaurantReviewRating
+	 * @var float $restaurantReviewRating
 	 */
 	private $restaurantReviewRating;
 	/**
@@ -67,14 +67,14 @@ class Restaurant implements \jsonSerializable {
 	 * @param float $newRestaurantLng new longitude
 	 * @param float $newRestaurantLat new latitude
 	 * @param string $newRestaurantPrice new price
-	 * @param string $newRestaurantReviewRating new review rating
+	 * @param float $newRestaurantReviewRating new review rating
 	 * @param string $newRestaurantThumbnail new exist
 	 * @throws \InvalidArgumentException data types are not valid
 	 * @throws \RangeException if data values entered are too long
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate hints
 	 **/
-	public function __construct($newRestaurantId, $newRestaurantAddress, $newRestaurantName, float $newRestaurantLat, float $newRestaurantLng, string $newRestaurantPrice, string $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
+	public function __construct($newRestaurantId, $newRestaurantAddress, $newRestaurantName, float $newRestaurantLat, float $newRestaurantLng, string $newRestaurantPrice, float $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
 		try {
 			$this->setRestaurantId($newRestaurantId);
 			$this->setRestaurantAddress($newRestaurantAddress);
@@ -268,20 +268,20 @@ class Restaurant implements \jsonSerializable {
 	/**
 	 * accessor method for restaurant review rating
 	 *
-	 * @return int value of review rating
+	 * @return float value of review rating
 	 **/
-	public function getRestaurantReviewRating(): int {
+	public function getRestaurantReviewRating(): float {
 		return ($this->restaurantReviewRating);
 	}
 
 	/**
 	 * mutator method for restaurant review rating
 	 *
-	 * @param int $newRestaurantReviewRating new value of rating
-	 * @throws \InvalidArgumentException if $newRestaurantReviewRating is not a string or insecure
+	 * @param float $newRestaurantReviewRating new value of rating
+	 * @throws \InvalidArgumentException if $newRestaurantReviewRating is not a float or insecure
 	 * @throws \RangeException if $newRestaurantReviewRating is not positive
 	 **/
-	public Function setRestaurantReviewRating(int $newRestaurantReviewRating): void {
+	public Function setRestaurantReviewRating(float $newRestaurantReviewRating): void {
 		// if new restaurant rating is less than min or greater than max throw range exception
 		if($newRestaurantReviewRating < 0 || $newRestaurantReviewRating > 5) {
 			throw(new \RangeException("no rating yet"));
@@ -316,6 +316,7 @@ class Restaurant implements \jsonSerializable {
 		if(strlen($newRestaurantThumbnail) > 128) {
 			throw (new \RangeException("too long"));
 		}
+
 		// store the restaurant name
 		$this->restaurantThumbnail = $newRestaurantThumbnail;
 	}
@@ -345,10 +346,12 @@ class Restaurant implements \jsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
+
 	public function delete(\PDO $pdo): void {
 		// create query template
 		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
+
 		// bind the member variables to the placeholder in the template
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes()];
 		$statement->execute($parameters);
@@ -362,6 +365,7 @@ class Restaurant implements \jsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo): void {
+
 		//create query template
 		$query = "UPDATE restaurant SET restaurantId = :restaurantId, restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviwRating, restaurantThumbnail = :restaurantThumbnail WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
