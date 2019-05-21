@@ -1,21 +1,23 @@
 <?php
-namespace whatsForLunch\capstoneLunch;
+
+namespace WhatsForLunch\CapstoneLunch;
+
 require_once ("autoload.php");
 require_once (dirname(__DIR__) . "/vendor/autoload.php");
+
 use Ramsey\Uuid\Uuid;
 
 /**
  * create a class for restaurant in project 'What's for lunch?'
  *
  */
-
-class Restaurant implements\jsonserialization{
-	use validateUuid;
+class Restaurant implements \jsonSerializable {
+	use ValidateUuid;
 	use ValidateDate;
 
 	/**
 	 * Id and P.K for restaurant
-	 * @var uuid|string $restaurantId
+	 * @var Uuid $restaurantId
 	 */
 	//declare properties
 	private $restaurantId;
@@ -41,12 +43,12 @@ class Restaurant implements\jsonserialization{
 	private $restaurantLng;
 	/**
 	 * price of or range of price at restaurant
-	 * @var float $restaurantPrice
+	 * @var string $restaurantPrice
 	 */
 	private $restaurantPrice;
 	/**
 	 * review rating for restaurant
-	 * @var string $restaurantReviewRating
+	 * @var float $restaurantReviewRating
 	 */
 	private $restaurantReviewRating;
 	/**
@@ -59,20 +61,20 @@ class Restaurant implements\jsonserialization{
 	/**
 	 * constructor for restaurant
 	 *
-	 * @param Uuid | $newRestaurantId id of restaurant
+	 * @param Uuid $newRestaurantId id of restaurant
 	 * @param string $newRestaurantAddress new address exists
 	 * @param string $newRestaurantName new or null if exists
 	 * @param float $newRestaurantLng new longitude
 	 * @param float $newRestaurantLat new latitude
 	 * @param string $newRestaurantPrice new price
-	 * @param string $newRestaurantReviewRating new review rating
+	 * @param float $newRestaurantReviewRating new review rating
 	 * @param string $newRestaurantThumbnail new exist
 	 * @throws \InvalidArgumentException data types are not valid
 	 * @throws \RangeException if data values entered are too long
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate hints
 	 **/
-	public function __construct($newRestaurantId, $newRestaurantAddress, $newRestaurantName, float $newRestaurantLat, float $newRestaurantLng, string $newRestaurantPrice, string $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
+	public function __construct($newRestaurantId, $newRestaurantAddress, $newRestaurantName, float $newRestaurantLat, float $newRestaurantLng, string $newRestaurantPrice, float $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
 		try {
 			$this->setRestaurantId($newRestaurantId);
 			$this->setRestaurantAddress($newRestaurantAddress);
@@ -173,7 +175,7 @@ class Restaurant implements\jsonserialization{
 			throw (new \RangeException("Name is too long"));
 		}
 		// store the restaurant name
-		$this->restauranName = $newRestaurantName;
+		$this->restaurantName = $newRestaurantName;
 	}
 
 	/**
@@ -260,26 +262,26 @@ class Restaurant implements\jsonserialization{
 			throw (new \RangeException("need a price"));
 		}
 		//store restaurant price
-		$this->$this->restaurantPrice = $newRestaurantPrice;
+		$this->restaurantPrice = $newRestaurantPrice;
 	}
 
 	/**
 	 * accessor method for restaurant review rating
 	 *
-	 * @return int value of review rating
+	 * @return float value of review rating
 	 **/
-	public function getRestaurantReviewRating(): int {
+	public function getRestaurantReviewRating(): float {
 		return ($this->restaurantReviewRating);
 	}
 
 	/**
 	 * mutator method for restaurant review rating
 	 *
-	 * @param int $newRestaurantReviewRating new value of rating
-	 * @throws \InvalidArgumentException if $newRestaurantReviewRating is not a string or insecure
+	 * @param float $newRestaurantReviewRating new value of rating
+	 * @throws \InvalidArgumentException if $newRestaurantReviewRating is not a float or insecure
 	 * @throws \RangeException if $newRestaurantReviewRating is not positive
 	 **/
-	public Function setRestaurantReviewRating(int $newRestaurantReviewRating): void {
+	public Function setRestaurantReviewRating(float $newRestaurantReviewRating): void {
 		// if new restaurant rating is less than min or greater than max throw range exception
 		if($newRestaurantReviewRating < 0 || $newRestaurantReviewRating > 5) {
 			throw(new \RangeException("no rating yet"));
@@ -314,6 +316,7 @@ class Restaurant implements\jsonserialization{
 		if(strlen($newRestaurantThumbnail) > 128) {
 			throw (new \RangeException("too long"));
 		}
+
 		// store the restaurant name
 		$this->restaurantThumbnail = $newRestaurantThumbnail;
 	}
@@ -332,7 +335,7 @@ class Restaurant implements\jsonserialization{
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the template
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
 
@@ -343,10 +346,12 @@ class Restaurant implements\jsonserialization{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
+
 	public function delete(\PDO $pdo): void {
 		// create query template
 		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
+
 		// bind the member variables to the placeholder in the template
 		$parameters = ["restaurantId" => $this->restaurantId->getBytes()];
 		$statement->execute($parameters);
@@ -360,10 +365,11 @@ class Restaurant implements\jsonserialization{
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo): void {
+
 		//create query template
 		$query = "UPDATE restaurant SET restaurantId = :restaurantId, restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviwRating, restaurantThumbnail = :restaurantThumbnail WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress->getBytes(), "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating->getBytes(), "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
 
@@ -405,64 +411,37 @@ class Restaurant implements\jsonserialization{
 		}
 		return ($restaurant);
 	}
+
 	/**
-	 * gets the restaurant by Name
+	 * gets all restaurant
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $restaurantName exact name to search for
-	 * @return \SplFixedArray SplFixedArray of restaurants found
+	 * @return \SplFixedArray SplFixedArray of restaurants found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getRestaurantByRestaurantName(\PDO $pdo, string $restaurantName): \SplFixedArray {
-		//sanitize the description before searching
-		$restaurantName = trim($restaurantName);
-		$restaurantName = filter_var($restaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($restaurantName) === true) {
-			throw(new \PDOException("Restaurant Name is invalid"));
-		}
-
-		// escape any mySQL wild cards
-		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
-
-		// create query template
-		$query = "SELECT restaurantId, restaurantAdress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantName LIKE :restaurantName";
+	public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
+		//create query template
+		$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
 		$statement = $pdo->prepare($query);
-
-		// bind the restaurant Name to the placeholder in the template
-		$restaurantName = "%$restaurantName%";
-		$parameters = ["restaurantName" => $restaurantName];
-		$statement->execute($parameters);
-	}
-		/**
-		 * gets all restaurant
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @return \SplFixedArray SplFixedArray of restaurants found or null if not found
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError when variables are not the correct data type
-		 **/
-		public static function getAllrestaurants(\PDO $pdo): \SPLFixedArray {
-			//create query template
-			$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, restaurantReviewRating, restaurantThumbnail FROM restaurant";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
+		$statement->execute();
 
 		//build array of restaurants
 		$restaurant = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
-		try {
-		$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
-		$restaurant[$restaurant->key()] = $restaurant;
-		$restaurant->next();
-		} catch(\Exception $exception) {
-		//if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+			try {
+				$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+				$restaurant[$restaurant->key()] = $restaurant;
+				$restaurant->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
-	}
 		return ($restaurant);
 	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *

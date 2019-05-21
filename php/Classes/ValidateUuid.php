@@ -1,6 +1,6 @@
 <?php
-namespace whatsforlunch\capstonelunch;
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+namespace WhatsForLunch\CapstoneLunch;
+require_once(dirname(__DIR__, 1) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
  * Trait to validate a uuid
