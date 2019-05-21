@@ -1,6 +1,6 @@
 <?php
 
-namespace whatsforlunch\capstoneLunch;
+namespace WhatsForLunch\CapstoneLunch;
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/vendor/autoload.php");
@@ -111,7 +111,7 @@ class Favorite implements \JsonSerializable
 	 */
 	public function insert(\PDO $pdo) : void {
 		// create a query template
-		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, favoriteRestaurantId)";
+		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, :favoriteRestaurantId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -128,7 +128,7 @@ class Favorite implements \JsonSerializable
 	 */
 	public function delete(\PDO $pdo) : void {
 		//create a query template
-		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId";
+		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
 		$statement = $pdo->prepare($query);
 
 		//Bind the member variables to the place holders in the template
