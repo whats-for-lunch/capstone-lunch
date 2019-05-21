@@ -1,5 +1,5 @@
 drop table if exists favorite;
-drop table if exists pictures;
+drop table if exists picture;
 drop table if exists restaurant;
 drop table if exists profile;
 
