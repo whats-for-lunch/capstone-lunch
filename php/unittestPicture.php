@@ -30,10 +30,102 @@ class PictureTest extends DataDesignTest {
      * valid profile has to create the profile object to own the test
      * @var $VALID_PICTUREALT
      */
-    protected $VALID_PICTUREALT = "PHPUnit test passing";
+    protected $VALID_ALT = "PHPUnit test passing";
+
     /**
-     * content of the picture
-     * @var string $VALID_PICTUREALT
+     * pictureRestaurantId
+     * @var string $VALID_PICTURERESTAURANTID
      */
-    protected $VALID_PICTUREALT = "PHPUnit test still passing";
+    protected $VALID_RESTAURANTID= "PHPUnit test still passing";
+    /**
+     * $pictureUrl validation
+     * @var string $VALID_URL
+     */
+    protected $VALID_URL = "PHPUnit test still passing";
+
+    public function testUpdateValidPicture() : void {
+        // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("picture");
+
+    //create a new Picture and insert to into mySQL
+        $picture->setPictureAlt($this->VALID_ALT);
+        $picture->update($this->getPDO());
+
+        //grab the data from mySQL and enforce the fields match out expectations
+        $pdoPicture =Picture::getPictureByPictureId($this->getPDO(), $picture->getPictureid());
+        $this->>assertEquals($pdoPicture->getPictureId(), $pictureId);
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
+        $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId());
+        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_URL);
+    }
+/**
+ * test creating a Picture and then deleting it
+ */
+
+public function testDeleteValidPicture() : void {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("picture");
+
+    //create a new Picture and insert to into mySQL
+    $pictureId = generateUuidV4();
+    $picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_ALT, $this->VALID_URL);
+    $picture->insert($this->getPDO());
+
+    // delete the Picture from mySQL
+    $this->assEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
+    $picture->delete($this->getPDO());
+
+    //grab the data from mySQL and enforce the Picture does not exist
+    $pdoPicture = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture-getPictureId());
+    $this->assertNull($pdoPicture);
+    $this->assertEqulas($numRows, $this->getConnection()->getRowCount("picture"));
+}
+/**
+ * test inserting a Picture and regrabbing it form mySQL
+ */
+public function testGetValidPicturebyPictureRestaurantId () {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("picture");
+
+    //create a new Picture and insert to into mySQL
+$pictureId = generateUuidV4();
+$picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_ALT, $this->VALID_URL);
+$picture->insert($this->getPDO());
+
+//grab the data from mySQL and enforce the fields match our expectations
+    $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureId());
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture");
+    $this->assertCount(1, $results);
+    $this->assertContainsOnlyInstancesOf("whatsforlunch\\capstoneLunch\\Picture", $results);
+
+    // grab the results from the array and validate it
+    $pdoPicture = $results[0];
+
+    $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
+    $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId());
+    $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_URL);
+
+    public function testGetValidPicturebyPictureAlt () : void {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("picture");
+
+        //create a new Picture and insert to into mySQL
+        $pictureId = generageUuidV4();
+        $picture = new Picture($pictureId, $this->profile->getProfileId(), $VALID_ALT, $this->VALID_URL);
+        $picture->insert($this->getPDO());
+
+        //grab the data from mySQL and enforce the fields match our expectations
+        $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureAlt());
+       $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
+       $this->assertCount(1, $results);
+
+       // enforce no other objects are bleeding into the test
+        $this->assertContainsOnlyInstanceof("whatsforlunch\capstoneLunch\Picture", $results);
+
+        //grab the results from the array and validate it
+        $pdoPicture = $resluts[0];
+        $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
+        $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId();
+        $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_URL);
+        
 }//last line
