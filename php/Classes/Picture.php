@@ -190,7 +190,7 @@ class Picture implements \JsonSerializable
         if (empty($newPictureUrl) === true) {
             throw(new \RangeException("Picture URL is empty or insecure"));
         }
-        if (strlen($newPictureUrl) > 255) {
+        if (strlen($newPictureUrl) < 255) {
             throw(new \RangeException("Picture URL is too large"));
         }
         $this->pictureUrl = $newPictureUrl;
