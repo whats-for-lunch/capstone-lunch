@@ -1,6 +1,6 @@
 <?php
-namespace whatsforlunch\capstoneLunch;
-use whatsforlunch\capstoneLunch\Favorite;
+namespace WhatsForLunch\CapstoneLunch;
+use WhatsForLunch\CapstoneLunch\Favorite;
 require_once("");
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
@@ -17,7 +17,6 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-//TODO check to see if I have everything needed for the FavoriteTest class
 
 class FavoriteTest extends WhatsForLunch {
 
@@ -48,7 +47,6 @@ class FavoriteTest extends WhatsForLunch {
 	/**
 	 * create dependent objects before running each test
 	 */
-	//TODO for each insert on this statement add variables for profile and restaurant attributes - ref: profiletest
 	public final function setUp() : void {
 		//run the default setUp() method first
 		parent::setUp();
@@ -73,13 +71,12 @@ class FavoriteTest extends WhatsForLunch {
 	/**
 	 * test inserting a valid favorite and verify that the actual mySQL data matches
 	 */
-	//TODO check to see if create new favorite and insert into mySQL is correct in all functions - little red mark next to them
 	public function testInsertValidFavorite() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
 		//create a new favorite and insert into mySQL
-		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
 			$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -94,11 +91,11 @@ class FavoriteTest extends WhatsForLunch {
 	 * test creating a favorite and then deleting
 	 */
 	public function testDeleteValidFavorite() : void {
-		//cound the number of rows and save it for later
+		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
 		//create a new favorite and insert into mySQL
-		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
 			$favorite->insert($this->getPDO());
 
 		//delete the favorite from mySQL
@@ -119,7 +116,7 @@ class FavoriteTest extends WhatsForLunch {
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
 		//create new favorite and insert into mySQL
-		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
 			$favorite->insert($this->getPDO());
 
 		//grab data from mySQL and enforce the fields match our expectations
@@ -142,14 +139,14 @@ class FavoriteTest extends WhatsForLunch {
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
 		//create new favorite and insert into mySQL
-		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId())
+		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
 			$favorite->insert($this->getPDO());
 
 		//grab data from mySQL and enforce the fields match our expectations
 		$results = Favorite::getFavoriteByFavoriteRestaurantId($this->getPDO(), $favorite->getFavoriteRestaurantId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("whatsforlunch\\capstoneLunch\\Favorite", $results);
+		$this->assertContainsOnlyInstancesOf("WhatsForLunch\\CapstoneLunch\\Favorite", $results);
 
 		//grab the result from the array and validate it
 		$pdoFavorite = $results[0];
