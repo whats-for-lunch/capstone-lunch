@@ -1,8 +1,6 @@
 <?php
 
 namespace WhatsForLunch\CapstoneLunch\Test;
-
-
 use WhatsForLunch\CapstoneLunch\Restaurant;
 
 require_once("WhatsForLunchTest.php");
@@ -55,7 +53,7 @@ class RestaurantTest extends WhatsForLunchTest {
 	 * Review of restaurant from yelps DB
 	 * @var float $VALID_RESTAURANTREVIEWRATING
 	 */
-	protected $VALID_RESTAURANTREVIEWRATING = "4.5";
+	protected $VALID_RESTAURANTREVIEWRATING = 4.51;
 	/**
 	 * Thumbnail for restaurant
 	 * @var string $VALID_RESTAURANTTHUMBNAIL
@@ -71,13 +69,12 @@ class RestaurantTest extends WhatsForLunchTest {
 
 		// create a new restaurant and insert into mySQL
 		$restaurantId = generateUuidv4();
-		$restaurant = new restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant = new Restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAUTANTLNG, $this->VALID_RESTAURTANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match
-		$pdoRestaurant = Restaurant::getrestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+		$pdoRestaurant = Restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-
 		$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
 		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
 		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);

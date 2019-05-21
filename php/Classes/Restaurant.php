@@ -1,8 +1,9 @@
 <?php
 
-namespace whatsForLunch\capstoneLunch;
-require_once("autoload.php");
-require_once(dirname(__DIR__) . "/vendor/autoload.php");
+namespace WhatsForLunch\CapstoneLunch;
+
+require_once ("autoload.php");
+require_once (dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
@@ -11,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  *
  */
 class Restaurant implements \jsonSerializable {
-	use validateUuid;
+	use ValidateUuid;
 	use ValidateDate;
 
 	/**
