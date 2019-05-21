@@ -19,10 +19,11 @@ require_once (dirname_(__DIR__, 2) . "/uuid.php");
  * @author Jesus Silva <thebestJesse76@gmail.com>
  **/
 
-class PictureTest extends DataDesignTest {
+class PictureTest extends DataDesignTest
+{
     /**
      *Profile that created the picture; this is for foreign key relations
-     *@var Profile profile
+     * @var Profile profile
      **/
     protected $profile = null;
 
@@ -30,25 +31,69 @@ class PictureTest extends DataDesignTest {
      * valid profile has to create the profile object to own the test
      * @var $VALID_PICTUREALT
      */
-    protected $VALID_ALT = "PHPUnit test passing";
+    protected $VALID_PICTUREALT = "PHPUnit test passing";
 
     /**
      * pictureRestaurantId
      * @var string $VALID_PICTURERESTAURANTID
      */
-    protected $VALID_RESTAURANTID= "PHPUnit test still passing";
+    protected $VALID_RESTAURANTID = "PHPUnit test still passing";
     /**
      * $pictureUrl validation
      * @var string $VALID_URL
      */
-    protected $VALID_URL = "PHPUnit test still passing";
+    protected $VALID_PICTUREURL = "PHPUnit test still passing";
+}
+
+
+/**
+ * Class
+ * create dependent objects before running each test
+ * @package whatsforlunch\capstonelunch
+ */
+    public final function setUp () : void {
+    // run the default setUp () method first
+        parent::setUP();
+    $password = "abc123";
+    $this->VALID_PROFILE_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" =>384]);
+
+    // create and insert Profile to own the test Picture
+        $this->profile = new Profile(generateUuidV4(), null, "@handle", "https://media.giphy.com/media/3og0INyCmH1Nylks90/giphy.gif", "test@phpunit.de", $this->VALID_PROFILE_HASH, "+12125551212");
+        $this->profile->insert($this->getPDO());
+    }
+
+    /**
+ * test inserting a valid Picture and verify that the actual mySQL data matches
+ * @throws \Exception
+ */
+    public function testInsertValidPicture () : void {
+    //count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("picture");
+
+    //create a new Picture and insert to into mySQL
+    $pictureId = generateUuidV4();
+    $picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_PICTUREALT, $this->VALID_PICTUREURL);
+    $picture->insert($this->getPDO());
+
+    //grab the data from mySQL and enforce the fields match our expectations
+    $pdoPicture = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureId());
+    $this->assertEquals($numRows + 1 $this->getConnection()->getRowCount("picture"));
+    $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
+    $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId());
+    $this->assertEquals($pdoPicture->getPictureAlt(),$this->VALID_PICTUREALT);
+    $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
+}
+    }
+/**
+ * test inserting a Picture, editing it, and then updating it
+ */
 
     public function testUpdateValidPicture() : void {
         // count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("picture");
 
     //create a new Picture and insert to into mySQL
-        $picture->setPictureAlt($this->VALID_ALT);
+        $picture->setPictureAlt($this->VALID_PICTUREALT);
         $picture->update($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match out expectations
@@ -56,10 +101,11 @@ class PictureTest extends DataDesignTest {
         $this->>assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
         $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId());
-        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_URL);
+        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREURL);
     }
 /**
  * test creating a Picture and then deleting it
+ * @throws \Exception
  */
 
 public function testDeleteValidPicture() : void {
@@ -68,7 +114,7 @@ public function testDeleteValidPicture() : void {
 
     //create a new Picture and insert to into mySQL
     $pictureId = generateUuidV4();
-    $picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_ALT, $this->VALID_URL);
+    $picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_PICTUREALT, $this->VALID_PICTUREURL);
     $picture->insert($this->getPDO());
 
     // delete the Picture from mySQL
@@ -76,7 +122,7 @@ public function testDeleteValidPicture() : void {
     $picture->delete($this->getPDO());
 
     //grab the data from mySQL and enforce the Picture does not exist
-    $pdoPicture = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture-getPictureId());
+    $pdoPicture = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureId());
     $this->assertNull($pdoPicture);
     $this->assertEqulas($numRows, $this->getConnection()->getRowCount("picture"));
 }
@@ -89,7 +135,7 @@ public function testGetValidPicturebyPictureRestaurantId () {
 
     //create a new Picture and insert to into mySQL
 $pictureId = generateUuidV4();
-$picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_ALT, $this->VALID_URL);
+$picture = new Picture($pictureId, $this->profile->getProfileId(), $this->VALID_PICTUREALT, $this->VALID_PICTUREURL);
 $picture->insert($this->getPDO());
 
 //grab the data from mySQL and enforce the fields match our expectations
@@ -111,7 +157,7 @@ $picture->insert($this->getPDO());
 
         //create a new Picture and insert to into mySQL
         $pictureId = generageUuidV4();
-        $picture = new Picture($pictureId, $this->profile->getProfileId(), $VALID_ALT, $this->VALID_URL);
+        $picture = new Picture($pictureId, $this->profile->getProfileId(), $VALID_ALT, $this->VALID_PICTUREURL);
         $picture->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
@@ -126,6 +172,6 @@ $picture->insert($this->getPDO());
         $pdoPicture = $resluts[0];
         $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->profile->getProfileId();
-        $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_URL);
+        $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_PICTUREURL);
 
 }//last line

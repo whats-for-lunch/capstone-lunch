@@ -15,10 +15,10 @@ use Ramsey\Uuid\Uuid;
  * @author Jesse, Jamie, Jeff, <thebestjesse76@gmail.com>
  * @version 3.0.0
  **/
-class Picture implements \JsonSerializable
-{
-    use ValidateDate;
+class Picture implements \JsonSerializable {
+
     use ValidateUuid;
+
     /**
      *id for this picture; this is the primary key
      * @var Uuid $pictureId
