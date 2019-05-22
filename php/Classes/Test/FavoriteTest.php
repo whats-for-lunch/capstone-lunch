@@ -1,7 +1,8 @@
 <?php
-namespace WhatsForLunch\CapstoneLunch;
-use WhatsForLunch\CapstoneLunch\Favorite;
-require_once("");
+namespace WhatsForLunch\CapstoneLunch\Test;
+
+use WhatsForLunch\CapstoneLunch\{Favorite, Profile, Restaurant};
+
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 // grab the class under scrutiny
@@ -18,7 +19,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
  */
 
 
-class FavoriteTest extends WhatsForLunch {
+class FavoriteTest extends WhatsForLunchTest {
 
 	/**
 	 * Profile that created the Favorite; this is for foreign key relations
