@@ -54,8 +54,8 @@ class Profile implements \JsonSerializable
 	/**
 	 * Constructor for this profile
 	 *
-	 * @param Uuid| string $newProfileId value for new profileId
-	 * @param string $newProfileActivationToken
+	 * @param Uuid|string $newProfileId value for new profileId
+	 * @param string|null $newProfileActivationToken
 	 * @param string $newProfileEmail
 	 * @param string $newProfileFirstName
 	 * @param string $newProfileLastName
@@ -66,7 +66,7 @@ class Profile implements \JsonSerializable
 	 * @throws \Exception
 	 */
 
-	public function __construct(string $newProfileId, string $newProfileActivationToken, string $newProfileEmail,
+	public function __construct(string $newProfileId, ?string $newProfileActivationToken, string $newProfileEmail,
 										 string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -110,21 +110,21 @@ class Profile implements \JsonSerializable
 
 	/**
 	 * accessor method for profile activation token
-	 * @return string value of the activation token
+	 * @return string|null value of the activation token
 	 */
-	public function getProfileActivationToken(): string {
+	public function getProfileActivationToken(): ?string {
 		return ($this->profileActivationToken);
 	}
 
 	/**
 	 * mutator method for profile activation token
 	 *
-	 * @param string $newProfileActivationToken
+	 * @param string|null $newProfileActivationToken
 	 * @throws \InvalidArgumentException if the token is not a string or is insecure
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setProfileActivationToken(string $newProfileActivationToken): void {
+	public function setProfileActivationToken(?string $newProfileActivationToken): void {
 		if($newProfileActivationToken === null) {
 			$this->profileActivationToken = null;
 			return;
