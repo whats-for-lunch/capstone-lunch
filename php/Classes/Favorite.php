@@ -1,10 +1,8 @@
 <?php
 
-<<<<<<< HEAD
-namespace WhatsForLunch\capstoneLunch;
-=======
+
 namespace WhatsForLunch\CapstoneLunch;
->>>>>>> feature-favorite
+
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/vendor/autoload.php");

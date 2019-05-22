@@ -123,7 +123,7 @@ class FavoriteTest extends WhatsForLunch {
 		$results = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("whatsforlunch\\capstoneLunch\\Favorite", $results);
+		$this->assertContainsOnlyInstancesOf("WhatsForLunch\\CapstoneLunch\\Favorite", $results);
 
 		//grab the result from the array and validate it
 		$pdoFavorite = $results[0];
