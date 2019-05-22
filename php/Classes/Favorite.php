@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 namespace WhatsForLunch\capstoneLunch;
+=======
+namespace WhatsForLunch\CapstoneLunch;
+>>>>>>> feature-favorite
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__) .  "/vendor/autoload.php");
@@ -9,7 +13,11 @@ require_once (dirname(__DIR__) .  "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
+<<<<<<< HEAD
  * Favorite class for the users of the WhatsForLunch application
+=======
+ * Favorite class for the users of the whatsForLunch application
+>>>>>>> feature-favorite
  * This Favorite class describes the attributes that make up the user's favorite list.
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
@@ -20,12 +28,12 @@ class Favorite implements \JsonSerializable
 
 	/**
 	 * foreign key for the profile id
-	 * @var
+	 * @var Uuid|string favoriteProfileId
 	 */
 	private $favoriteProfileId;
 	/**
 	 * foreign key for the restaurant id
-	 * @var
+	 * @var Uuid|string favoriteRestaurantId
 	 */
 	private $favoriteRestaurantId;
 
@@ -111,7 +119,7 @@ class Favorite implements \JsonSerializable
 	 */
 	public function insert(\PDO $pdo) : void {
 		// create a query template
-		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, favoriteRestaurantId)";
+		$query = "insert into favorite(favoriteProfileId, favoriteRestaurantId) values (:favoriteProfileId, :favoriteRestaurantId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -128,7 +136,7 @@ class Favorite implements \JsonSerializable
 	 */
 	public function delete(\PDO $pdo) : void {
 		//create a query template
-		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId";
+		$query = "delete from favorite where favoriteProfileId = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
 		$statement = $pdo->prepare($query);
 
 		//Bind the member variables to the place holders in the template
@@ -137,24 +145,125 @@ class Favorite implements \JsonSerializable
 	}
 
 	/**
-	 * Update statement for the favorite class
+	 * get favorite by profile id statement
 	 *
-	 * @param \PDO $pdo PDO connection object
+	 * @param \PDO $pdo connection object
+	 * @param string $favoriteProfileId profile id to search for
+	 * @return \SplFixedArray SplFixedArray of favorites fround or null
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function update(\PDO $pdo) : void {
+	public static function getFavoriteByFavoriteProfileId(\PDO $pdo, string $favoriteProfileId) : \SplFixedArray {
+		try {
+			$favoriteProfileId = self::validateUuid($favoriteProfileId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
 		//create a query template
-		$query = "update favorite set favoriteProfileId = :favoriteProfileId, favoriteRestaurantId = :favoriteRestaurantId";
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfileId = :favoriteProfileId";
 		$statement = $pdo->prepare($query);
 
-		//Bind the member variables to the place holders in the template
-		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes()];
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteProfileId" => $favoriteProfileId->getBytes()];
 		$statement->execute($parameters);
+
+		//build an array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			}catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($favorites);
 	}
 
-	//TODO getbyboth statements
-	//TODO get by foreign keys
+	/**
+	 *get favorite by restaurant id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $favoriteRestaurantId restaurant id search for
+	 * @return \SplFixedArray array of favorites found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 */
+	public static function getFavoriteByFavoriteRestaurantId(\PDO $pdo, string $favoriteRestaurantId) : \SplFixedArray {
+		try {
+			$favoriteRestaurantId = self::validateUuid($favoriteRestaurantId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		//create a query template
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["favoriteRestaurantId" => $favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+
+		//build an array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			}catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($favorites);
+	}
+
+	/**
+	 * get favorite by favorite profile id and favorite restaurant id statement
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $favoriteProfileId profile id to search for
+	 * @param string $favoriteRestaurantId restaurant id to search for
+	 * @return Favorite|null Favorite found or null if not found
+	 */
+	public static function getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId(\PDO $pdo, string $favoriteProfileId, string $favoriteRestaurantId) : ?Favorite {
+		//
+		try {
+			$favoriteProfileId = self::validateUuid($favoriteProfileId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		try {
+			$favoriteRestaurantId = self::validateUuid($favoriteRestaurantId);
+		}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		//create a query template
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfile = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
+		$statement = $pdo->prepare($query);
+
+		//bind the restaurant id and profile id to the place holder in the template
+		$parameters = ["favoriteProfileId" => $favoriteProfileId->getBytes(), "favoriteRestaurantId" => $favoriteRestaurantId->getBytes()];
+		$statement->execute($parameters);
+
+		//grab the like from mySQL
+		try {
+			$favorite = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteRestaurantId"]);
+			}
+		}catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+		}
+		return ($favorite);
+	}
 
 	/**
 	 * formats the state variables for JSON serialization
