@@ -2,8 +2,8 @@
 	<testsuites>
 		<testsuite name="Whats For Lunch">
 			<!--<file>ProfileTest.php</file>-->
-			<!--<file>RestaurantTest.php</file>-->
-			<file>FavoriteTest.php</file>
+			<file>RestaurantTest.php</file>
+			<!--<file>FavoriteTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>

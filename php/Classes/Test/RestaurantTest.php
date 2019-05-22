@@ -30,11 +30,6 @@ class RestaurantTest extends WhatsForLunchTest {
 	 */
 	protected $VALID_RESTAURANTADDRESS2 = "this is still a valid address for this restaurant";
 	/**
-	 * name os restaurant
-	 * @var string $VALID_RESTAURANTNAME
-	 */
-	protected $VALID_RESTAURANTNAME = "Foodz 4 Dayz";
-	/**
 	 * latitude coordinate for this restaurant
 	 * @var float $VALID_RESTAURANTLAT
 	 */
@@ -44,6 +39,11 @@ class RestaurantTest extends WhatsForLunchTest {
 	 * @var float $VALID_RESTAURANTLNG
 	 */
 	protected $VALID_RESTAURANTLNG = -106;
+	/**
+	 * name os restaurant
+	 * @var string $VALID_RESTAURANTNAME
+	 */
+	protected $VALID_RESTAURANTNAME = "Foodz 4 Dayz";
 	/**
 	 * price range at restaurant
 	 * @var string $VALID_RESTAURANTPRICE
@@ -70,7 +70,7 @@ class RestaurantTest extends WhatsForLunchTest {
 		// create a new restaurant and insert into mySQL
 		$restaurantId = generateUuidv4();
 
-		$restaurant = new Restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant = new Restaurant ($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match
@@ -78,9 +78,9 @@ class RestaurantTest extends WhatsForLunchTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 		$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
 		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
-		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
 		$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAURANTLNG);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURANTPRICE);
 		$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
 		$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
@@ -97,7 +97,7 @@ class RestaurantTest extends WhatsForLunchTest {
 		//create a new restaurant and insert it into mySQL
 		$restaurantId = generateUuidv4();
 
-		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
 		// edit the restaurant and update it in mySQL
@@ -108,9 +108,9 @@ class RestaurantTest extends WhatsForLunchTest {
 		$pdoRestaurant = $restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
-		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
 		$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAURANTLNG);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURANTPRICE);
 		$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
 		$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);
@@ -128,7 +128,7 @@ class RestaurantTest extends WhatsForLunchTest {
 		//create a new restaurant and insert it into mySQL
 		$restaurantId = generateUuidv4();
 
-		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
 		// delete the restaurant from mySQL
@@ -151,7 +151,7 @@ class RestaurantTest extends WhatsForLunchTest {
 		// create a new restaurant and insert to into mySQL
 		$restaurantId = generateUuidv4();
 
-		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
+		$restaurant = new Restaurant($restaurantId, $this->VALID_RESTAURANTADDRESS, $this->VALID_RESTAURANTLAT, $this->VALID_RESTAURANTLNG, $this->VALID_RESTAURANTNAME, $this->VALID_RESTAURANTPRICE, $this->VALID_RESTAURANTREVIEWRATING, $this->VALID_RESTAURANTTHUMBNAIL);
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match expectations
@@ -164,9 +164,9 @@ class RestaurantTest extends WhatsForLunchTest {
 		$pdoRestaurant = $results[0];
 		$this->assertEquals($pdoRestaurant->getRestaurantId(), $restaurantId);
 		$this->assertEquals($pdoRestaurant->getRestaurantAddress(), $this->VALID_RESTAURANTADDRESS);
-		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getRestaurantLat(), $this->VALID_RESTAURANTLAT);
 		$this->assertEquals($pdoRestaurant->getRestaurantLng(), $this->VALID_RESTAURANTLNG);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANTNAME);
 		$this->assertEquals($pdoRestaurant->getrestaurantPrice(), $this->VALID_RESTAURANTPRICE);
 		$this->assertEquals($pdoRestaurant->getRestaurantReviewRating(), $this->VALID_RESTAURANTREVIEWRATING);
 		$this->assertEquals($pdoRestaurant->getRestaurantThumbnail(), $this->VALID_RESTAURANTTHUMBNAIL);

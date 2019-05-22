@@ -27,11 +27,6 @@ class Restaurant implements \jsonSerializable {
 	 */
 	private $restaurantAddress;
 	/**
-	 * name of restaurant
-	 * @var string $restaurantName
-	 */
-	private $restaurantName;
-	/**
 	 *latitude of restaurant
 	 * @var float restaurant latitude
 	 */
@@ -41,6 +36,11 @@ class Restaurant implements \jsonSerializable {
 	 * @var float restaurant longitude
 	 */
 	private $restaurantLng;
+	/**
+	 * name of restaurant
+	 * @var string $restaurantName
+	 */
+	private $restaurantName;
 	/**
 	 * price of or range of price at restaurant
 	 * @var string $restaurantPrice
@@ -63,9 +63,9 @@ class Restaurant implements \jsonSerializable {
 	 *
 	 * @param string|Uuid $newRestaurantId id of restaurant
 	 * @param string $newRestaurantAddress new address exists
-	 * @param string $newRestaurantName new or null if exists
 	 * @param float $newRestaurantLng new longitude
 	 * @param float $newRestaurantLat new latitude
+	 * @param string $newRestaurantName new or null if exists
 	 * @param string $newRestaurantPrice new price
 	 * @param float $newRestaurantReviewRating new review rating
 	 * @param string $newRestaurantThumbnail new exist
@@ -76,13 +76,13 @@ class Restaurant implements \jsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate hints
 	 **/
-	public function __construct($newRestaurantId, $newRestaurantAddress, $newRestaurantName, float $newRestaurantLat, float $newRestaurantLng, string $newRestaurantPrice, float $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
+	public function __construct($newRestaurantId, $newRestaurantAddress, float $newRestaurantLat, float $newRestaurantLng, $newRestaurantName, string $newRestaurantPrice, float $newRestaurantReviewRating, string $newRestaurantThumbnail = null) {
 		try {
 			$this->setRestaurantId($newRestaurantId);
 			$this->setRestaurantAddress($newRestaurantAddress);
-			$this->setRestaurantName($newRestaurantName);
 			$this->setRestaurantLat($newRestaurantLat);
 			$this->setRestaurantLng($newRestaurantLng);
+			$this->setRestaurantName($newRestaurantName);
 			$this->setRestaurantPrice($newRestaurantPrice);
 			$this->setRestaurantReviewRating($newRestaurantReviewRating);
 			$this->setRestaurantThumbnail($newRestaurantThumbnail);
@@ -151,38 +151,6 @@ class Restaurant implements \jsonSerializable {
 		$this->restaurantAddress = $newRestaurantAddress;
 	}
 
-	/**mutator method for restaurant name
-	 *
-	 * @return string value of restaurant name
-	 * */
-	public function getRestaurantName(): string {
-		return ($this->restaurantName);
-	}
-
-	/**
-	 * Mutator method for restaurant name
-	 *
-	 * @param string $newRestaurantName new value of restaurant name
-	 * @thorws \InvalidArgumentException if $newRestaurantName is not a string or insecure
-	 * @throws \RangeException if $newRestaurantName is > 128
-	 * @throws \TypeError if $newRestaurantName is not a string
-	 */
-	public function setRestaurantName(string $newRestaurantName): void {
-		// verify the restaurant name is secure
-		$newRestaurantName = trim($newRestaurantName);
-		$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newRestaurantName) === true) {
-			throw(new \InvalidArgumentException("Restaurant name invalid "));
-		}
-
-		//verify the restaurant name will fit in the database
-		if(strlen($newRestaurantName) > 128) {
-			throw (new \RangeException("Name is too long"));
-		}
-		// store the restaurant name
-		$this->restaurantName = $newRestaurantName;
-	}
-
 	/**
 	 * accessor method for restaurant latitude
 	 *
@@ -239,14 +207,46 @@ class Restaurant implements \jsonSerializable {
 		$this->restaurantLng = $newRestaurantLng;
 	}
 
+	/**mutator method for restaurant name
+	 *
+	 * @return string value of restaurant name
+	 * */
+	public function getRestaurantName(): string {
+		return ($this->restaurantName);
+	}
+
+	/**
+	 * Mutator method for restaurant name
+	 *
+	 * @param string $newRestaurantName new value of restaurant name
+	 * @thorws \InvalidArgumentException if $newRestaurantName is not a string or insecure
+	 * @throws \RangeException if $newRestaurantName is > 128
+	 * @throws \TypeError if $newRestaurantName is not a string
+	 */
+	public function setRestaurantName(string $newRestaurantName): void {
+		// verify the restaurant name is secure
+		$newRestaurantName = trim($newRestaurantName);
+		$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantName) === true) {
+			throw(new \InvalidArgumentException("Restaurant name invalid "));
+		}
+
+		//verify the restaurant name will fit in the database
+		if(strlen($newRestaurantName) > 128) {
+			throw (new \RangeException("Name is too long"));
+		}
+		// store the restaurant name
+		$this->restaurantName = $newRestaurantName;
+	}
+
 	/**
 	 *  accessor method for restaurant price
 	 * @return float value of restaurant price
 	 */
+
 	public function getRestaurantPrice() {
 		return ($this->restaurantPrice);
 	}
-
 	/**
 	 * mutator method for restaurant price
 	 * @param string $newRestaurantPrice new value of restaurant price
@@ -336,11 +336,11 @@ class Restaurant implements \jsonSerializable {
 	public function insert(\PDO $pdo): void {
 
 		//create query template
-		$query = "INSERT INTO restaurant(restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail) VALUES(:restaurantId, :restaurantAddress, :restaurantName, :restaurantLat, :restaurantLng, :restaurantPrice, :restaurantReviewRating, :restaurantThumbnail)";
+		$query = "INSERT INTO restaurant(restaurantId, restaurantAddress, restaurantLat, restaurantLng, restaurantName, restaurantPrice, restaurantReviewRating, restaurantThumbnail) VALUES(:restaurantId, :restaurantAddress, :restaurantLat, :restaurantLng, :restaurantName, :restaurantPrice, :restaurantReviewRating, :restaurantThumbnail)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the template
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantName" => $this->restaurantName, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
 
@@ -354,11 +354,11 @@ class Restaurant implements \jsonSerializable {
 	public function update(\PDO $pdo): void {
 
 		//create query template
-		$query = "UPDATE restaurant SET restaurantAddress = :restaurantAddress, restaurantName = :restaurantName, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviewRating, restaurantThumbnail = :restaurantThumbnail WHERE restaurantId = :restaurantId";
+		$query = "UPDATE restaurant SET restaurantAddress = :restaurantAddress, restaurantLat = :restaurantLat, restaurantlng = :restaurantLng, restaurantName = :restaurantName, restaurantPrice = :restaurantPrice, restaurantReviewRating = :restaurantReviewRating, restaurantThumbnail = :restaurantThumbnail WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		// bind the variables to placeholders in template
-		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantName" => $this->restaurantName, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
+		$parameters = ["restaurantId" => $this->restaurantId->getBytes(), "restaurantAddress" => $this->restaurantAddress, "restaurantLat" => $this->restaurantLat, "restaurantLng" => $this->restaurantLng, "restaurantName" => $this->restaurantName, "restaurantPrice" => $this->restaurantPrice, "restaurantReviewRating" => $this->restaurantReviewRating, "restaurantThumbnail" => $this->restaurantThumbnail];
 		$statement->execute($parameters);
 	}
 
@@ -397,7 +397,7 @@ class Restaurant implements \jsonSerializable {
 			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantId = :restaurantId";
+		$query = "SELECT restaurantId, restaurantAddress, restaurantLat, restaurantLng, restaurantName, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		// bind the restaurant id to the place holder in the template
@@ -410,7 +410,7 @@ class Restaurant implements \jsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$restaurant = new Restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+				$restaurant = new Restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantName"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted, rethrow it
@@ -429,7 +429,7 @@ class Restaurant implements \jsonSerializable {
 	 **/
 	public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
 		//create query template
-		$query = "SELECT restaurantId, restaurantAddress, restaurantName, restaurantLat, restaurantLng, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant";
+		$query = "SELECT restaurantId, restaurantAddress, restaurantLat, restaurantLng, restaurantName, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -438,7 +438,7 @@ class Restaurant implements \jsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"], $row["restaurantName"], $row["restaurantLat"], $row["restaurantLng"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
+				$restaurant = new restaurant($row["restaurantId"], $row["restaurantAddress"],$row["restaurantLat"], $row["restaurantLng"], $row["restaurantName"], $row["restaurantPrice"], $row["restaurantReviewRating"], $row["restaurantThumbnail"]);
 				$restaurants[$restaurants->key()] = $restaurant;
 				$restaurants->next();
 			} catch(\Exception $exception) {
