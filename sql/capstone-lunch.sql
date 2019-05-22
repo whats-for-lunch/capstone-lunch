@@ -17,9 +17,9 @@ create table profile (
 create table restaurant (
     restaurantId binary (16) not null,
     restaurantAddress varchar (256) not null,
+    restaurantLat decimal (12 ,9) not null,
+    restaurantLng decimal (12,9) not null,
     restaurantName varchar (128) not null,
-    restaurantLat decimal (9 ,6) not null,
-    restaurantLng decimal (9,6) not null,
     restaurantPrice varchar (6) not null,
     restaurantReviewRating decimal (2,1) not null,
     restaurantThumbnail varchar (255) not null,
