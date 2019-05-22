@@ -48,7 +48,7 @@ class PictureTest extends WhatsForLunchTest {
  * create dependent objects before running each test
  * @package whatsforlunch\capstonelunch
  */
-    public final function setUp () : void {
+    public final function setUp() : void {
     // run the default setUp () method first
         parent::setUp();
 
@@ -62,7 +62,7 @@ class PictureTest extends WhatsForLunchTest {
  * test inserting a valid Picture and verify that the actual mySQL data matches
  * @throws \Exception
  */
-    public function testInsertValidPicture () : void {
+    public function testInsertValidPicture() : void {
     //count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("picture");
 
@@ -79,7 +79,7 @@ class PictureTest extends WhatsForLunchTest {
     $this->assertEquals($pdoPicture->getPictureAlt(),$this->VALID_PICTUREALT);
     $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 
 /**
@@ -104,9 +104,9 @@ class PictureTest extends WhatsForLunchTest {
         $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
         $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
-        $this->asserEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
+        $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
     }
 /**
  * test creating a Picture and then deleting it
@@ -131,12 +131,12 @@ public function testDeleteValidPicture() : void {
     $this->assertNull($pdoPicture);
     $this->assertEquals($numRows, $this->getConnection()->getRowCount("picture"));
 
-    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 /**
  * test inserting a Picture and grabbing it form mySQL
  */
-public function testGetValidPictureByPictureRestaurantId () {
+public function testGetValidPictureByPictureRestaurantId() {
     // count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("picture");
 
@@ -159,10 +159,10 @@ $picture->insert($this->getPDO());
     $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
     $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 
-    public function testGetValidPictureByPictureAlt () : void {
+    public function testGetValidPictureByPictureAlt() : void {
         // count the number of rows and save it for later
         $numRows = $this->getConnection()->getRowCount("picture");
 
@@ -186,7 +186,7 @@ $picture->insert($this->getPDO());
         $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_PICTUREALT);
         $this->assertEquals($pdoPicture->getPictureUrl, $this->VALID_PICTUREURL);
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 
 }
 

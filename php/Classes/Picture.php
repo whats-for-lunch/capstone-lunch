@@ -241,7 +241,7 @@ class Picture implements \JsonSerializable {
     public function update(\PDO $pdo) : void
     {
         //create query template
-        $query = "UPDATE picture SET pictureRestaurantId = :pictureRestaurantId, pictureAlt = :pictureAlt,  pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
+        $query = "UPDATE picture SET pictureId = :pictureID, pictureRestaurantId = :pictureRestaurantId, pictureAlt = :pictureAlt,  pictureUrl = :pictureUrl WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         $parameters = ["pictureId" => $this->pictureId->getBytes(), "pictureRestaurantID" => $this->pictureRestaurantId->getBytes(), "pictureAlt" => $this->pictureAlt,  "pictureUrl" => $this->pictureUrl];
@@ -266,7 +266,7 @@ class Picture implements \JsonSerializable {
         }
 
         //create query template
-        $query = "SELECT pictureRestaurantId, pictureAlt,  pictureUrl FROM picture WHERE pictureId = :pictureId";
+        $query = "SELECT pictureId, pictureRestaurantId, pictureAlt, pictureUrl FROM picture WHERE pictureId = :pictureId";
         $statement = $pdo->prepare($query);
 
         //bind the picture id to the place holder in the template
@@ -278,7 +278,7 @@ class Picture implements \JsonSerializable {
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !== false) {
-                $picture = new picture($row["pictureId"], $row["pictureRestaurantId"],$row["pictureAlt"],  $row["pictureUrl"]);
+                $picture = new Picture($row["pictureId"], $row["pictureRestaurantId"], $row["pictureAlt"], $row["pictureUrl"]);
             }
         } catch (\Exception $exception) {
             // if the row couldn't be converted, rethrow it
@@ -306,7 +306,7 @@ class Picture implements \JsonSerializable {
         }
 
         // create query template
-        $query = "SELECT pictureId, pictureAlt, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
+        $query = "SELECT pictureId, pictureRestaurantId, pictureUrl FROM picture WHERE pictureRestaurantId = :pictureRestaurantId";
         $statement = $pdo->prepare($query);
 
         // bind the picture Restaurant Id to the place holder in the template
@@ -329,7 +329,7 @@ class Picture implements \JsonSerializable {
         }
         return ($pictures);
     }
-    
+
 
     /**
      * formats the state variables for JSON serialization
