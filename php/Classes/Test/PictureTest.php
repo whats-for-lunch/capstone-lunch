@@ -75,11 +75,11 @@ class PictureTest extends WhatsForLunchTest {
     $pdoPicture = Picture::getPictureByPictureId($this->getPDO(), $picture->getPictureId());
     $this->assertEquals($numRows + 1 , $this->getConnection()->getRowCount("picture"));
     $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
-    $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->VALID_RESTAURANT);
-    $this->assertEquals($pdoPicture->getPictureAlt(),$this->VALID_PICTUREALT);
+    $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->VALID_RESTAURANT->getRestaurantId());
+    $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
     $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+       // $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 
 /**
@@ -106,7 +106,7 @@ class PictureTest extends WhatsForLunchTest {
         $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
         $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+       // $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
     }
 /**
  * test creating a Picture and then deleting it
@@ -127,11 +127,11 @@ public function testDeleteValidPicture() : void {
     $picture->delete($this->getPDO());
 
     //grab the data from mySQL and enforce the Picture does not exist
-    $pdoPicture = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureId());
+    $pdoPicture = Picture::getPictureByPictureId($this->getPDO(), $picture->getPictureId());
     $this->assertNull($pdoPicture);
     $this->assertEquals($numRows, $this->getConnection()->getRowCount("picture"));
 
-    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+   // $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 /**
  * test inserting a Picture and grabbing it form mySQL
@@ -146,7 +146,7 @@ $picture = new Picture($pictureId, $this->VALID_RESTAURANT->getRestaurantId(), $
 $picture->insert($this->getPDO());
 
 //grab the data from mySQL and enforce the fields match our expectations
-    $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureId());
+    $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureRestaurantId());
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
     $this->assertCount(1, $results);
     $this->assertContainsOnlyInstancesOf("WhatsForLunch\\CapstoneLunch\\Picture", $results);
@@ -159,7 +159,7 @@ $picture->insert($this->getPDO());
     $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
     $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
 
-    $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+   // $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 
     public function testGetValidPictureByPictureAlt() : void {
@@ -172,22 +172,20 @@ $picture->insert($this->getPDO());
         $picture->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
-        $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureAlt());
+        $results = Picture::getPictureByPictureRestaurantId($this->getPDO(), $picture->getPictureRestaurantId());
        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("picture"));
        $this->assertCount(1, $results);
 
        // enforce no other objects are bleeding into the test
-        $this->assertContainsOnlyInstanceof("WhatsForLunch\CapstoneLunch\Picture", $results);
+        $this->assertContainsOnlyInstancesOf("WhatsForLunch\CapstoneLunch\Picture", $results);
 
         //grab the results from the array and validate it
         $pdoPicture = $results[0];
         $this->assertEquals($pdoPicture->getPictureId(), $pictureId);
         $this->assertEquals($pdoPicture->getPictureRestaurantId(), $this->VALID_RESTAURANT->getRestaurantId());
-        $this->assertEquals($pdoPicture->getPictureAlt, $this->VALID_PICTUREALT);
-        $this->assertEquals($pdoPicture->getPictureUrl, $this->VALID_PICTUREURL);
-
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
-
+        $this->assertEquals($pdoPicture->getPictureAlt(), $this->VALID_PICTUREALT);
+        $this->assertEquals($pdoPicture->getPictureUrl(), $this->VALID_PICTUREURL);
+       // $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abcnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
 }
 
 }//last line
