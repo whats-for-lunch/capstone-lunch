@@ -156,7 +156,7 @@ class Picture implements \JsonSerializable {
 
         //verify the picture alternate will fit in the database
         if (strlen($newPictureALt) > 10) {
-            throw(new\RangeException("picture can't be more than one"));
+            throw(new \RangeException("picture can't be more than one"));
         }
 
         //store picture alternate
@@ -185,13 +185,15 @@ class Picture implements \JsonSerializable {
      */
     public function setPictureUrl($newPictureUrl): void
     {
+
         $newPictureUrl = trim($newPictureUrl);
         $newPictureUrl = filter_var($newPictureUrl, FILTER_VALIDATE_URL);
         if (empty($newPictureUrl) === true) {
             throw(new \RangeException("Picture URL is empty or insecure"));
         }
-        if (strlen($newPictureUrl) < 255) {
-            throw(new \RangeException("Picture URL is too large"));
+
+        if (strlen($newPictureUrl) > 255) {
+            throw(new \RangeException("Picture URL is too large."));
         }
         $this->pictureUrl = $newPictureUrl;
     }
@@ -208,7 +210,7 @@ class Picture implements \JsonSerializable {
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
-        $parameters = ["pictureId" => $this->pictureId->getBytes()];
+        $parameters = ["pictureId" => $this->pictureId->getBytes(), "pictureRestaurantId" => $this->getPictureRestaurantId()->getBytes(), "pictureAlt" => $this->pictureAlt, "pictureUrl" => $this->pictureUrl];
         $statement->execute($parameters);
     }
 
@@ -276,7 +278,7 @@ class Picture implements \JsonSerializable {
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !== false) {
-                $picture = new Picture($row["pictureId"], $row["pictureRestaurantId"],$row["pictureAlt"],  $row["pictureUrl"]);
+                $picture = new picture($row["pictureId"], $row["pictureRestaurantId"],$row["pictureAlt"],  $row["pictureUrl"]);
             }
         } catch (\Exception $exception) {
             // if the row couldn't be converted, rethrow it
