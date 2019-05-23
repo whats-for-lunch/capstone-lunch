@@ -1,11 +1,14 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Whats For Lunch">
-			<!--<file>ProfileTest.php</file>-->
+			<file>ProfileTest.php</file>
 			<file>RestaurantTest.php</file>
-			<!--<file>FavoriteTest.php</file>-->
+			<file>FavoriteTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..</directory>
+		</whitelist>
 	</filter>
 </phpunit>
