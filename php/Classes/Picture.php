@@ -328,7 +328,7 @@ class Picture implements \JsonSerializable {
             } catch (\Exception $exception) {
 
                 // if the row couldn't be converted, rethrow it
-                throw(new\PDOException($exception->getMessage(), 0, $exception));
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
         }
         return ($pictures);
