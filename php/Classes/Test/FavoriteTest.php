@@ -81,11 +81,12 @@ class FavoriteTest extends WhatsForLunchTest {
 			$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $this->restaurant->getRestaurantId(),
-		$this->profile->getProfileId());
+		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId($this->getPDO(),
+			$this->profile->getProfileId(), $this->restaurant->getRestaurantId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		$this->assertEquals($pdoFavorite->getFavoriteRestaurntId(), $this->restaurant->getRestaurantId());
+		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
 		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
+
 	}
 
 	/**
@@ -104,7 +105,8 @@ class FavoriteTest extends WhatsForLunchTest {
 		$favorite->delete($this->getPDO());
 
 		//grab data from mySQL and enforce the fields match our expectations
-		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteRestaurantId(), $favorite->getFavoriteProfileId());
+		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId($this->getPDO(),
+			$favorite->getFavoriteRestaurantId(), $favorite->getFavoriteProfileId());
 		$this->assertNull($pdoFavorite);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 	}

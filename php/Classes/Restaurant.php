@@ -104,7 +104,7 @@ class Restaurant implements \jsonSerializable {
 
 	/**
 	 * mutator method for restaurant id
-	 * @param Uuid | string $newRestaurantId new value of restaurant id
+	 * @param Uuid $newRestaurantId new value of restaurant id
 	 * @throws \RangeException if $newRestaurantId is not positive
 	 * @throws \TypeError if $newRestaurantId is not a uuid or string
 	 **/

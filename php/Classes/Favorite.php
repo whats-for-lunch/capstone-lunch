@@ -11,11 +11,7 @@ require_once (dirname(__DIR__) .  "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
-<<<<<<< HEAD
  * Favorite class for the users of the WhatsForLunch application
-=======
- * Favorite class for the users of the whatsForLunch application
->>>>>>> feature-favorite
  * This Favorite class describes the attributes that make up the user's favorite list.
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
@@ -31,21 +27,21 @@ class Favorite implements \JsonSerializable
 	private $favoriteProfileId;
 	/**
 	 * foreign key for the restaurant id
-	 * @var Uuid|string favoriteRestaurantId
+	 * @var Uuid favoriteRestaurantId
 	 */
 	private $favoriteRestaurantId;
 
 	/**
 	 * Constructor for Favorites
 	 *
-	 * @param Uuid| string $newFavoriteProfileId value for the favorite profile id
-	 * @param Uuid| string $newFavoriteRestaurantId value for the favorite restaurant id
+	 * @param Uuid|string $newFavoriteProfileId value for the favorite profile id
+	 * @param Uuid|string $newFavoriteRestaurantId value for the favorite restaurant id
 	 * @throws \InvalidArgumentException if the data types are not valid
 	 * @throws \RangeException if the data values entered are too large
 	 * @throws \TypeError if the data type violate hints
 	 * @throws \Exception
 	 */
-	public function __construct(string $newFavoriteProfileId, string $newFavoriteRestaurantId) {
+	public function __construct(string $newFavoriteProfileId, $newFavoriteRestaurantId) {
 		try {
 			$this->setFavoriteProfileId($newFavoriteProfileId);
 			$this->setFavoriteRestaurantId($newFavoriteRestaurantId);
@@ -67,19 +63,19 @@ class Favorite implements \JsonSerializable
 	/**
 	 * Mutator method for the favoriteProfileId
 	 *
-	 * @param Uuid| string $newFavoriteProfileId new value of favorite profile id
+	 * @param Uuid|string $newFavoriteProfileId new value of favorite profile id
 	 * @throws \RangeException if the $newFavoriteProfileId is not positive
 	 * @throws \TypeError if $newFavoriteProfileId is not a Uuid or string
 	 */
 	public function setFavoriteProfileId($newFavoriteProfileId) : void {
 		try {
-			$uuid = self::validateUuid($newFavoriteProfileId);
+			$Uuid = self::validateUuid($newFavoriteProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		//convert and store the new favorite profile id
-		$this->favoriteProfileId = $uuid;
+		$this->favoriteProfileId = $Uuid;
 	}
 
 	/**
@@ -93,7 +89,7 @@ class Favorite implements \JsonSerializable
 	/**
 	 * Mutator method for the favoriteRestaurantId
 	 *
-	 * @param Uuid| string $newFavoriteRestaurantId new value of favorite restaurant id
+	 * @param Uuid $newFavoriteRestaurantId new value of favorite restaurant id
 	 * @throws \RangeException if the $newFavoriteRestaurantId is not positive
 	 * @throws \TypeError if $newRestaurantId is not a uuid or a string
 	 */
@@ -102,7 +98,7 @@ class Favorite implements \JsonSerializable
 			$uuid = self::validateUuid($newFavoriteRestaurantId);
 		} catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
-			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		//convert and store the favoriteRestaurantId
 		$this->favoriteRestaurantId = $uuid;
@@ -121,7 +117,7 @@ class Favorite implements \JsonSerializable
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["favoriteRestaurantId" => $this->favoriteRestaurantId->getBytes()];
+		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes(), "favoriteRestaurantId" => $this->favoriteRestaurantId->getBytes()];
 		$statement->execute($parameters);
 	}
 
@@ -138,7 +134,8 @@ class Favorite implements \JsonSerializable
 		$statement = $pdo->prepare($query);
 
 		//Bind the member variables to the place holders in the template
-		$parameters = ["favoriteProfileId" => $this->favoriteRestaurantId->getBytes()];
+		$parameters = ["favoriteProfileId" => $this->favoriteProfileId->getBytes(),
+			"favoriteRestaurantId" => $this->favoriteRestaurantId->getBytes()];
 		$statement->execute($parameters);
 	}
 
@@ -242,7 +239,7 @@ class Favorite implements \JsonSerializable
 		}
 
 		//create a query template
-		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfile = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
+		$query = "select favoriteProfileId, favoriteRestaurantId from favorite where favoriteProfileId = :favoriteProfileId and favoriteRestaurantId = :favoriteRestaurantId";
 		$statement = $pdo->prepare($query);
 
 		//bind the restaurant id and profile id to the place holder in the template
