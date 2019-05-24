@@ -1,31 +1,29 @@
 <?php
-
-namespace whatsforlunch\capstoneLunch;
+namespace WhatsForLunch\CapstoneLunch;
 
 require_once ("autoload.php");
-require_once (dirname(__DIR__) .  "/vendor/autoload.php");
+require_once (dirname(__DIR__) .  "/Classes/autoload.php");
 
-
+use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
- *Profile class for the users of the whatsforlunch application
+ *Profile class for the users of the WhatsForLunch application
  * This profile class describes the attributes that make up the user profile.
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
 
-class Profile implements \JsonSerializable
-{
-	use validateUuid;
+class Profile implements \JsonSerializable {
+	use ValidateUuid;
 	/**
 	 * id for this profile; this is the primary key
-	 * @var Uuid profileId
+	 * @var uuid profileId
 	 */
 	private $profileId;
 	/**
 	 * activation token for this profile;
 	 * token handed out to verify that the profile is valid and not malicious.
-	 * @var Uuid $profileActivationToken
+	 * @var uuid $profileActivationToken
 	 */
 	private $profileActivationToken;
 	/**
@@ -49,13 +47,11 @@ class Profile implements \JsonSerializable
 	 * @var string $profileHash
 	 */
 	private $profileHash;
-
-
 	/**
 	 * Constructor for this profile
 	 *
-	 * @param Uuid| string $newProfileId value for new profileId
-	 * @param string $newProfileActivationToken
+	 * @param Uuid|string $newProfileId value for new profileId
+	 * @param string|null $newProfileActivationToken
 	 * @param string $newProfileEmail
 	 * @param string $newProfileFirstName
 	 * @param string $newProfileLastName
@@ -66,7 +62,7 @@ class Profile implements \JsonSerializable
 	 * @throws \Exception
 	 */
 
-	public function __construct(string $newProfileId, string $newProfileActivationToken, string $newProfileEmail,
+	public function __construct(string $newProfileId, ?string $newProfileActivationToken, string $newProfileEmail,
 										 string $newProfileFirstName, string $newProfileLastName, string $newProfileHash) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -110,21 +106,21 @@ class Profile implements \JsonSerializable
 
 	/**
 	 * accessor method for profile activation token
-	 * @return string value of the activation token
+	 * @return string|null value of the activation token
 	 */
-	public function getProfileActivationToken(): string {
+	public function getProfileActivationToken(): ?string {
 		return ($this->profileActivationToken);
 	}
 
 	/**
 	 * mutator method for profile activation token
 	 *
-	 * @param string $newProfileActivationToken
+	 * @param string|null $newProfileActivationToken
 	 * @throws \InvalidArgumentException if the token is not a string or is insecure
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setProfileActivationToken(string $newProfileActivationToken): void {
+	public function setProfileActivationToken(?string $newProfileActivationToken): void {
 		if($newProfileActivationToken === null) {
 			$this->profileActivationToken = null;
 			return;
@@ -265,13 +261,11 @@ class Profile implements \JsonSerializable
 		$query = "insert into profile(profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash)
 					values(:profileId, :profileActivationToken, :profileEmail, :profileFirstName, :profileLastName, :profileHash)";
 		$statement = $pdo->prepare($query);
-
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken->getBytes(), "profileEmail" => $this->profileEmail->getBytes(),
-			"profileFirstName" => $this->profileFirstName->getBytes(), "profileLastName" => $this->profileLastName->getBytes(), "profileHash" => $this->profileHash->getBytes()];
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileEmail" => $this->profileEmail,
+			"profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileHash" => $this->profileHash];
 		$statement->execute($parameters);
 	}
-	//TODO only use getBytes for Uuid's not activationToken as well
 
 	/**
 	 * Delete statement for the profile class
@@ -283,7 +277,6 @@ class Profile implements \JsonSerializable
 		//create a query template
 		$query = "delete from profile where profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
 		//bind the member variables to the place holders in the template
 		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
@@ -297,12 +290,12 @@ class Profile implements \JsonSerializable
 	 */
 	public function update(\PDO $pdo) : void {
 		//create a query template
-		$query = "update profile set profileEmail = :profileEmail, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash";
+		$query = "update profile set profileActivationToken = :profileActivationToken, profileEmail = :profileEmail, 
+		profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileHash = :profileHash where profileId = :profileId";
 		$statement = $pdo->prepare($query);
-		//TODO and a where statement to update
-
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileEmail" => $this->profileEmail,
+			"profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileHash" => $this->profileHash];
 		$statement->execute($parameters);
 	}
 
@@ -323,14 +316,12 @@ class Profile implements \JsonSerializable
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		//create a query template
-		$query = "select profileId from profile where profileId = :profileId";
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash 
+		from profile where profileId = :profileId";
 		$statement = $pdo->prepare($query);
-		//TODO need all variables in select profileId
-
 		//bind the profile id to the template place holder
 		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
-
 		//get profile from mySQL
 		try {
 			$profile = null;
@@ -347,57 +338,70 @@ class Profile implements \JsonSerializable
 		return($profile);
 	}
 
-
-
-	//TODO write getProfileByProfileEmail(returns a profile object). Double check if it is necessary after unit testing
-	//TODO write a getProfileByProfileActivation Token (returns a profile object)
-	//TODO add a json serialize method that unsets profileHash and activation token
-
 	/**
 	 *get profile by profile email statement
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param  String $profileEmail to search by
-	 * @return \SplFixedArray of profiles found
+	 * @return  profile found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) {
-		//sanitize the description before searching
-		$profileEmail = trim($profileEmail);
-		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileEmail) === true) {
-			throw(new \PDOException("profile email is invalid"));
-		}
-		//escape any mySQL wild cards
-		$profileEmail = str_replace("_", "\\", str_replace("%", "\\%", $profileEmail));
-
-
+	public static function getProfileByProfileEmail(\PDO $pdo, $profileEmail) : Profile {
 		//create a query template
 		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash
-		from profile where profileEmail like :profileEmail";
+		from profile where profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
-
 		//bind the profile email to the place holder in the template
-		$profileEmail = "%$profileEmail%";
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
-
-		// build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
-				$row["profileLastName"], $row["profileHash"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			}catch(\Exception $exception) {
-				//if the row couldn't be convert it, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// grab the profile from mySQL
+		try {
+			$profileEmail = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileEmail = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileFirstName"],
+					$row["profileLastName"], $row["profileHash"]);
 			}
+		}catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profiles);
+		return($profileEmail);
+	}
+
+	/**
+	 * get profile by profile activation token statement
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $profileActivationToken to search for
+	 * @return profile found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables aren't the correct data type
+	 */
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : Profile {
+		//create a query template
+		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash from
+ 		profile where profileActivationToken = :profileActivationToken";
+		$statement = $pdo->prepare($query);
+		//bind the profile activation token to the place holder in the template
+		$parameters = ["profileActivationToken" => $profileActivationToken];
+		$statement->execute($parameters);
+		//grab the profile from mySQL
+		try {
+			$profileActivationToken = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileActivationToken = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"],
+					$row["profileFirstName"], $row["profileLastName"], $row["profileHash"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row could not be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profileActivationToken);
 	}
 
 	/**
@@ -409,7 +413,5 @@ class Profile implements \JsonSerializable
 		$fields = get_object_vars($this);
 		return ($fields);
 	}
-
-
 
 }
