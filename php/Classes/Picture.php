@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * @author Jesse, Jamie, Jeff, <thebestjesse76@gmail.com>
  * @version 3.0.0
  **/
-<<<<<<< HEAD
+
 class Picture implements \JsonSerializable
 {
     use ValidateDate;
@@ -673,7 +673,7 @@ class Picture implements \JsonSerializable {
 		$fields ["pictureRestaurantId"] = $this->pictureRestaurantId->toString();
 		return $fields;
 	}
->>>>>>> develop
+
 
 
 }//last line
