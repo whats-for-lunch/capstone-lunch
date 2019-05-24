@@ -1,5 +1,5 @@
 <?php
-namespace whatsForLunch\Capstone\Test;
+namespace WhatsForLunch\CapstoneLunch\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
 use PHPUnit\DbUnit\DataSet\QueryDataSet;
@@ -7,7 +7,7 @@ use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
 // grab the encrypted properties file
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
-require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 /**
  * Abstract class containing universal and project specific mySQL parameters
  *
@@ -24,7 +24,7 @@ require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
  *
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-abstract class whatsForLunchTesting extends TestCase {
+abstract class WhatsForLunchTest extends TestCase {
 	use TestCaseTrait;
 	/**
 	 * PHPUnit database connection interface
@@ -77,9 +77,9 @@ abstract class whatsForLunchTesting extends TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsForLunch");
+			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 			$pdo = $secrets->getPdoObject();
-			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabaseName());
+			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
 		}
 		return($this->connection);
 	}
