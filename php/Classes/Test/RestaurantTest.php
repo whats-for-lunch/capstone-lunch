@@ -3,14 +3,10 @@
 namespace WhatsForLunch\CapstoneLunch\Test;
 use WhatsForLunch\CapstoneLunch\Restaurant;
 
-<<<<<<< HEAD
-// ask about these.. foreign keys that I dont have
-use whatsForLunch\capstone\Restaurant;
 
-require_once ("");
-=======
+// ask about these.. foreign keys that I dont have
 require_once("WhatsForLunchTest.php");
->>>>>>> develop
+
 
 // get the autoloader
 require_once (dirname(__DIR__). "/autoload.php");

@@ -397,11 +397,8 @@ class Restaurant implements \jsonSerializable {
 			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-<<<<<<< HEAD
-		$query ="SELECT ";
-=======
+
 		$query = "SELECT restaurantId, restaurantAddress, restaurantLat, restaurantLng, restaurantName, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant WHERE restaurantId = :restaurantId";
->>>>>>> develop
 		$statement = $pdo->prepare($query);
 
 		// bind the restaurant id to the place holder in the template
@@ -433,11 +430,8 @@ class Restaurant implements \jsonSerializable {
 	 **/
 	public static function getAllRestaurants(\PDO $pdo): \SPLFixedArray {
 		//create query template
-<<<<<<< HEAD
-		$query = "SELECT restaurantId, restauranAddress, restaurantName, restaurantLat, restaurantLng, resturantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant";
-=======
+
 		$query = "SELECT restaurantId, restaurantAddress, restaurantLat, restaurantLng, restaurantName, restaurantPrice, restaurantReviewRating, restaurantThumbnail FROM restaurant";
->>>>>>> develop
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
