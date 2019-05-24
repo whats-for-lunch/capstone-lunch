@@ -53,7 +53,7 @@ class PictureTest extends WhatsForLunchTest {
         parent::setUp();
 
 
-        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", "fredricos",  30.3, 40.4, "$", 4.3, "thumbnail.jpg" );
+        $this->VALID_RESTAURANT = new Restaurant( generateUuidV4(), "123abqnewmexico", 30.3,  40.4, "fredricos", "$", 4.3, "thumbnail.jpg" );
         $this->VALID_RESTAURANT->insert($this->getPDO());
 
     }
