@@ -2,7 +2,6 @@
 namespace WhatsForLunch\CapstoneLunch\Test;
 
 use WhatsForLunch\CapstoneLunch\{Favorite, Profile, Restaurant};
-
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 // grab the class under scrutiny
@@ -17,7 +16,6 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @see \WhatsForLunch\CapstoneLunch\Favorite
  * @author Jeffrey Gallegos <jgallegos362@cnm.edu>
  */
-
 
 class FavoriteTest extends WhatsForLunchTest {
 
@@ -59,14 +57,14 @@ class FavoriteTest extends WhatsForLunchTest {
 		$profileId = generateUuidV4();
 		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN,"test@test.com","Herbert",
 			"McGroober", $this->VALID_PROFILE_HASH);
-			$this->profile->insert($this->getPDO());
+		$this->profile->insert($this->getPDO());
 
 		//create and insert restaurant to test favorite
 		$restaurantId = generateUuidV4();
 		$this->restaurant = new Restaurant($restaurantId, "200 3rd St NW, Albuquerque, NM 87102",
 			35.085529, -106.650085, "Friends Coffee & Sandwich Shop",
 			"$2-$8", 4.8, "http://fcass.com/");
-			$this->restaurant->insert($this->getPDO());
+		$this->restaurant->insert($this->getPDO());
 	}
 
 	/**
@@ -83,10 +81,9 @@ class FavoriteTest extends WhatsForLunchTest {
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoFavorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId($this->getPDO(),
 			$this->profile->getProfileId(), $this->restaurant->getRestaurantId());
-			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertEquals($pdoFavorite->getFavoriteRestaurantId(), $this->restaurant->getRestaurantId());
 		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $this->profile->getProfileId());
-
 	}
 
 	/**
@@ -98,7 +95,7 @@ class FavoriteTest extends WhatsForLunchTest {
 
 		//create a new favorite and insert into mySQL
 		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
-			$favorite->insert($this->getPDO());
+		$favorite->insert($this->getPDO());
 
 		//delete the favorite from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
@@ -120,7 +117,7 @@ class FavoriteTest extends WhatsForLunchTest {
 
 		//create new favorite and insert into mySQL
 		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
-			$favorite->insert($this->getPDO());
+		$favorite->insert($this->getPDO());
 
 		//grab data from mySQL and enforce the fields match our expectations
 		$results = Favorite::getFavoriteByFavoriteProfileId($this->getPDO(), $favorite->getFavoriteProfileId());
@@ -143,7 +140,7 @@ class FavoriteTest extends WhatsForLunchTest {
 
 		//create new favorite and insert into mySQL
 		$favorite = new Favorite($this->profile->getProfileId(), $this->restaurant->getRestaurantId());
-			$favorite->insert($this->getPDO());
+		$favorite->insert($this->getPDO());
 
 		//grab data from mySQL and enforce the fields match our expectations
 		$results = Favorite::getFavoriteByFavoriteRestaurantId($this->getPDO(), $favorite->getFavoriteRestaurantId());
