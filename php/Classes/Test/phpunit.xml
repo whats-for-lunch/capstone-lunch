@@ -4,6 +4,7 @@
 			<file>ProfileTest.php</file>
 			<file>RestaurantTest.php</file>
 			<file>FavoriteTest.php</file>
+			<file>PictureTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
