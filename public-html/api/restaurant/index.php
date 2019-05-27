@@ -22,3 +22,6 @@ try {
 	$pdo = $secrets->getPdoObject();
 
 	// $_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "b3200b81-2cdd-47dc-9e8e-21f9bd69fe3b");
+
+//determine which HTTP method was used
+	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
