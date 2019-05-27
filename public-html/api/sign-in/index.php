@@ -51,10 +51,10 @@ try {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
 		// Check for the password (required field).
-		if(empty($requestObject->profileActivationToken) === true) {
+		if(empty($requestObject->profileHash) === true) {
 			throw (new \InvalidArgumentException("A password must be entered.", 401));
 		} else {
-			$profileActivationToken = $requestObject->profileActivationToken;
+			$profileHash = $requestObject->profileHash;
 		}
 		// Grab the profile from the database by the email address provided.
 		$profile = profile::getProfileByProfileEmail($pdo, $profileEmail);
@@ -68,8 +68,8 @@ try {
 			throw (new \InvalidArgumentException("Log In To Save Your Favorites!", 403));
 		}
 		// Verify hash is correct
-		if(password_verify($requestObject->profileActivationToken, $profile->getProfileHash()) === false) {
-			throw(new \InvalidArgumentException("Invalid Token.", 401));
+		if(password_verify($requestObject->profileHash, $profile->getProfileHash()) === false) {
+			throw(new \InvalidArgumentException("invalid password.", 401));
 		}
 		// Grab the profile from the database and put it into a session.
 		$profile = profile::getProfileByProfileActivationToken($pdo, $profile->getProfileId());
