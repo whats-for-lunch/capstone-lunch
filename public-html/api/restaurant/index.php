@@ -119,5 +119,10 @@ try {
 			$reply->message = "New Restaurant";
 		}
 
+		//if above requests are neither PUT nor POST, use DELETE below
+	} else if($method === "DELETE") {
+		//process DELETE request
+		//enforce that the end user has a XSRF token.
+		verifyXsrf();
 	}
 }
