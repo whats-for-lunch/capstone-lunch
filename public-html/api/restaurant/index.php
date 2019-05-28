@@ -73,5 +73,9 @@ try {
 			throw(new \InvalidArgumentException ("No name for restaurant.", 405));
 		}
 
+		if($method === "PUT") {
+		//determine if we have a PUT request. Process PUT request here
+		// retrieve the restaurant to update
+
 
 	}
