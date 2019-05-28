@@ -18,7 +18,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 try {
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 
 	// $_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "b3200b81-2cdd-47dc-9e8e-21f9bd69fe3b");
