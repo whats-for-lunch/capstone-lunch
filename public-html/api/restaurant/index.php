@@ -37,39 +37,46 @@ try {
 	$restaurantReviewRating = filter_input(INPUT_GET, "restaurantReviewRating", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantThumbnail = filter_input(INPUT_GET, "restaurantThumbnail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$active = filter_input(INPUT_GET, "active", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	
+
 	// GET request
 	if($method === "GET") {
 		if($method === "GET") {
 			//set XSRF cookie
 			setXsrfCookie();
 
-	//get a specific Restaurant based on arguments provided or all the restaurants and update reply
-	if(empty($id) === false) {
-		$reply->data = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+			//get a specific Restaurant based on arguments provided or all the restaurants and update reply
+			if(empty($id) === false) {
+				$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+				if($restaurant !== null) {
+					$reply->data = $restaurant;
+				}
+
+			} else {
+				$restaurants = Restaurant::getAllRestaurants($pdo)->toArray();
+				if($restaurants !== null) {
+					$reply->data = $restaurants;
+				}
+			}
+
+		}
+		// If the method request is not GET an exception is thrown
 	} else {
-		$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
+		throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
 	}
-}
 
-//if it's not a GET request, we determine if we have a PUT or POST request
-	} else if($method === "PUT" || $method === "POST") {
-		// enforce the user has a XSRF token
-		verifyXsrf();
+			//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+			$requestContent = file_get_contents("php://input");
 
-		//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
-		$requestContent = file_get_contents("php://input");
+			// This Line Then decodes the JSON package and stores that result in $requestObject
+			$requestObject = json_decode($requestContent);
 
-		// This Line Then decodes the JSON package and stores that result in $requestObject
-		$requestObject = json_decode($requestContent);
+			//make sure restaurant name is available (required field)
+			if(empty($requestObject->restaurantName) === true) {
+				throw(new \InvalidArgumentException ("No name for restaurant.", 405));
+			}
 
-		//make sure restaurant name is available (required field)
-		if(empty($requestObject->restaurantName) === true) {
-			throw(new \InvalidArgumentException ("No name for restaurant.", 405));
 		}
 
-	}
-
 // encode and return reply to front end caller
-header("Content-type: application/json");
-echo json_encode($reply);
+		header("Content-type: application/json");
+		echo json_encode($reply);
