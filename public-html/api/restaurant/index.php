@@ -135,5 +135,12 @@ try {
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $restaurant->getRestaurantId()) {
 			throw(new \InvalidArgumentException("Sign In to Delete From Your Favorites", 403));
 		}
+
+		// delete restaurant
+		$restaurant->delete($pdo);
+		// update reply
+		$reply->message = "Restaurant deleted";
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 }
