@@ -31,10 +31,10 @@ try {
 	$restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantAddress = filter_input(INPUT_GET, "restaurantDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantName = filter_input(INPUT_GET, "restaurantName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantLat = filter_input(INPUT_GET, "restaurantLat", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantLng = filter_input(INPUT_GET, "restaurantLng", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$restaurantLat = filter_input(INPUT_GET, "restaurantLat", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$restaurantLng = filter_input(INPUT_GET, "restaurantLng", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantPrice = filter_input(INPUT_GET, "restaurantPrice", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantReviewRating = filter_input(INPUT_GET, "restaurantReviewRating", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$restaurantReviewRating = filter_input(INPUT_GET, "restaurantReviewRating", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantThumbnail = filter_input(INPUT_GET, "restaurantThumbnail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$active = filter_input(INPUT_GET, "active", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
@@ -114,6 +114,10 @@ try {
 			// create new restaurant and insert into the database
 			$restaurant = new Restaurant(generateUuidV4(), $_SESSION["restaurant"]->$requestObject->restaurantAddress, $requestObject->restaurantLat, $requestObject->restaurantLng, $requestObject->restaurantName, $requestObject->restaurantPrice, $requestObject->restaurantReviewRating, $requestObject->restaurantThumbnail);
 			$restaurant->insert($pdo);
+
+			// update reply
+			$reply->message = "New Restaurant";
+		}
 
 	}
 }
