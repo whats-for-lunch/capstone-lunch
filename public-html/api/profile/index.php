@@ -18,7 +18,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 try {
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 
 	// $_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "b3200b81-2cdd-47dc-9e8e-21f9bd69fe3b");
@@ -28,19 +28,16 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantAddress = filter_input(INPUT_GET, "restaurantDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantName = filter_input(INPUT_GET, "restaurantName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantLat = filter_input(INPUT_GET, "restaurantLat", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantLng = filter_input(INPUT_GET, "restaurantLng", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantPrice = filter_input(INPUT_GET, "restaurantPrice", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantReviewRating = filter_input(INPUT_GET, "restaurantReviewRating", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantThumbnail = filter_input(INPUT_GET, "restaurantThumbnail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileFirstName = filter_input(INPUT_GET, "profileFirstName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileLastName = filter_input(INPUT_GET, "profileLastName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileHash = filter_input(INPUT_GET, "profileHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$active = filter_input(INPUT_GET, "active", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
-		throw(new InvalidArgumentException("restaurant id cannot be empty or negative", 405));
+		throw(new InvalidArgumentException("profile id cannot be empty or negative", 405));
 	}
 
 	// GET request
@@ -49,11 +46,15 @@ try {
 			//set XSRF cookie
 			setXsrfCookie();
 
-			//get a specific Restaurant based on arguments provided or all the restaurants and update reply
+			//get a specific Profile based on arguments provided
 			if(empty($id) === false) {
 				$reply->data = Profile::getProfileByProfileId($pdo, $id);
-			} else {
-				$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
+			}
+			else if(empty($profileEmail) === false) {
+				$reply->data = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+			}
+			else if(empty($profileActivationToken) === false) {
+				$reply->data = Profile::getProfileByProfileActivationToken($pdo, $profileActivationToken);
 			}
 		}
 
@@ -68,18 +69,18 @@ try {
 		// This Line Then decodes the JSON package and stores that result in $requestObject
 		$requestObject = json_decode($requestContent);
 
-		//make sure restaurant name is available (required field)
-		if(empty($requestObject->restaurantName) === true) {
-			throw(new \InvalidArgumentException ("No name for restaurant.", 405));
+		//make sure profile email is available (required field)
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException ("No email for profile.", 405));
 		}
 
 		if($method === "PUT") {
 			//determine if we have a PUT request. Process PUT request here
 
-			// retrieve the restaurant to update
-			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-			if($restaurant === null) {
-				throw(new RuntimeException("Restaurant does not exist", 404));
+			// retrieve the profile to update
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile == null) {
+				throw(new RuntimeException("Profile does not exist", 404));
 			}
 			/**
 			 * ASK IF THIS IS EVEN NEEDED
@@ -91,14 +92,13 @@ try {
 			 */
 
 // update all attributes
-			$restaurant->setRestaurantAddress($requestObject->restaurantAddress);
-			$restaurant->setRestaurantLat($requestObject->restaurantLat);
-			$restaurant->setRestaurantLng($requestObject->restaurantLng);
-			$restaurant->setRestaurantName($requestObject->restaurantName);
-			$restaurant->setRestaurantPrice($requestObject->restaurantPrice);
-			$restaurant->setRestaurantReviewRating($requestObject->restaurantReviewRating);
-			$restaurant->setRestaurantThumbnail($requestObject->restaurantThumbnail);
-			$restaurant->update($pdo);
+			$profile->setProfileId($requestObject->profileId);
+			$profile->setProfileActivationToken($requestObject->profileActivationToken);
+			$profile->setProfileEmail($requestObject->profileEmail);
+			$profile->setProfileFirstName($requestObject->profileFirstName);
+			$profile->setProfileLastName($requestObject->profileLastName);
+			$profile->setProfileHash($requestObject->profileHash);
+			$profile->update($pdo);
 
 			// update reply
 			$reply->message = "Everything updated";
@@ -111,12 +111,14 @@ try {
 				throw(new \InvalidArgumentException("you must be logged in to add to favorite list", 403));
 			}
 
-			// create new restaurant and insert into the database
-			$restaurant = new Restaurant(generateUuidV4(), $_SESSION["restaurant"]->$requestObject->restaurantAddress, $requestObject->restaurantLat, $requestObject->restaurantLng, $requestObject->restaurantName, $requestObject->restaurantPrice, $requestObject->restaurantReviewRating, $requestObject->restaurantThumbnail);
-			$restaurant->insert($pdo);
+			// create new profile and insert into the database
+			$profile = new Profile(generateUuidV4(), $_SESSION["profile"]->$requestObject->profileId,
+				$requestObject->profileActivationToken, $requestObject->profileEmail, $requestObject->profileFirstName,
+				$requestObject->profileLastName, $requestObject->profileHash);
+			$profile->insert($pdo);
 
 			// update reply
-			$reply->message = "New Restaurant";
+			$reply->message = "New Profile";
 		}
 
 		//if above requests are neither PUT nor POST, use DELETE below
@@ -125,22 +127,22 @@ try {
 		//enforce that the end user has a XSRF token.
 		verifyXsrf();
 
-		// retrieve the restaurant to be deleted
-		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-		if($restaurant === null) {
-			throw(new RuntimeException("Restaurant Does Not Exist", 404));
+		// retrieve the profile to be deleted
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile Does Not Exist", 404));
 		}
 
 		//enforce the user is signed in and only trying to edit their own favorites page
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $restaurant->getRestaurantId()) {
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $profile->getProfileId()) {
 			throw(new \InvalidArgumentException("Sign In to Delete From Your Favorites", 403));
 		}
 
-		// delete restaurant
-		$restaurant->delete($pdo);
+		// delete profile
+		$profile->delete($pdo);
 
 		// update reply
-		$reply->message = "Restaurant deleted";
+		$reply->message = "Profile deleted";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
