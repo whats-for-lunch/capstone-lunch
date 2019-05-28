@@ -3,7 +3,7 @@ require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
 require_once dirname("/etc/apache2/capstone-mysql/Secrets.php");
 
-use Edu\Cnm\DataDesign\Profile;
+use WhatsForLunch\CapstoneLunch\Profile;
 /**
  * API to check profile activation token status
  * @author Jeffrey Gallegos
@@ -18,7 +18,7 @@ $reply->status = 200;
 $reply->data = null;
 try{
 	//grab the MySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/capstone-lunch.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 
 	//check the HTTP method being used
