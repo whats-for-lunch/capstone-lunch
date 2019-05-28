@@ -102,4 +102,9 @@ try {
 			// update reply
 			$reply->message = "Everything updated";
 
+		} else if($method === "POST") {
+			//process POST request here
+			// enforce the user is signed in
+
+
 		}
