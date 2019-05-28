@@ -124,5 +124,11 @@ try {
 		//process DELETE request
 		//enforce that the end user has a XSRF token.
 		verifyXsrf();
+
+		// retrieve the restaurant to be deleted
+		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+		if($restaurant === null) {
+			throw(new RuntimeException("Restaurant Does Not Exist", 404));
+		}
 	}
 }
