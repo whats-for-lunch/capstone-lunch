@@ -49,16 +49,20 @@ try {
 			//set XSRF cookie
 			setXsrfCookie();
 
-		//get a specific Restaurant based on arguments provided or all the restaurants and update reply
-		if(empty($id) === false) {
-			$reply->data = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-		} else {
-			$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
-		}
+	//get a specific Restaurant based on arguments provided or all the restaurants and update reply
+	if(empty($id) === false) {
+		$reply->data = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+	} else {
+		$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
 	}
+}
 
 //if it's not a GET request, we determine if we have a PUT or POST request
 	} else if($method === "PUT" || $method === "POST") {
 		// enforce the user has a XSRF token
 		verifyXsrf();
-}
+
+//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+		$requestContent = file_get_contents("php://input");
+
+	}
