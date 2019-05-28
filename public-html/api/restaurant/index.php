@@ -16,17 +16,20 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
+//prepare an empty reply
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
 try {
+
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 
-	// $_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "b3200b81-2cdd-47dc-9e8e-21f9bd69fe3b");
-
 //determine which HTTP method was used
-	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize input
+	//sanitize input and store
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantAddress = filter_input(INPUT_GET, "restaurantDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -40,7 +43,6 @@ try {
 
 	// GET request
 	if($method === "GET") {
-		if($method === "GET") {
 			//set XSRF cookie
 			setXsrfCookie();
 
@@ -57,26 +59,23 @@ try {
 					$reply->data = $restaurants;
 				}
 			}
-
+			// If the method request is not GET an exception is thrown
+		} else {
+			throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
 		}
-		// If the method request is not GET an exception is thrown
-	} else {
-		throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
+		// update reply with exception information
+	} catch(Exception $exception) {
+		$reply->status = $exception->getCode();
+		$reply->message = $exception->getMessage();
+		$reply->trace = $exception->getTraceAsString();
+	} catch(TypeError $typeError) {
+		$reply->status = $typeError->getCode();
+		$reply->message = $typeError->getMessage();
 	}
-
-			//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
-			$requestContent = file_get_contents("php://input");
-
-			// This Line Then decodes the JSON package and stores that result in $requestObject
-			$requestObject = json_decode($requestContent);
-
-			//make sure restaurant name is available (required field)
-			if(empty($requestObject->restaurantName) === true) {
-				throw(new \InvalidArgumentException ("No name for restaurant.", 405));
-			}
-
-		}
-
-// encode and return reply to front end caller
-		header("Content-type: application/json");
-		echo json_encode($reply);
+// In these lines, the Exceptions are caught and the $reply object is updated with the data from the caught exception. Note that $reply->status will be updated with the correct error code in the case of an Exception.
+header("Content-type: application/json");
+// sets up the response header.
+if($reply->data === null) {
+	unset($reply->data);
+}
+echo json_encode($reply);
