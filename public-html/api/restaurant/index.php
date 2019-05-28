@@ -56,4 +56,9 @@ try {
 			$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
 		}
 	}
+
+//if it's not a GET request, we determine if we have a PUT or POST request
+	} else if($method === "PUT" || $method === "POST") {
+		// enforce the user has a XSRF token
+		verifyXsrf();
 }
