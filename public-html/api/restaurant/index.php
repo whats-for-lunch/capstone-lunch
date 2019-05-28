@@ -99,4 +99,7 @@ try {
 		$restaurant->setRestaurantThumbnail($requestObject->restaurantThumbnail);
 		$restaurant->update($pdo);
 
-	}
+			// update reply
+			$reply->message = "Everything updated";
+
+		}
