@@ -37,12 +37,7 @@ try {
 	$restaurantReviewRating = filter_input(INPUT_GET, "restaurantReviewRating", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$restaurantThumbnail = filter_input(INPUT_GET, "restaurantThumbnail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$active = filter_input(INPUT_GET, "active", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
-		throw(new InvalidArgumentException("restaurant id cannot be empty or negative", 405));
-	}
-
+	
 	// GET request
 	if($method === "GET") {
 		if($method === "GET") {
@@ -62,10 +57,10 @@ try {
 		// enforce the user has a XSRF token
 		verifyXsrf();
 
-	//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+		//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 		$requestContent = file_get_contents("php://input");
 
-	// This Line Then decodes the JSON package and stores that result in $requestObject
+		// This Line Then decodes the JSON package and stores that result in $requestObject
 		$requestObject = json_decode($requestContent);
 
 		//make sure restaurant name is available (required field)
@@ -73,83 +68,7 @@ try {
 			throw(new \InvalidArgumentException ("No name for restaurant.", 405));
 		}
 
-		if($method === "PUT") {
-		//determine if we have a PUT request. Process PUT request here
-
-		// retrieve the restaurant to update
-		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-		if($restaurant === null) {
-			throw(new RuntimeException("Restaurant does not exist", 404));
 	}
-			/**
-			 * ASK IF THIS IS EVEN NEEDED
-		//enforce the user is signed in and only trying to edit their own favorites list
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $restaurant->getProfileId()->toString()) {
-			throw(new \InvalidArgumentException("Sign in to add to your favorites", 403));
-		}
-
- */
-
-// update all attributes
-		$restaurant->setRestaurantAddress($requestObject->restaurantAddress);
-		$restaurant->setRestaurantLat($requestObject->restaurantLat);
-		$restaurant->setRestaurantLng($requestObject->restaurantLng);
-		$restaurant->setRestaurantName($requestObject->restaurantName);
-		$restaurant->setRestaurantPrice($requestObject->restaurantPrice);
-		$restaurant->setRestaurantReviewRating($requestObject->restaurantReviewRating);
-		$restaurant->setRestaurantThumbnail($requestObject->restaurantThumbnail);
-		$restaurant->update($pdo);
-
-			// update reply
-			$reply->message = "Everything updated";
-
-		} else if($method === "POST") {
-			//process POST request here
-			// enforce the user is signed in
-
-			if(empty($_SESSION["profile"]) === true) {
-				throw(new \InvalidArgumentException("you must be logged in to add to favorite list", 403));
-			}
-
-			// create new restaurant and insert into the database
-			$restaurant = new Restaurant(generateUuidV4(), $_SESSION["restaurant"]->$requestObject->restaurantAddress, $requestObject->restaurantLat, $requestObject->restaurantLng, $requestObject->restaurantName, $requestObject->restaurantPrice, $requestObject->restaurantReviewRating, $requestObject->restaurantThumbnail);
-			$restaurant->insert($pdo);
-
-			// update reply
-			$reply->message = "New Restaurant";
-		}
-
-		//if above requests are neither PUT nor POST, use DELETE below
-	} else if($method === "DELETE") {
-		//process DELETE request
-		//enforce that the end user has a XSRF token.
-		verifyXsrf();
-
-		// retrieve the restaurant to be deleted
-		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-		if($restaurant === null) {
-			throw(new RuntimeException("Restaurant Does Not Exist", 404));
-		}
-
-		//enforce the user is signed in and only trying to edit their own favorites page
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $restaurant->getRestaurantId()) {
-			throw(new \InvalidArgumentException("Sign In to Delete From Your Favorites", 403));
-		}
-
-		// delete restaurant
-		$restaurant->delete($pdo);
-
-		// update reply
-		$reply->message = "Restaurant deleted";
-	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
-	}
-
-	// update the $reply->status $reply->message
-} catch(\Exception | \TypeError $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
-}
 
 // encode and return reply to front end caller
 header("Content-type: application/json");
