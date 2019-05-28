@@ -106,5 +106,9 @@ try {
 			//process POST request here
 			// enforce the user is signed in
 
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new \InvalidArgumentException("you must be logged in to add to favorite list", 403));
+			}
 
 		}
+	}
