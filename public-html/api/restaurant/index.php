@@ -75,7 +75,12 @@ try {
 
 		if($method === "PUT") {
 		//determine if we have a PUT request. Process PUT request here
+
 		// retrieve the restaurant to update
+		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+		if($restaurant === null) {
+			throw(new RuntimeException("Restaurant does not exist", 404));
+		}
 
 
 	}
