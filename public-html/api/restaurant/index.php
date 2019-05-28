@@ -81,6 +81,12 @@ try {
 		if($restaurant === null) {
 			throw(new RuntimeException("Restaurant does not exist", 404));
 		}
-
+/**
+		//enforce the user is signed in and only trying to edit their own favorites list
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $restaurant->getProfileId()->toString()) {
+			throw(new \InvalidArgumentException("Sign in to add to your favorites", 403));
+		}
+ * ASK IF THIS IS EVEN NEEDED
+ */
 
 	}
