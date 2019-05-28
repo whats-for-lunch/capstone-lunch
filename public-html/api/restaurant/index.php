@@ -42,4 +42,10 @@ try {
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		throw(new InvalidArgumentException("restaurant id cannot be empty or negative", 405));
 	}
+
+	// GET request
+	if($method === "GET") {
+		if($method === "GET") {
+			//set XSRF cookie
+			setXsrfCookie();
 }
