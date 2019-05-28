@@ -81,12 +81,13 @@ try {
 		if($restaurant === null) {
 			throw(new RuntimeException("Restaurant does not exist", 404));
 	}
-/**
+			/**
+			 * ASK IF THIS IS EVEN NEEDED
 		//enforce the user is signed in and only trying to edit their own favorites list
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $restaurant->getProfileId()->toString()) {
 			throw(new \InvalidArgumentException("Sign in to add to your favorites", 403));
 		}
- * ASK IF THIS IS EVEN NEEDED
+
  */
 
 // update all attributes
@@ -110,5 +111,9 @@ try {
 				throw(new \InvalidArgumentException("you must be logged in to add to favorite list", 403));
 			}
 
-		}
+			// create new restaurant and insert into the database
+			$restaurant = new Restaurant(generateUuidV4(), $_SESSION["restaurant"]->$requestObject->restaurantAddress, $requestObject->restaurantLat, $requestObject->restaurantLng, $requestObject->restaurantName, $requestObject->restaurantPrice, $requestObject->restaurantReviewRating, $requestObject->restaurantThumbnail);
+			$restaurant->insert($pdo);
+
 	}
+}
