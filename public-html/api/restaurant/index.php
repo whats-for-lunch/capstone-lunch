@@ -138,10 +138,16 @@ try {
 
 		// delete restaurant
 		$restaurant->delete($pdo);
-		
+
 		// update reply
 		$reply->message = "Restaurant deleted";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+
+	// update the $reply->status $reply->message
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+}
 }
