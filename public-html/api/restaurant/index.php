@@ -48,4 +48,12 @@ try {
 		if($method === "GET") {
 			//set XSRF cookie
 			setXsrfCookie();
+
+		//get a specific Restaurant based on arguments provided or all the restaurants and update reply
+		if(empty($id) === false) {
+			$reply->data = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+		} else {
+			$reply->data = Restaurant::getAllRestaurants($pdo)->toArray();
+		}
+	}
 }
