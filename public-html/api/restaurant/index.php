@@ -68,4 +68,10 @@ try {
 	// This Line Then decodes the JSON package and stores that result in $requestObject
 		$requestObject = json_decode($requestContent);
 
+		//make sure restaurant name is available (required field)
+		if(empty($requestObject->restaurantName) === true) {
+			throw(new \InvalidArgumentException ("No name for restaurant.", 405));
+		}
+
+
 	}
