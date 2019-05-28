@@ -130,5 +130,10 @@ try {
 		if($restaurant === null) {
 			throw(new RuntimeException("Restaurant Does Not Exist", 404));
 		}
+
+		//enforce the user is signed in and only trying to edit their own favorites page
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $restaurant->getRestaurantId()) {
+			throw(new \InvalidArgumentException("Sign In to Delete From Your Favorites", 403));
+		}
 	}
 }
