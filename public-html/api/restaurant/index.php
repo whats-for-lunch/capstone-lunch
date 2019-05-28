@@ -138,6 +138,7 @@ try {
 
 		// delete restaurant
 		$restaurant->delete($pdo);
+		
 		// update reply
 		$reply->message = "Restaurant deleted";
 	} else {
