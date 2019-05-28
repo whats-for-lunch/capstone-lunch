@@ -80,7 +80,7 @@ try {
 		$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 		if($restaurant === null) {
 			throw(new RuntimeException("Restaurant does not exist", 404));
-		}
+	}
 /**
 		//enforce the user is signed in and only trying to edit their own favorites list
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $restaurant->getProfileId()->toString()) {
@@ -88,5 +88,15 @@ try {
 		}
  * ASK IF THIS IS EVEN NEEDED
  */
+
+// update all attributes
+		$restaurant->setRestaurantAddress($requestObject->restaurantAddress);
+		$restaurant->setRestaurantLat($requestObject->restaurantLat);
+		$restaurant->setRestaurantLng($requestObject->restaurantLng);
+		$restaurant->setRestaurantName($requestObject->restaurantName);
+		$restaurant->setRestaurantPrice($requestObject->restaurantPrice);
+		$restaurant->setRestaurantReviewRating($requestObject->restaurantReviewRating);
+		$restaurant->setRestaurantThumbnail($requestObject->restaurantThumbnail);
+		$restaurant->update($pdo);
 
 	}
