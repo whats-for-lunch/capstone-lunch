@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__DIR__, 3) . "/php/Classes/autoload.php";
-require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
-require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
-require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
+require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/lib/uuid.php";
+require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 use WhatsForLunch\CapstoneLunch\Profile;
@@ -24,7 +24,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	// Grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 	// Determine which HTTP method was used.
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -57,7 +57,7 @@ try {
 			$profileHash = $requestObject->profileHash;
 		}
 		// Grab the profile from the database by the email address provided.
-		$profile = profile::getProfileByProfileEmail($pdo, $profileEmail);
+		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 		if(empty($profile) === true) {
 			throw(new \InvalidArgumentException("Invalid Email", 401));
 		}
@@ -72,7 +72,7 @@ try {
 			throw(new \InvalidArgumentException("invalid password.", 401));
 		}
 		// Grab the profile from the database and put it into a session.
-		$profile = profile::getProfileByProfileActivationToken($pdo, $profile->getProfileId());
+		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
 		$_SESSION["profile"] = $profile;
 		// Create the authorization payload
 		$authObject = (object)[
