@@ -376,11 +376,11 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo connection object
 	 * @param string $profileActivationToken to search for
-	 * @return profile found
+	 * @return Profile|null Profile or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables aren't the correct data type
 	 */
-	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
 		//create a query template
 		$query = "select profileId, profileActivationToken, profileEmail, profileFirstName, profileLastName, profileHash from
  		profile where profileActivationToken = :profileActivationToken";
