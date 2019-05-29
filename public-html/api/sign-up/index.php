@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/Classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
-require_once ("/etc/apache2/capstone-mysql/Secrets.hp");
+require_once ("/etc/apache2/capstone-mysql/Secrets.php");
 
-use WhatsForLunch\CapstoneLunch\{
+use WhatsForLunch\CapstoneLunch\{ Profile
   //not testing any class not putting anything specific
 };
 
@@ -45,7 +45,7 @@ try {
         }
         //profile last name is a required field
         if (empty($requestObject->profileLastName) === true) {
-            throw(new \InvalidArgumentException("No profile last name present"));
+            throw(new \InvalidArgumentException("No profile last name present", 405));
         }
 
         //check profile email is a required field
@@ -97,7 +97,7 @@ EOF;
         //created a swift email
         $swiftMessage = new Swift_Message();
         // attach the sender to the message
-        //tis takes the form of an associative array where the email is the key to a real name
+        //this takes the form of an associative array where the email is the key to a real name
         $swiftMessage->setFrom(["jsilva85@cnm.edu" => "Jsilva85"]);
 
         /**
@@ -109,7 +109,7 @@ EOF;
         //define who the recipient is
         $recipients = [$requestObject->profileEmail];
         //set the recipient to the swift message
-        $swiftMessage->setSubject($recipients);
+        $swiftMessage->setTo($recipients);
         //attach the subject line to the email message
         $swiftMessage->setSubject($messageSubject);
 
@@ -145,12 +145,12 @@ EOF;
          */
         if ($numSent !== count($recipients)) {
             //the $failedRecipients parameter passed in the send () method now contains an array of the Emails that failed
-            throw(new RuntimeException("invalid http request"));
+            throw(new RuntimeException("Unable to send mail", 400));
         }
         // update reply
         $reply->message = "You are now able to enjoy Lunch with Whats for Lunch";
     } else {
-        throw (new InvalidArgumentException("invalid http request"));
+        throw(new InvalidArgumentException("invalid http request"));
     }
 } catch (\Exception | \TypeError $exception) {
     $reply->status = $exception->getCode();
