@@ -9,11 +9,10 @@ use WhatsForLunch\CapstoneLunch\Profile;
 
 /**
  *  API for app sign in, Profile class
- *
  * POST requests are supported.
- *
- * @author Jamie Amparan <jamparan3@cnm.edu>
+ *@author Jamie Amparan <jamparan3@cnm.edu>
  **/
+
 //Verify the session. If it's not active, start it.
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
@@ -24,7 +23,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	// Grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 	// Determine which HTTP method was used.
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];

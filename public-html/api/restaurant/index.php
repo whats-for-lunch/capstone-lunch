@@ -9,7 +9,7 @@ use WhatsForLunch\CapstoneLunch\Restaurant;
 
 /**
  * api for the restaurant class
- *
+ * @author Jamie Amparan <jamparan3@cnm.edu>
  **/
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -23,7 +23,7 @@ $reply->data = null;
 try {
 
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort24/whatsforlunch.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 	$pdo = $secrets->getPdoObject();
 
 //determine which HTTP method was used
@@ -43,35 +43,35 @@ try {
 
 	// GET request
 	if($method === "GET") {
-			//set XSRF cookie
-			setXsrfCookie();
+		//set XSRF cookie
+		setXsrfCookie();
 
-			//get a specific Restaurant based on arguments provided or all the restaurants and update reply
-			if(empty($id) === false) {
-				$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
-				if($restaurant !== null) {
-					$reply->data = $restaurant;
-				}
-
-			} else {
-				$restaurants = Restaurant::getAllRestaurants($pdo)->toArray();
-				if($restaurants !== null) {
-					$reply->data = $restaurants;
-				}
+		//get a specific Restaurant based on arguments provided or all the restaurants and update reply
+		if(empty($id) === false) {
+			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+			if($restaurant !== null) {
+				$reply->data = $restaurant;
 			}
-			// If the method request is not GET an exception is thrown
+
 		} else {
-			throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
+			$restaurants = Restaurant::getAllRestaurants($pdo)->toArray();
+			if($restaurants !== null) {
+				$reply->data = $restaurants;
+			}
 		}
-		// update reply with exception information
-	} catch(Exception $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
-		$reply->trace = $exception->getTraceAsString();
-	} catch(TypeError $typeError) {
-		$reply->status = $typeError->getCode();
-		$reply->message = $typeError->getMessage();
+		// If the method request is not GET an exception is thrown
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
 	}
+	// update reply with exception information
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
+}
 // In these lines, the Exceptions are caught and the $reply object is updated with the data from the caught exception. Note that $reply->status will be updated with the correct error code in the case of an Exception.
 header("Content-type: application/json");
 // sets up the response header.
