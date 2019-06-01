@@ -16,6 +16,11 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
+//prepare an empty reply
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
+
 try {
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
@@ -144,7 +149,7 @@ try {
 		// update reply
 		$reply->message = "Profile deleted";
 	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new InvalidArgumentException("Invalid HTTP method request", 400));
 	}
 
 	// update the $reply->status $reply->message
