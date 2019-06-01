@@ -42,7 +42,7 @@ try {
 		//gets a specific favorite associated based on its composite key
 		if ($favoriteProfileId !== null && $favoriteRestaurantId !== null) {
 			$favorite = Favorite::getFavoriteByFavoriteProfileIdAndFavoriteRestaurantId($pdo, $favoriteProfileId, $favoriteRestaurantId);
-			if($favorite!== null) {
+			if($favorite !== null) {
 				$reply->data = $favorite;
 			}
 			//if none of the search parameters are met throw an exception
@@ -52,7 +52,7 @@ try {
 		} else if(empty($favoriteRestaurantId) === false) {
 			$reply->data = Favorite::getFavoriteByFavoriteRestaurantId($pdo, $favoriteRestaurantId)->toArray();
 		} else {
-			throw new InvalidArgumentException("incorrect search parameters ", 404);
+			throw new InvalidArgumentException("incorrect search parameters", 404);
 		}
 	} else if($method === "POST" || $method === "PUT") {
 		//decode the response from the front end
