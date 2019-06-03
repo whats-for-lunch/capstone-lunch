@@ -2,6 +2,7 @@
 require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__, 3) . "/Classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/lib/jwt.php");
+require_once (dirname(__DIR__, 3) . "lib/xsrf.php");
 require_once (dirname(__DIR__, 3) . "/lib/uuid.php");
 require_once ("/etc/apache2/capstone-mysql/Secrets.php");
 
@@ -75,21 +76,16 @@ try{
         }
 
         //update reply with exception information
-    } catch(Exception $exception) {
+    } catch(\Exception | \TypeError $exception) {
         $reply->status = $exception->getCode();
         $reply->message = $exception->getMessage();
         $reply->trace = $exception->getTraceAsString();
-    } catch(TypeError $typeError) {
-        $reply->status = $typeError->getCode();
-        $reply->message = $typeError->getMessage();
     }
-
-    //In these lines, the Exception are caught and the $reply object is updated with teh data from teh caought excpetion . Note that $reply->status will be updated with the correct error code in the case of an Exception.
-    header("Content-type: application/json");
 
     // sets up the response header.
     if ($reply->data === null) {
         unset($reply->data);
     }
+    header("Content-type: application/json");
     echo json_encode($reply);
-}
+
