@@ -1,9 +1,9 @@
 <?php
-require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
-require_once(dirname(__DIR__, 3) . "/Classes/autoload.php");
-require_once(dirname(__DIR__, 3) . "/lib/jwt.php");
-require_once(dirname(__DIR__, 3) . "lib/xsrf.php");
-require_once(dirname(__DIR__, 3) . "/lib/uuid.php");
+require_once(dirname(__DIR__, 3) . "/php/vendor/autoload.php");
+require_once(dirname(__DIR__, 3) . "/php/Classes/autoload.php");
+require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php");
+require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
+require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 
@@ -59,7 +59,7 @@ try {
                     $reply->data = $picture;
                 }
             } else {
-                $picture = Picture::getPictureByPictureRestaurantId($pdo)->toArray();
+                $picture = Picture::getPictureByPictureRestaurantId($pdo,)->toArray();
                 if ($picture !== null) {
                     $reply->data = $picture;
                 }
@@ -67,7 +67,7 @@ try {
         } else {
             throw (new InvalidArgumentException("Invalid HTTP Method Request", 418));
         }
-
+    }
         //update reply with exception information
     } catch (\Exception | \TypeError $exception) {
         $reply->status = $exception->getCode();
