@@ -1,0 +1,22 @@
+footer {
+	background-color: black;
+	color: white;
+	text-align: center;
+	align-content: center;
+	padding: 25px;
+}
+
+.github {
+	color: white;
+}
+
+.about-us {
+	border-style: solid;
+	border-width: thick;
+	border-color: black;
+	text-align: center;
+	padding: 50px;
+	margin-left: 200px;
+	margin-right: 200px;
+	background-color: orange;
+}
