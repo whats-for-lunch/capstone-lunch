@@ -14,12 +14,14 @@
 		</title>
 	</head>
 	<body>
+	</body>
 		<footer>
 			<div class="container" id="footer">
 				<a href="https://github.com/JeffreyGallegosCoding" class="github">
 					<i class="fab fa-github fa-2x"></i>
+					<a href="#" class="yelp">
+						<i class="fab fa-yelp fa-2x"></i>
 			</div>
 		</footer>
-	</body>
 </html>
 

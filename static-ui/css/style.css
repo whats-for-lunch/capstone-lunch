@@ -7,7 +7,12 @@ footer {
 }
 
 .github {
-	color: white;
+	color: yellow;
+	padding-right: 10px;
+}
+
+.yelp {
+	color: yellow;
 }
 
 .about-us {
