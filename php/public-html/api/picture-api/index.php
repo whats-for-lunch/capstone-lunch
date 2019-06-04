@@ -1,15 +1,13 @@
 <?php
-require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
-require_once (dirname(__DIR__, 3) . "/Classes/autoload.php");
-require_once (dirname(__DIR__, 3) . "/lib/jwt.php");
-require_once (dirname(__DIR__, 3) . "lib/xsrf.php");
-require_once (dirname(__DIR__, 3) . "/lib/uuid.php");
-require_once ("/etc/apache2/capstone-mysql/Secrets.php");
-
+require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 3) . "/Classes/autoload.php");
+require_once(dirname(__DIR__, 3) . "/lib/jwt.php");
+require_once(dirname(__DIR__, 3) . "lib/xsrf.php");
+require_once(dirname(__DIR__, 3) . "/lib/uuid.php");
+require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 
 use WhatsForLunch\CapstoneLunch\{Picture};
-
 
 
 /**
@@ -28,9 +26,9 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-try{
+try {
     //grab the MySql connection
-    $secrets =new \Secrets("/etc/apache2/capstone-mysql/WhatsForLunch.ini");
+    $secrets = new \Secrets("/etc/apache2/capstone-mysql/WhatsForLunch.ini");
     $pdo = $secrets->getPDOObject();
     //waiting on yelp data not sure if this would be how to use
 //    $yelp = $secrets->getSecret("yelp");
@@ -38,8 +36,8 @@ try{
     //determine which HTTP method was used
     $method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
     if ($method === "GET") {
-        // set XSRF cookie
-        setXsrfCookie();
+//        // set XSRF cookie
+//        setXsrfCookie();
 
 //Sanitizing all inputs
         $id = filter_input(INPUT_GET, "profileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -76,7 +74,7 @@ try{
         }
 
         //update reply with exception information
-    } catch(\Exception | \TypeError $exception) {
+    } catch (\Exception | \TypeError $exception) {
         $reply->status = $exception->getCode();
         $reply->message = $exception->getMessage();
         $reply->trace = $exception->getTraceAsString();
