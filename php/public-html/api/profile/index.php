@@ -2,6 +2,7 @@
 require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
@@ -88,6 +89,8 @@ try {
 			if($profile == null) {
 				throw(new RuntimeException("Profile does not exist", 404));
 			}
+
+			validateJwtHeader();
 			/**
 			 * ASK IF THIS IS EVEN NEEDED
 			//enforce the user is signed in and only trying to edit their own favorites list
@@ -117,6 +120,7 @@ try {
 				throw(new \InvalidArgumentException("you must be logged in to add to favorite list", 403));
 			}
 
+
 			// create new profile and insert into the database
 			$profile = new Profile(generateUuidV4(), $_SESSION["profile"]->$requestObject->profileId,
 				$requestObject->profileActivationToken, $requestObject->profileEmail, $requestObject->profileFirstName,
@@ -140,9 +144,11 @@ try {
 		}
 
 		//enforce the user is signed in and only trying to edit their own favorites page
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $profile->getProfileId()) {
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profile->getProfileId()->toString()) {
 			throw(new \InvalidArgumentException("Sign In to Delete From Your Favorites", 403));
 		}
+
+		validateJwtHeader();
 
 		// delete profile
 		$profile->delete($pdo);
