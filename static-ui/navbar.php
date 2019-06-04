@@ -3,7 +3,7 @@
 
 	<head>
 		<!--Navbar beginning -->
-		<nav class="navbar navbar-dark bg-dark fluid d-flex justify-content-end">
+		<nav class="navbar navbar-dark bg-dark fluid d-flex justify-content-end ">
 			<form class="form-inline">
 				<button class="btn btn-outline-warning" type="button">Sign Up</button>
 				<button class="btn btn-outline-warning" type="button">Sign In</button>
