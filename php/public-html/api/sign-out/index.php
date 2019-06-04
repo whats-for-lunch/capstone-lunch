@@ -4,7 +4,7 @@ require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
 /*
  * api for signing out of what for lunch account
  *
- * @ Jamie Amparan <jamparan3@cnm.edu>
+ * @author Jamie Amparan <jamparan3@cnm.edu>
  */
 //verify the xsrf challenge
 if(session_status() !== PHP_SESSION_ACTIVE){
