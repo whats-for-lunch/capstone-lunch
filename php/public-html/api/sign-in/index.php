@@ -9,11 +9,10 @@ use WhatsForLunch\CapstoneLunch\Profile;
 
 /**
  *  API for app sign in, Profile class
- *
  * POST requests are supported.
- *
  * @author Jamie Amparan <jamparan3@cnm.edu>
  **/
+
 //Verify the session. If it's not active, start it.
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
