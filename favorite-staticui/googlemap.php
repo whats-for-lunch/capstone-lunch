@@ -2,13 +2,13 @@
 <html>
 <link rel="stylesheet" href="googlemap.js">
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsf-ZT8Sf7LodRc_4EtnIvprlvJ5ZW2x0" async="" defer="defer" type="text/javascript">
 </script>
 <script>
     function initMap() {
     }
 </script>
-<
+
 <head>
     <style>
         /* Set the size of the div element that contains the map */
