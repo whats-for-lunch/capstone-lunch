@@ -74,6 +74,7 @@ try {
 		// This Line Then decodes the JSON package and stores that result in $requestObject
 		$requestObject = json_decode($requestContent);
 
+
 		//make sure profile email is available (required field)
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No email for profile.", 405));
