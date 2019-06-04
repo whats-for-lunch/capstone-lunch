@@ -29,6 +29,7 @@
                 <p class="card-text">American (New), Cafes</p>
                 <p><strong>424 Central Ave SE
                         Albuquerque, NM 87102</strong></p>
+                <i class="far fa-window-close"></i>
             </div>
 
         </div>
