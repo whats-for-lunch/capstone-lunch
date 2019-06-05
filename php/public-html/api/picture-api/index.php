@@ -1,9 +1,9 @@
 <?php
-require_once(dirname(__DIR__, 3) . "/php/vendor/autoload.php");
-require_once(dirname(__DIR__, 3) . "/php/Classes/autoload.php");
-require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php");
-require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
-require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
+require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 3) . "/Classes/autoload.php");
+require_once(dirname(__DIR__, 3) . "/lib/jwt.php");
+require_once(dirname(__DIR__, 3) . "/lib/xsrf.php");
+require_once(dirname(__DIR__, 3) . "/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 
@@ -59,7 +59,7 @@ try {
                     $reply->data = $picture;
                 }
             } else {
-                $picture = Picture::getPictureByPictureRestaurantId($pdo,)->toArray();
+                $picture = Picture::getPictureByPictureRestaurantId($pdo, $pictureRestaurantId)->toArray();
                 if ($picture !== null) {
                     $reply->data = $picture;
                 }
@@ -75,10 +75,10 @@ try {
         $reply->trace = $exception->getTraceAsString();
     }
 
-    // sets up the response header.
-    if ($reply->data === null) {
-        unset($reply->data);
-    }
+//    // sets up the response header.
+//    if ($reply->data === null) {
+//        unset($reply->data);
+//    }
     header("Content-type: application/json");
     echo json_encode($reply);
 
