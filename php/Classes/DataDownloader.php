@@ -25,7 +25,7 @@ class DataDownloader {
 
 
 
-		//	var_dump($newRestaurants);
+			var_dump($newRestaurants);
 
 
 		foreach($newRestaurants as $value) {
@@ -51,12 +51,12 @@ class DataDownloader {
 
 	public static function readDataJson($url, $secret) {
 
-		var_dump($secret);
+
 		$context = stream_context_create(["http" => ["ignore_errors" => true, "method" => "GET",
 				"header" => "Authorization: Bearer $secret->apiKey"
 			]]);
 		try {
-			var_dump($context);
+
 			//file-get-contents returns file in string context
 			if(($jsonData = file_get_contents($url, null, $context)) === false) {
 				throw(new \RuntimeException("url doesn't produce results"));
