@@ -19,7 +19,7 @@ class DataDownloader {
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/whatsforlunch.ini");
 		$pdo = $secrets->getPdoObject();
 
-		$avatarCount = 0;
+		$Count = 0;
 		$nameCount = 0;
 		$restaurantCount = 0;
 		foreach($newRestaurants as $value) {
