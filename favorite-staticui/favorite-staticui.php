@@ -19,6 +19,7 @@
 <h1><strong>Favorites</strong></h1>
 </div>
 <section id="card decks">
+    <div class="container-fluid bg-dark text-dark">
 <div class="container my-8 border-warning">
     <div class="card-deck">
 
@@ -64,6 +65,7 @@
         </div>
     </div>
 </div>
+    </div>
 </section>
 
 </body>
