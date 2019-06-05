@@ -25,49 +25,31 @@ class DataDownloader {
 
 
 
-			var_dump($newRestaurants);
+		//	var_dump($newRestaurants);
 
-////		$thumbnailCount = 0;
-//		$nameCount = 0;
-//		$restaurantCount = 0;
-//		$addressCount = 0;
-//		foreach($newRestaurants as $value) {
-//			$restaurantId = generateUuidV4();
-//			$restaurantThumbnail = $value->imgSmall;
-////			if(empty($restaurantThumbnail) === true) {
-////				$restaurantThumbnail = "restaurant thumbnail image address";
-////			}
-//			//missing restaurant thumbnail counter
-//
-//			$restaurantName = $value->name;
-//			//missing restaurant name counter
-//			if((empty($restaurantName) || $restaurantName === "Needs name")===true) {
-//				$restaurantName = "This restaurant does not have a name.";
-//				$nameCount = $nameCount + 1;
-//			}
-//
-//			$restaurantAddress = $value->address;
-//			//missing restaurant address
-//			if((empty($restaurantAddress) || $restaurantAddress === "Needs address")===true) {
-//				$restaurantAddress = "This restaurant does not have an address";
-//				$addressCount = $addressCount + 1;
-//			}
-//			$restaurantAddress = $value->address;
-//			$restaurantLat = $value->latitude;
-//			$restaurantLng = $value->longitude;
-//			$restaurantName = $value->name;
-//			$restaurantPrice = $value->price;
-//			$restaurantReviewRating = $value->rating;
-//			//count restaurants that are being pulled by data downloader
-//			$restaurantCount = $restaurantCount + 1;
-//			try {
-//				$restaurant = new Restaurant($restaurantId, $restaurantAddress, $restaurantLat, $restaurantLng, $restaurantName, $restaurantPrice, $restaurantReviewRating, $restaurantThumbnail);
-//				$restaurant->insert($pdo);
-//			} catch(\TypeError $typeError) {
-//				echo("Error Connecting to database");
-//			}
-//		}
-	} public static function readDataJson($url, $secret) {
+
+		foreach($newRestaurants as $value) {
+			$restaurantId = generateUuidV4();
+
+			$restaurantAddress = $value->location->address1;
+			$restaurantLat = $value->coordinates->latitude;
+			$restaurantLng = $value->coordinates->longitude;
+			$restaurantName = $value->name;
+			$restaurantPrice = $value->price;
+			$restaurantReviewRating = $value->rating;
+			$restaurantThumbnail = $value->image_url;
+
+			try {
+				$restaurant = new Restaurant($restaurantId, $restaurantAddress, $restaurantLat, $restaurantLng, $restaurantName, $restaurantPrice, $restaurantReviewRating, $restaurantThumbnail);
+				$restaurant->insert($pdo);
+			} catch(\TypeError $typeError) {
+				echo("Error Connecting to database");
+			}
+		}
+	}
+
+
+	public static function readDataJson($url, $secret) {
 
 		var_dump($secret);
 		$context = stream_context_create(["http" => ["ignore_errors" => true, "method" => "GET",
