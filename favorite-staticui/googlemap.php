@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="googlemap.js">
+<link rel="stylesheet" href="../static-ui/js/googlemap.js">
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=" async="" defer="defer" type="text/javascript">
 </script>
