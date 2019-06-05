@@ -19,22 +19,30 @@ class DataDownloader {
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/whatsforlunch.ini");
 		$pdo = $secrets->getPdoObject();
 
-		$Count = 0;
+//		$thumbnailCount = 0;
 		$nameCount = 0;
 		$restaurantCount = 0;
+		$addressCount = 0;
 		foreach($newRestaurants as $value) {
 			$restaurantId = generateUuidV4();
 			$restaurantThumbnail = $value->imgSmall;
-			if(empty($restaurantThumbnail) === true) {
-				$restaurantThumbnail = "restaurant thumbnail image";
+//			if(empty($restaurantThumbnail) === true) {
+//				$restaurantThumbnail = "restaurant thumbnail image address";
+//			}
+			//missing restaurant thumbnail counter
+
+			$restaurantName = $value->name;
+			//missing trail description counter
+			if((empty($restaurantName) || $restaurantName === "Needs name")===true) {
+				$restaurantName = "This restaurant does not have a name.";
+				$nameCount = $nameCount + 1;
 			}
-			//missing avatar url counter
 
 			$restaurantAddress = $value->address;
-			//missing trail description counter
+			//missing restaurant address
 			if((empty($restaurantAddress) || $restaurantAddress === "Needs address")===true) {
-				$restaurantAddress = "This restaurant does not have an address.";
-				$nameCount = $nameCount + 1;
+				$restaurantAddress = "This restaurant does not have an address";
+				$addressCount = $addressCount + 1;
 			}
 			$restaurantAddress = $value->address;
 			$restaurantLat = $value->latitude;
@@ -43,7 +51,7 @@ class DataDownloader {
 			$restaurantPrice = $value->price;
 			$restaurantReviewRating = $value->rating;
 			//count trails that are being pulled by data downloader
-			$nameCount = $nameCount + 1;
+			$restaurantCount = $restaurantCount + 1;
 			try {
 				$restaurant = new Restaurant($restaurantId, $restaurantAddress, $restaurantLat, $restaurantLng, $restaurantName, $restaurantPrice, $restaurantReviewRating, $restaurantThumbnail);
 				$restaurant->insert($pdo);
