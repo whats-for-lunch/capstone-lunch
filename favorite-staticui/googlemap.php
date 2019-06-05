@@ -2,7 +2,7 @@
 <html>
 <link rel="stylesheet" href="googlemap.js">
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsf-ZT8Sf7LodRc_4EtnIvprlvJ5ZW2x0" async="" defer="defer" type="text/javascript">
+        src="https://maps.googleapis.com/maps/api/js?key=" async="" defer="defer" type="text/javascript">
 </script>
 <script>
     function initMap() {
