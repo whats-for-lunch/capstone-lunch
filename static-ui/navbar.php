@@ -3,12 +3,13 @@
 
 	<head>
 		<!--Navbar beginning -->
-		<nav class="navbar navbar-dark bg-dark fluid d-flex justify-content-end ">
+		<nav class="navbar navbar-dark bg-dark fluid d-flex justify-content-end text-monospace">
 			<form class="form-inline">
 				<button class="btn btn-outline-warning" type="button">Sign Up</button>
 				<button class="btn btn-outline-warning" type="button">Sign In</button>
 				<button class="btn btn-outline-warning" type="button">About Us</button>
 				<button class="btn btn-outline-warning" type="button">Favorites</button>
+
 				<!-- Added a toggle tab to navbar -->
 				<div class="pos-f-t">
 			<div class="collapse" id="navbarToggleExternalContent">
