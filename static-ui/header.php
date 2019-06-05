@@ -1,7 +1,4 @@
 <?php require_once("head-utils.php"); ?>
-<?php require_once("navbar.php"); ?>
-<?php require_once ("header.php"); ?>
-<?php require_once ("recommended.php"); ?>
 
 
 <head>
@@ -13,15 +10,4 @@
 			</div>
 		</div>
 	</div>
-
-
-	<!-- dummy pic to see full page while building -->
-	<div class="container"
-	<div class="container justify-content-center bg-dark">
-		<img src="img/dummymap.png" height="600px">
-		<div class="column bg-dark">
-		</div>
-	</div>
-
-
 </head>

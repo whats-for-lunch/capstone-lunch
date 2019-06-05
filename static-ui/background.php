@@ -4,7 +4,4 @@
 <?php require_once ("recommended.php"); ?>
 
 <body class="bg-dark">
-
-
-
 </body>

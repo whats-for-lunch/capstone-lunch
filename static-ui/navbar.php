@@ -1,13 +1,9 @@
 <?php require_once("head-utils.php"); ?>
-<?php require_once("navbar.php"); ?>
-<?php require_once ("header.php"); ?>
-<?php require_once ("recommended.php"); ?>
 
 
 	<head>
 		<!--Navbar beginning -->
 		<nav class="navbar navbar-dark bg-dark fluid d-flex justify-content-end text-monospace">
-
 			<form class="form-inline">
 				<button class="btn btn-outline-warning" type="button">Sign Up</button>
 				<button class="btn btn-outline-warning" type="button">Sign In</button>
@@ -30,5 +26,4 @@
 		</div>
 			</form>
 		</nav>
-		<title>Title</title>
 		</head>
