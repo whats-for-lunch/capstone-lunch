@@ -5,10 +5,11 @@
 <div class="container"></div>
 <div class="container justify-content-center bg-dark">
 	<div class="row justify-content-center">
-	<img src="img/yelpmap.jpg.png" height="700px" width="700px">
+		<span class="border border-warning">
+	<img src="img/yelpmap.jpg.png" height="500px" width="600px">
 	</div>
-	<div class="column bg-dark">
 	</div>
+	</span>
 </div>
 
 </body>
