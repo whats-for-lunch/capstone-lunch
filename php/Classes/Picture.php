@@ -153,8 +153,8 @@ class Picture implements \JsonSerializable {
         }
 
         //verify the picture alternate will fit in the database
-        if (strlen($newPictureALt) > 10) {
-            throw(new \RangeException("picture can't be more than one"));
+        if (strlen($newPictureALt) < 10) {
+            throw(new \RangeException("picture can't be fewer than ten characters"));
         }
 
         //store picture alternate

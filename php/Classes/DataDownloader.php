@@ -15,6 +15,7 @@ class DataDownloader {
 	public static function pullRestaurants() {
 		$newRestaurants = null;
 		$urlBase = "https://api.yelp.com/v3/businesses/search?latitude=35.0856326&longitude=-106.649319";
+		$businessUrlBase = "https://api.yelp.com/v3/businesses/";
 
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
 		$pdo = $secrets->getPdoObject();
@@ -25,12 +26,14 @@ class DataDownloader {
 
 
 
-			var_dump($newRestaurants);
+
 
 
 		foreach($newRestaurants as $value) {
 			$restaurantId = generateUuidV4();
-
+			$restaurantYelpId = $value->id;
+			$newPictures = self::readDataJson($businessUrlBase . $restaurantYelpId, $yelp);
+			var_dump($newPictures);
 			$restaurantAddress = $value->location->address1;
 			$restaurantLat = $value->coordinates->latitude;
 			$restaurantLng = $value->coordinates->longitude;
@@ -44,6 +47,16 @@ class DataDownloader {
 				$restaurant->insert($pdo);
 			} catch(\TypeError $typeError) {
 				echo("Error Connecting to database");
+			}
+			foreach($newPictures as $picValue) {
+				$pictureUrl = $picValue;
+				$newPictureId = generateUuidV4();
+				try {
+					$picture = new Picture($newPictureId, $restaurantId, "picture courtesy of yelp", $pictureUrl);
+					$picture->insert($pdo);
+				} catch(\TypeError $typeError) {
+					echo("Error Connecting to database");
+				}
 			}
 		}
 	}
@@ -64,7 +77,12 @@ class DataDownloader {
 			//decode the Json file
 			$jsonConverted = json_decode($jsonData);
 			//format
-			$jsonFeatures = $jsonConverted->businesses;
+			if(empty($jsonConverted->businesses) === false) {
+				$jsonFeatures = $jsonConverted->businesses;
+			} else {
+				$jsonFeatures = $jsonConverted->photos;
+			}
+			var_dump($jsonFeatures);
 			$newRestaurants = \SplFixedArray::fromArray($jsonFeatures);
 		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
