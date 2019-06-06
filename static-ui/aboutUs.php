@@ -4,21 +4,28 @@
 <?php require_once("map.php"); ?>
 <?php require_once("background.php"); ?>
 <?php require_once("favorite.php"); ?>
+<?php require_once ("footer.php"); ?>
 
 	<body>
-		<section id="whatsforlunch">
-			<div class="container-fluid bg-dark text-white">
-				<div class="container">
+
+		<<div class="jumbotron jumbotron-fluid bg-dark text-white justify-content-center py-0 mb-0 ">
+			<div class="container">
+				<div class="row justify-content-center">
+				<h1 class="display-4"> ABOUT US </h1>
+				</div>
+			</div>
+		</div>
 					<div class="row justify-content-center">
-						<h1>About Us</h1>
-					</div>
-					<div class="row justify-content-center">
+						<span class="border border-warning">
 						<img src="img/120190529_101042_HDR-640x480.jpg" class="img-fluid" alt="whats for lunch crew">
+					</span>
 					</div>
-					<div class="row justify-content-center">
-						<h4><q>What's for Lunch</q></h4>
+					<div class="container text-white">
+					<div class="row justify-content-center sm">
+						<h4 class="display-6">"What's for Lunch"</h4>
 					</div>
 				</div>
+		<div class="container text-white ">
 				<div class="container mx-auto">
 					<p>Jeff ipsum dolor sit amet kobok mantell jax wedge zev mccool fey'lya nar fett moff. Jobal golda
 						vratix vratix dagobah. Wharl khai salacious tharin ahsoka. Wessell mohc gungan dulok anomid antilles
@@ -43,6 +50,5 @@
 						or<a href="https://github.com/jsilva85" target="_blank">Github</a></p></small></p>
 				</div>
 			</div>
-		</section>
 
 	</body>

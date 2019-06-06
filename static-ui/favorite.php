@@ -1,15 +1,20 @@
 <?php require_once("head-utils.php"); ?>
 
 <body>
-<div class="row justify-content-center">
-<h1><strong>Favorites</strong></h1>
-</div>
+	<div class="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 mb-0">
+		<div class="container">
+			<div class="row justify-content-center">
+				<h1 class="display-4">Favorites</h1>
+			</div>
+		</div>
+	</div>
+
+
 <section id="card decks">
     <div class="container-fluid bg-dark text-dark">
-<div class="container my-8 border-warning">
+<div class="container my-8">
     <div class="card-deck">
-
-        <div class="card">
+		 <div class="card bg-warning">
             <img class="card-img-top" src="https://s3-media2.fl.yelpcdn.com/bphoto/UEnfWw0AdsVhMzmvLswgzg/o.jpg" alt="Card image cap" class="rounded">
             <div class="card-body">
                 <h5 class="card-title">Artichoke Cafe</h5>
@@ -20,7 +25,7 @@
             </div>
 
         </div>
-        <div class="card">
+        <div class="card bg-warning">
             <img class="card-img-top" src="https://s3-media3.fl.yelpcdn.com/bphoto/-odb7y2_GxASimUqXtNn4Q/o.jpg" alt="Card image cap" class="rounded">
             <div class="card-body">
                 <h5 class="card-title">Cocina Azul</h5>
@@ -29,7 +34,7 @@
                         Albuquerque, NM 87102</strong></p>
             </div>
         </div>
-        <div class="card">
+        <div class="card bg-warning">
             <img class="card-img-top" src="https://s3-media3.fl.yelpcdn.com/bphoto/-odb7y2_GxASimUqXtNn4Q/o.jpg" alt="Card image cap" class="rounded">
             <div class="card-body">
                 <h5 class="card-title">The Grove Cafe & Market</h5>
@@ -39,7 +44,7 @@
                         Albuquerque, NM 87102</strong></p>
             </div>
         </div>
-        <div class="card">
+        <div class="card bg-warning">
             <img class="card-img-top" src="https://s3-media2.fl.yelpcdn.com/bphoto/UEnfWw0AdsVhMzmvLswgzg/o.jpg" alt="Card image cap" class="rounded">
             <div class="card-body">
                 <h5 class="card-title">Sophia’s</h5>

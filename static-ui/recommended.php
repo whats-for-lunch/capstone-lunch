@@ -7,11 +7,10 @@
 <!-- our recommended pages + links to our handles -->
 
 <body>
-	<div class="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 ">
+	<div class="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 mb-0">
 		<div class="container">
 			<div class="row justify-content-center">
 				<h1 class="display-4">Recommended</h1>
-				<p class="lead"></p>
 			</div>
 		</div>
 	</div>
