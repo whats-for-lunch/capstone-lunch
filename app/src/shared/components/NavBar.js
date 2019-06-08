@@ -1,6 +1,7 @@
 import React from "react";
 
 
+
 export const NavBar = () => (
 	<header>
 
@@ -25,11 +26,11 @@ export const NavBar = () => (
 						<button className="navbar-toggler" type="button" data-toggle="collapse"
 								  data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
 								  aria-expanded="false" aria-label="Toggle navigation">
-							<span className="navbar-toggler-icon"></span>
+							<span className="navbar-toggler-icon"> </span>
 						</button>
 					</nav>
 				</div>
 			</form>
 		</nav>
 	</header>
-)
+);

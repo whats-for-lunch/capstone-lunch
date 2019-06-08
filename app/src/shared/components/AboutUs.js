@@ -53,4 +53,4 @@ export const AboutUs = () => (
 		</div>
 
 	</body>
-)
+);

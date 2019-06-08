@@ -7,17 +7,27 @@ import {Home} from "./pages/Home.js";
 import {NavBar} from "./shared/components/NavBar";
 import {Footer} from "./shared/components/Footer";
 import {AboutUs} from "./shared/components/AboutUs";
+import {Background} from "./shared/components/Background";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Map} from "./shared/components/Map";
+import {Favorite} from "./shared/components/Favorite";
+import {Recommended} from "./shared/components/Recommended";
 
+{/*library.add(fa-github, fa-yelp);*/}
 
 const Routing = () => (
 	<>
 		<BrowserRouter>
+			<Background/>
 			<NavBar/>
+			<Map/>
 			<AboutUs/>
+			<Favorite/>
+			<Recommended/>
+			<Footer/>
 			<Switch>
 				<Route exact path = "/" component = {Home}/>
 			</Switch>
-			<Footer/>
 		</BrowserRouter>
 	</>
 );
