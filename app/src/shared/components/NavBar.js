@@ -5,6 +5,10 @@ import React from "react";
 export const NavBar = () => (
 	<header>
 
+		{/*<!-- Font Awesome -->*/}
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+				integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"/>
+
 
 		{/*<!--Navbar beginning -->*/}
 		<nav className="navbar navbar-dark bg-dark fluid d-flex justify-content-end text-monospace">

@@ -17,7 +17,7 @@
 		</div>
 					<div class="row justify-content-center">
 						<span class="border border-warning">
-						<img src="img/120190529_101042_HDR-640x480.jpg" class="img-fluid" alt="whats for lunch crew">
+						<img src="../app/public/images/120190529_101042_HDR-640x480.jpg" class="img-fluid" alt="whats for lunch crew">
 					</span>
 					</div>
 					<div class="container text-white">
