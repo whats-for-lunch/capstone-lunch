@@ -7,9 +7,9 @@ export const Map = () => (
 
 		<div class="container">
 			<div class="container justify-content-center bg-dark">
-				<div class="row justify-content-center">
+				<div class="row justify-content-center" id="map-placeholder">
 	<span class="border border-warning">
-	<img src="img/yelpmap.jpg.png" height="500px" width="600px"/>
+	<img src="images/yelpmap.jpg.png"/>
 	</span>
 				</div>
 			</div>
