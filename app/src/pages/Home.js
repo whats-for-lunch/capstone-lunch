@@ -42,7 +42,7 @@ const HomeComponent = () => {
 							<a href="https://www.yelp.com/" class="ml-2 yelp">
 								<i class="fab fa-yelp fa-2x"></i>
 							</a>
-							<br>
+							<br/>
 						</div>
 					</div>
 				</div>

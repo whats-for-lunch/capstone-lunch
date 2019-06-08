@@ -8,7 +8,7 @@
 
 	<body>
 
-		<<div class="jumbotron jumbotron-fluid bg-dark text-white justify-content-center py-0 mb-0 ">
+		<div class="jumbotron jumbotron-fluid bg-dark text-white justify-content-center py-0 mb-0 ">
 			<div class="container">
 				<div class="row justify-content-center">
 				<h1 class="display-4"> ABOUT US </h1>
