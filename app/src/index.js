@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Map} from "./shared/components/Map";
 import {Favorite} from "./shared/components/Favorite";
 import {Recommended} from "./shared/components/Recommended";
+import {Header} from "./shared/components/Header";
 
 {/*library.add(fa-github, fa-yelp);*/}
 
@@ -20,6 +21,7 @@ const Routing = () => (
 		<BrowserRouter>
 			<Background/>
 			<NavBar/>
+			<Header/>
 			<Map/>
 			<AboutUs/>
 			<Favorite/>
