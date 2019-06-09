@@ -1,7 +1,12 @@
-
+import React from "react";
+export const GMap = () => (
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-
 export class MapContainer extends Component {
+   <body>
+
+   <div class="container">
+   <div class="conatiner justify-content-center bg-dark">
+<div className="row justify-content-center">
     render() {
         return (
             <Map google={this.props.google} zoom={14}>
@@ -22,4 +27,23 @@ export class MapContainer extends Component {
 export default GoogleApiWrapper({
     apiKey: (AIzaSyD06q5rM_DroPEG3scOlB3w-DVf_mv37ZI)
 })(MapContainer)
->>>>>>> googlemap-static-ui
+   </div>
+   </div>
+   </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+)
