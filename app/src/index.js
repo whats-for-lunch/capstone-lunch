@@ -9,7 +9,7 @@ import {NavBar} from "./shared/components/NavBar";
 import {Footer} from "./shared/components/Footer";
 import {AboutUs} from "./shared/components/AboutUs";
 import {Background} from "./shared/components/Background";
-import {Map} from "./shared/components/Map";
+import {GMap} from "./shared/components/GMap";
 import {Favorite} from "./shared/components/Favorite";
 import {Recommended} from "./shared/components/Recommended";
 import {Header} from "./shared/components/Header";
@@ -22,7 +22,7 @@ const Routing = () => (
 			<Background/>
 			<NavBar/>
 			<Header/>
-			<Map/>
+			<GMap/>
 			<AboutUs/>
 			<Favorite/>
 			<Recommended/>
