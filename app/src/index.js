@@ -9,7 +9,7 @@ import {NavBar} from "./shared/components/NavBar";
 import {Footer} from "./shared/components/Footer";
 import {AboutUs} from "./pages/AboutUs";
 // import {GMap} from "./shared/components/GMap";
-import {Favorite} from "./shared/components/Favorite";
+import {Favorite} from "./pages/Favorite";
 
 {/*library.add(fa-github, fa-yelp);*/}
 
