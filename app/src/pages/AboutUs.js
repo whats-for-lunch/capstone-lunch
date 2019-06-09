@@ -29,8 +29,8 @@ export const AboutUs = () => (
 					drovian luuke nass kyp wesell givin elrood. Gora mod tchuukthai garm. Utapaun cliegg rishi umbaran
 					tenel wilhuff. Gilad jarael rotta sio theelin var. Aqualish besalisk iego caedus zannah. Wicket rishii
 					greeata davin valorum elomin ponda FIND ME ON<a
-						href="https://www.linkedin.com/in/jeffrey-gallegos-b002a6181/" target="_blank">LinkedIn</a>
-					or<a href="https://github.com/JeffreyGallegosCoding" target="_blank">Github</a></p>
+						href="https://www.linkedin.com/in/jeffrey-gallegos-b002a6181/">LinkedIn</a>
+					or<a href="https://github.com/JeffreyGallegosCoding">Github</a></p>
 
 				<p>Jamie ipsum colton nute hutt moff padmé noghri bossk zeltron. Darklighter reach naberrie unduli asajj
 					wuher
@@ -38,17 +38,15 @@ export const AboutUs = () => (
 					ponda wat stele. Organa dash orrin skakoan kowakian. Ailyn organa chagrian bothan ubese. Antilles
 					airen kel yuvernian ishi tarpals farlander. Moff briqualon davin miraluka jubnuk dooku isolder coway
 					dash. Mirta nikto t'landa motti chewbacca galen. Sesswenna ahsoka mara lepi falleen terrik kit. Tyber
-					thrella talortai padmé tono.FIND ME ON<a href="https://www.linkedin.com/in/jamie-amparan/"
-																		  target="_blank">LinkedIn</a>
-					or<a href="https://github.com/jleespooks/" target="_blank">Github</a></p>
+					thrella talortai padmé tono.FIND ME ON<a href="https://www.linkedin.com/in/jamie-amparan/">LinkedIn</a>
+					or<a href="https://github.com/jleespooks/">Github</a></p>
 				<p>Jesse Ipsum polis whiphid moff rahn sy. Dash jarael yoda tatooine jinn joelle grievous sifo-dyas teevan.
 					Gavyn panaka zeltron moor. Yuzzem ben wessell sio jabba saesee massassi calamari tarkin. Veers
 					ki-adi-mundi isard luuke amedda ismaren rieekan porkins yarael. Solo ev-9d9 farlander charal letaki
 					anx tchuukthai hoth. Kasan jabba rendar kamino echani ortolan ablajeck. Bajic ig-88 cathar chistori
 					solo. Windu jagged chazrach pellaeon terrik quelli. Saleucami nikto wirutid davin zann. Dat ailyn
-					anakin jawa.FIND ME ON<a href="https://www.linkedin.com/in/jesus-silva-287965171/"
-													 target="_blank">LinkedIn</a>
-					or<a href="https://github.com/jsilva85" target="_blank">Github</a></p>
+					anakin jawa.FIND ME ON<a href="https://www.linkedin.com/in/jesus-silva-287965171/">LinkedIn</a>
+					or<a href="https://github.com/jsilva85">Github</a></p>
 			</div>
 		</div>
 
