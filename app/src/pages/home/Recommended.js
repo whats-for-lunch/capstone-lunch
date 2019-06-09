@@ -13,7 +13,7 @@ export const Recommended = () => (
 
 		<div className="card-deck bg-dark">
 			<div className="card bg-warning p-1">
-				<img className="img-fluid rounded " src="https://www.fillmurray.com/g/300/300" alt="prop"/>
+				<img className="img-fluid rounded " src="https://s3-media1.fl.yelpcdn.com/bphoto/Cv4OHXWjcqP9kDZN7GBctA/o.jpg" alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JEFF'S RECOMMENDED</h5>
 					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
@@ -30,7 +30,7 @@ export const Recommended = () => (
 			</div>
 
 			<div className="card bg-warning p-1">
-				<img className="img-fluid rounded " src="https://www.fillmurray.com/g/300/300" alt="prop"/>
+				<img className="img-fluid rounded " src="https://s3-media4.fl.yelpcdn.com/bphoto/k6eDSvK-5qBBtQcAzGVUQQ/o.jpg"  alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JAMIE'S RECOMMENDED</h5>
 					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
@@ -46,7 +46,7 @@ export const Recommended = () => (
 			</div>
 
 			<div className="card bg-warning p-1">
-				<img className="img-fluid  rounded" src="https://www.fillmurray.com/g/300/300" alt="prop"/>
+				<img className="img-fluid  rounded" src="https://s3-media2.fl.yelpcdn.com/bphoto/ADpx7FGxjJ8uXQ3MOfAzlg/o.jpg" alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JESSE'S RECOMMENDED</h5>
 					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
