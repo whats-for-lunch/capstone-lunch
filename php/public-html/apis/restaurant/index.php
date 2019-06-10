@@ -8,7 +8,7 @@ require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use WhatsForLunch\CapstoneLunch\Restaurant;
 
 /**
- * api for the restaurant class
+ * apis for the restaurant class
  * @author Jamie Amparan <jamparan3@cnm.edu>
  **/
 //verify the session, start if not active

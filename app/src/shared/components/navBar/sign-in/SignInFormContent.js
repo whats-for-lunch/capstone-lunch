@@ -1,4 +1,4 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 import React from "react";
 
 export const SignInFormContent = (props) => {
@@ -23,7 +23,7 @@ export const SignInFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="envelope"/>
+								<i className="far fa-envelope"></i>
 							</div>
 						</div>
 						<input
@@ -52,7 +52,7 @@ export const SignInFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="key"/>
+								<i className="fas fa-unlock-alt"></i>
 							</div>
 						</div>
 						<input
@@ -71,9 +71,9 @@ export const SignInFormContent = (props) => {
 				</div>
 
 				<div className="form-group">
-					<button className="btn btn-primary mb-2" type="submit">Submit</button>
+					<button className="btn btn-outline-warning mb-2" type="submit">Submit</button>
 					<button
-						className="btn btn-danger mb-2"
+						className="btn btn-outline-warning mb-2"
 						onClick={handleReset}
 						disabled={!dirty || isSubmitting}
 					>Reset

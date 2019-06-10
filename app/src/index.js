@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import {Route, BrowserRouter, Switch} from "react-router-dom";
-import {Home} from "./pages/Home.js";
+import {Home} from "./pages/home/Home.js";
 import "./index.css";
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {NavBar} from "./shared/components/navBar/NavBar";
 import {Footer} from "./shared/components/Footer";
 import {AboutUs} from "./pages/AboutUs";
