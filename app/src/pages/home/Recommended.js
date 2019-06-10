@@ -13,7 +13,7 @@ export const Recommended = () => (
 
 		<div className="card-deck bg-dark">
 			<div className="card bg-warning p-1">
-				<img className="img-fluid rounded " src="https://s3-media1.fl.yelpcdn.com/bphoto/Cv4OHXWjcqP9kDZN7GBctA/o.jpg" alt="prop"/>
+				<img className="img-fluid rounded " src="https://s3-media4.fl.yelpcdn.com/bphoto/p6KReaIl7NYHuzTmfLqk-A/o.jpg" alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JEFF'S RECOMMENDED</h5>
 					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
@@ -33,13 +33,9 @@ export const Recommended = () => (
 				<img className="img-fluid rounded " src="https://s3-media2.fl.yelpcdn.com/bphoto/bTNqHFZyefA7upTLnpc1yQ/o.jpg"  alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JAMIE'S RECOMMENDED</h5>
-					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
-						bacon
-						jowl tail, jerky cupim short loin boudin tri-tip turducken alcatra ham picanha. Chicken buffalo
-						shankle
-						ham hock beef ribs pork chop boudin doner swine.
-						<a href="https://www.yelp.com/biz/sushi-king-albuquerque-5?osq=Sushi+King" target="_blank">Sushi
-							King</a></p>
+					<p className="card-text"> In the mood for sea food? <a href="https://www.yelp.com/biz/sushi-king-albuquerque-5?osq=Sushi+King" target="_blank">Sushi
+						King</a> has an amazing Shrimp Tempura Roll! The Philadelphia roll is also super tasty with a side of fresh edamame and a Lucky Buddha beer. YUM!
+						</p>
 				</div>
 				<div className="card-footer">
 				</div>
