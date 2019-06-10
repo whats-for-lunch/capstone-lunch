@@ -152,9 +152,9 @@ export const SignUpFormContent = (props) => {
 					}
 				</div>
 				<div className="form-group">
-					<button className="btn btn-primary mb-2" type="submit">Submit</button>
+					<button className="btn btn-outline-warning mb-2" type="submit">Submit</button>
 					<button
-						className="btn btn-danger mb-2"
+						className="btn btn-outline-warning mb-2"
 						onClick={handleReset}
 						disabled={!dirty || isSubmitting}
 					>
