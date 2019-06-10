@@ -1,13 +1,13 @@
 import React, {useEffect} from "react"
 import {connect} from "react-redux";
-import {getAllrestaurants, getrestaurantByrestaurantId} from "../shared/actions";
+import {getAllRestaurants, getRestaurantByRestaurantId} from "../shared/actions";
 
-const restaurantComponent = ({restaurants, getAllrestaurants}) => {
+const RestaurantComponent = ({restaurants, getAllRestaurants}) => {
 
 	useEffect(() => {
-		getAllrestaurants()
+		getAllRestaurants()
 
-	}, [getAllrestaurants]);
+	}, [getAllRestaurants]);
 
 	console.log(restaurants);
 	return (
@@ -24,8 +24,8 @@ const restaurantComponent = ({restaurants, getAllrestaurants}) => {
 						{restaurants.map(restaurant => (
 							<div className="card" key={restaurant.restaurantId}>
 								<div className="card-body">
-									<h4 className="card-title">{restaurant.restaurantTitle}</h4>
-									<p className="card-text">{restaurant.restaurantContent}</p>
+									<h4 className="card-title">{restaurant.restaurantName}</h4>
+									<p className="card-text">{restaurant.restaurantAddress}</p>
 								</div>
 							</div>
 						))}
@@ -39,6 +39,6 @@ const restaurantComponent = ({restaurants, getAllrestaurants}) => {
 
 const mapStateToProps = (reduxState) => {
 	return {restaurants: reduxState.restaurants}
-
 };
-export const restaurants = connect(mapStateToProps, {getAllrestaurants, getrestaurantByrestaurantId})(restaurantComponent);
+
+export const Restaurants = connect(mapStateToProps, {getAllRestaurants, getRestaurantByRestaurantId})(RestaurantComponent);
