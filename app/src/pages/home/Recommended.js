@@ -6,7 +6,7 @@ export const Recommended = () => (
 		<div className="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 mb-0">
 			<div className="container">
 				<div className="row justify-content-center">
-					<h1 className="display-4">Recommended</h1>
+					<h1 className="display-4">Our Recommendations</h1>
 				</div>
 			</div>
 		</div>
