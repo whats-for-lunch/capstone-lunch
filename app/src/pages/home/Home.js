@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {useEffect} from "react"
 import {Header} from "./Header";
 import {Recommended} from "./Recommended";
 import {GMap} from "./Gmap";
 import {RestaurantComponent} from "../Restaurants";
+import {connect} from "react-redux";
+import {getAllRestaurants, getRestaurantByRestaurantId} from "../../shared/actions";
 
+const HomeComponent = ({restaurants, getAllRestaurants}) => {
 
-const HomeComponent = () => {
+	useEffect(() => {
+		getAllRestaurants()
+	}, [getAllRestaurants]);
+
+	console.log(restaurants);
+
 	return (
 		<>
 			<Header/>
@@ -20,6 +28,9 @@ const HomeComponent = () => {
 	)
 };
 
-export const Home = (HomeComponent);
+const mapStateToProps = ({restaurants}) => {
+	return {restaurants};
+};
 
-
+// export const Home = (HomeComponent);
+export const Home = connect(mapStateToProps,{getAllRestaurants})(HomeComponent);
