@@ -1,6 +1,6 @@
 import React from 'react';
-import {Header} from "./home/Header";
-import {Recommended} from "./home/Recommended";
+import {Header} from "./Header";
+import {Recommended} from "./Recommended";
 
 const HomeComponent = () => {
 	return (

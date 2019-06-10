@@ -31,7 +31,8 @@ export const SignUpForm = () => {
 			.min(8, "Password must be at least eight characters"),
 	});
 
-	const submitSignUp = (values, {resetForm}) => {
+	const submitSignUp = (values,{setStatus, resetForm}) => {
+
 		console.log('opps');
 		httpConfig.post("/apis/sign-up/", values)
 			.then(reply => {

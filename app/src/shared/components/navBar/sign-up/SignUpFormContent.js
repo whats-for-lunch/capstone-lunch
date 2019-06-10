@@ -1,5 +1,5 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {FormDebugger} from "../../FormDebugger";
 
 export const SignUpFormContent = (props) => {
@@ -24,7 +24,7 @@ export const SignUpFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="envelope"/>
+								<i className="far fa-envelope"></i>
 							</div>
 						</div>
 						<input
@@ -53,7 +53,7 @@ export const SignUpFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="key"/>
+								<i className="fas fa-unlock-alt"></i>
 							</div>
 						</div>
 						<input
@@ -75,7 +75,7 @@ export const SignUpFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="key"/>
+								<i className="fas fa-unlock-alt"></i>
 							</div>
 						</div>
 						<input
@@ -100,7 +100,7 @@ export const SignUpFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="dove"/>
+								<i className="fas fa-user"></i>
 							</div>
 						</div>
 						<input
@@ -129,7 +129,7 @@ export const SignUpFormContent = (props) => {
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
-								<FontAwesomeIcon icon="LastName"/>
+								<i className="fas fa-user"></i>
 							</div>
 						</div>
 						<input
