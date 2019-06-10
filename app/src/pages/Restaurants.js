@@ -41,4 +41,4 @@ const mapStateToProps = (reduxState) => {
 	return {restaurants: reduxState.restaurants}
 };
 
-export const Restaurants = connect(mapStateToProps, {getAllRestaurants, getRestaurantByRestaurantId})(RestaurantComponent);
+export const restaurants = connect(mapStateToProps, {getAllRestaurants, getRestaurantByRestaurantId})(RestaurantComponent);
