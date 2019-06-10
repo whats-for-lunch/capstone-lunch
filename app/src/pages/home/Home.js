@@ -22,6 +22,7 @@ const HomeComponent = ({restaurants, getAllRestaurants}) => {
 				loadingElement={<div style={{height: `100%`}}/>}
 				containerElement={<div style={{height: `400px`}}/>}
 				mapElement={<div style={{height: `100%`}}/>}
+				restaurants={restaurants}
 			/>
 			<Recommended/>
 		</>
