@@ -12,7 +12,7 @@ export const Favorite = () => (
 		</div>
 
 
-		<section id="card decks">
+		<section id="card decks ">
 			<div className="container-fluid bg-dark text-dark">
 				<div className="container my-8">
 					<div className="card-deck">

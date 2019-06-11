@@ -5,6 +5,9 @@ import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 	(console.log(restaurants));
 	return (
+		<section>
+		<div className="container-fluid">
+			<div className="border-danger">
 			<GoogleMap
 				defaultZoom={14}
 				defaultCenter={{lat: 35.0856197, lng: -106.64924}}
@@ -17,6 +20,9 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 				/>
 			))}
 			</GoogleMap>
+		</div>
+		</div>
+		</section>
 		)
 	}
 ));
