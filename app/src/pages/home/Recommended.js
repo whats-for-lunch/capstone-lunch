@@ -45,11 +45,7 @@ export const Recommended = () => (
 				<img className="img-fluid  rounded" src="https://s3-media2.fl.yelpcdn.com/bphoto/ADpx7FGxjJ8uXQ3MOfAzlg/o.jpg" alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JESSE'S RECOMMENDED</h5>
-					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
-						bacon
-						jowl tail, jerky cupim short loin boudin tri-tip turducken alcatra ham picanha. Chicken buffalo
-						shankle
-						ham hock beef ribs pork chop boudin doner swine.
+					<p className="card-text">Bocadillos was brought to my attention by word of mouth. I've been to sandwich shops before but nothing like this one. I've had three items off their menu and every one of them was so delicious. The nachos, reuben and the Cubano. These items were all unique in style and flavor. The service is is very friendly and your always greeted with a smile. If you want a delicious sandwich I would always recommend Bocadillos as a place to eat.
 						<a href="https://www.yelp.com/biz/slow-roasted-bocadillos-albuquerque-2"
 							target="_blank">Bocadillos</a></p>
 				</div>
