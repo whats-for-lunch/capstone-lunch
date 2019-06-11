@@ -6,7 +6,7 @@
 <div class="container justify-content-center bg-dark">
 	<div class="row justify-content-center">
 		<span class="border border-warning">
-	<img src="img/yelpmap.jpg.png" height="500px" width="600px">
+	<img src="../app/public/images/yelpmap.jpg.png" height="500px" width="600px">
 	</div>
 	</div>
 	</span>

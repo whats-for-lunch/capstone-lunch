@@ -13,7 +13,7 @@ use WhatsForLunch\CapstoneLunch\ {
 
 
 /**
- * api for the picture
+ * apis for the picture
  *
  * @author Jesus Silva thebestjesse76@gmail.com
  *

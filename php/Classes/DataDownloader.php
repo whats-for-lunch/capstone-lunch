@@ -14,7 +14,9 @@ class DataDownloader {
 
 	public static function pullRestaurants() {
 		$newRestaurants = null;
+
 		$urlBase = "https://api.yelp.com/v3/businesses/search?latitude=35.0856326&longitude=-106.649319&categories=restaurants&limit=50&radius=1000";
+
 		$businessUrlBase = "https://api.yelp.com/v3/businesses/";
 
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/whatsforlunch.ini");
