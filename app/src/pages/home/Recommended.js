@@ -16,13 +16,11 @@ export const Recommended = () => (
 				<img className="img-fluid rounded " src="https://s3-media4.fl.yelpcdn.com/bphoto/p6KReaIl7NYHuzTmfLqk-A/o.jpg" alt="prop"/>
 				<div className="card-body">
 					<h5 className="card-title">JEFF'S RECOMMENDED</h5>
-					<p className="card-text">Bacon ipsum dolor amet rump shankle drumstick meatloaf cupim capicola. Ball tip
-						bacon
-						jowl tail, jerky cupim short loin boudin tri-tip turducken alcatra ham picanha. Chicken buffalo
-						shankle
-						ham hock beef ribs pork chop boudin doner swine.
-						<a href="https://www.yelp.com/biz/asian-noodle-bar-albuquerque?osq=asian+noodle+bar"
-							target="_blank">Asian Noodle Bar</a>
+					<p className="card-text"><a href="https://www.yelp.com/biz/asian-noodle-bar-albuquerque?osq=asian+noodle+bar" target="_blank">
+						Asian Noodle Bar</a> is a great place to try out not only for the awesome food but also a
+						stellar atmosphere with a bar inside and patio to sit at out front. They have amazing pad thai, spicy
+						sesame noodles, and different types of pho with large portions that are great for the price!
+
 					</p>
 				</div>
 				<div className="card-footer">
