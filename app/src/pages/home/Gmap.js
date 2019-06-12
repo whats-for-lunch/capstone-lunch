@@ -5,6 +5,7 @@ import Image from "react-bootstrap/Image";
 
 
 
+
 export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 
 	const [show, setShow] = useState(false);

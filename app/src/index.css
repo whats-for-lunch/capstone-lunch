@@ -19,3 +19,16 @@ section.container-fluid
 @media (max-width: 575.98 px) @media (min-width: 576 px) and (max-width: 767.98 px) @media (min-width: 768 px) and (max-width: 991.98 px) @media (min-width: 992 px) and (max-width: 1199.98 px) @media (min-width: 1200 px)
 }
 
+.map-container-6{
+	overflow:hidden;
+	padding-bottom:56.25%;
+	position:relative;
+	height:0;
+}
+.map-container-6 iframe{
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+	position:absolute;
+}
