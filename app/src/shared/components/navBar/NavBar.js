@@ -15,10 +15,10 @@ export const NavBar = () => (
 		{/*<!--Navbar beginning -->*/}
 		<nav className="navbar navbar-dark bg-dark fluid d-flex justify-content-end text-monospace">
 			<form className="form-inline"/>
-				<SignUpModal/>
-				<SignInModal/>
-				<button className="btn btn-outline-warning" type="button">About Us</button>
-				<button className="btn btn-outline-warning" type="button">Favorites</button>
+			<SignUpModal/>
+			<SignInModal/>
+			<button className="btn btn-outline-warning" type="button">About Us</button>
+			<button className="btn btn-outline-warning" type="button">Favorites</button>
 		</nav>
 	</>
 );
