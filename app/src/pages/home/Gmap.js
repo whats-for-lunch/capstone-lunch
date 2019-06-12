@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import {Modal} from "react-bootstrap";
+import Image from "react-bootstrap/Image";
 
 
 
@@ -24,10 +25,15 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 				(selectedRestaurant) && (
 					<Modal show={show} onHide={close}>
 						<Modal.Header closeButton>
-							<Modal.Title>Modal heading</Modal.Title>
+							<Modal.Title>{selectedRestaurant.restaurantName}</Modal.Title>
 						</Modal.Header>
-						<Modal.Body>{}
+						<Modal.Body>
+
+							<Image src={selectedRestaurant.restaurantThumbnail} fluid />
+							{selectedRestaurant.restaurantAddress}
+							
 						</Modal.Body>
+
 					</Modal>
 				)
 			}
