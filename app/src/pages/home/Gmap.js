@@ -8,6 +8,7 @@ import Image from "react-bootstrap/Image";
 
 export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 
+
 	const [show, setShow] = useState(false);
 	const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
@@ -21,6 +22,7 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 	};
 	return (
 		<>
+			<div ClassName="container my-3 py-3 col-sm-8 col-md-8 col-lg-8">
 
 			{
 				(selectedRestaurant) && (
@@ -54,6 +56,7 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 				/>
 			))}
 			</GoogleMap>
+			</div>
 		</>
 		)
 	}
