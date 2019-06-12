@@ -31,7 +31,7 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 
 							<Image src={selectedRestaurant.restaurantThumbnail} fluid />
 							{selectedRestaurant.restaurantAddress}
-							
+
 						</Modal.Body>
 
 					</Modal>
