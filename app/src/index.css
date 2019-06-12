@@ -14,3 +14,8 @@ body {
 	: url("shared/images/yelpmap.jpg.png");
 }*/
 
+section.container-fluid
+#card-decks {
+@media (max-width: 575.98 px) @media (min-width: 576 px) and (max-width: 767.98 px) @media (min-width: 768 px) and (max-width: 991.98 px) @media (min-width: 992 px) and (max-width: 1199.98 px) @media (min-width: 1200 px)
+}
+

@@ -10,64 +10,45 @@ export const Favorite = () => (
 				</div>
 			</div>
 		</div>
-
-
-		<section id="card decks">
-			<div className="container-fluid bg-dark text-dark">
-				<div className="container my-8">
-					<div className="card-deck">
-						<div className="card bg-warning">
-							<img className="card-img-top"
-								  src="https://s3-media2.fl.yelpcdn.com/bphoto/UEnfWw0AdsVhMzmvLswgzg/o.jpg"
-								  alt="Card image cap" className="rounded"/>
-								<div className="card-body">
-									<h5 className="card-title">Artichoke Cafe</h5>
-									<p className="card-text">American (New), Cafes</p>
-									<p><strong>424 Central Ave SE
-										Albuquerque, NM 87102</strong></p>
-									<i className="far fa-window-close"></i>
-								</div>
-
-						</div>
-						<div className="card bg-warning">
-							<img className="card-img-top"
-								  src="https://s3-media3.fl.yelpcdn.com/bphoto/-odb7y2_GxASimUqXtNn4Q/o.jpg"
-								  alt="Card image cap" className="rounded"/>
-								<div className="card-body">
-									<h5 className="card-title">Cocina Azul</h5>
-									<p className="card-text">New Mexican Cuisine </p>
-									<p><strong>1134 Mountain Rd NW
-										Albuquerque, NM 87102</strong></p>
-								</div>
-						</div>
-						<div className="card bg-warning">
-							<img className="card-img-top"
-								  src="https://s3-media3.fl.yelpcdn.com/bphoto/-odb7y2_GxASimUqXtNn4Q/o.jpg"
-								  alt="Card image cap" className="rounded"/>
-								<div className="card-body">
-									<h5 className="card-title">The Grove Cafe & Market</h5>
-									<p className="card-text">Coffee & Tea, American (New), Cafes </p>
-									<p><strong>600 Central Ave SE
-										Ste A
-										Albuquerque, NM 87102</strong></p>
-								</div>
-						</div>
-						<div className="card bg-warning">
-							<img className="card-img-top"
-								  src="https://s3-media2.fl.yelpcdn.com/bphoto/UEnfWw0AdsVhMzmvLswgzg/o.jpg"
-								  alt="Card image cap" className="rounded"/>
-								<div className="card-body">
-									<h5 className="card-title">Sophia’s</h5>
-									<p className="card-text">American (New), Breakfast & Brunch, Latin American</p>
-									<p><strong> Park Ave SW
-										Ste 102
-										Albuquerque, NM 87102</strong></p>
-								</div>
-						</div>
+	<section id="card-decks">
+		<div className="card-group">
+			<div className="card">
+				<img src="./image/artichoke.jpg" className="card-img-top" alt="...">
+					<div className="card-body">
+						<h5 className="card-title">Card title</h5>
+						<p className="card-text">This is a wider card with supporting text below as a natural lead-in to
+							additional content. This content is a little bit longer.</p>
+						<p className="card-text">
+							<small className="text-muted">Last updated 3 mins ago</small>
+						</p>
 					</div>
-				</div>
 			</div>
-		</section>
+			<div className="card">
+				<img src="./image/lulucafe.jpg" className="card-img-top" alt="...">
+					<div className="card-body">
+						<h5 className="card-title">Card title</h5>
+						<p className="card-text">This card has supporting text below as a natural lead-in to additional
+							content.</p>
+						<p className="card-text">
+							<small className="text-muted">Last updated 3 mins ago</small>
+						</p>
+					</div>
+			</div>
+			<div className="card">
+				<img src="./image/mastapas.jpg" className="card-img-top" alt="...">
+					<div className="card-body">
+						<h5 className="card-title">Card title</h5>
+						<p className="card-text">This is a wider card with supporting text below as a natural lead-in to
+							additional content. This card has even longer content than the first to show that equal
+							height action.</p>
+						<p className="card-text">
+							<small className="text-muted">Last updated 3 mins ago</small>
+						</p>
+					</div>
+			</div>
+		</div>
+	</section>
+
 
 	</body>
 	)
