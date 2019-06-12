@@ -21,7 +21,7 @@ export const GMap = withScriptjs(withGoogleMap(({restaurants}) => {
 		<>
 
 			{
-				(selectedRestaurant) && (restaurants)
+				(selectedRestaurant) && (
 					<Modal show={show} onHide={close}>
 						<Modal.Header closeButton>
 							<Modal.Title>Modal heading</Modal.Title>
