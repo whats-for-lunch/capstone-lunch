@@ -2,7 +2,7 @@ import React from "react";
 
 
 export const Favorite = () => (
-	<body>
+	<body className="Favorite" id="Favorite">
 		<div className="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 mb-0">
 			<div className="container">
 				<div className="row justify-content-center">
@@ -21,7 +21,7 @@ export const Favorite = () => (
 								  src="https://s3-media2.fl.yelpcdn.com/bphoto/UEnfWw0AdsVhMzmvLswgzg/o.jpg"
 								  alt="Card image cap" className="rounded"/>
 								<div className="card-body">
-									<h5 className="card-title">Artichoke Cafe</h5>
+									<div className="card-title">Artichoke Cafe</div>
 									<p className="card-text">American (New), Cafes</p>
 									<p><strong>424 Central Ave SE
 										Albuquerque, NM 87102</strong></p>
