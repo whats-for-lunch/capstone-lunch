@@ -13,12 +13,22 @@ export const NavBar = () => (
 
 
 		{/*<!--Navbar beginning -->*/}
-		<nav className="navbar navbar-dark bg-dark fluid d-flex justify-content-end text-monospace">
+
+		<nav className="navbar navbar-expand-lg navbar-dark bg-dark text-monospace btn-outline-warning">
+			<a className="navbar-brand btn btn-outline-warning" href="http://localhost:3000">Home</a>
 			<form className="form-inline"/>
-			<SignUpModal/>
-			<SignInModal/>
-			<button className="btn btn-outline-warning" type="button">About Us</button>
-			<button className="btn btn-outline-warning" type="button">Favorites</button>
+			<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+					  aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span className="navbar-toggler-icon"></span>
+			</button>
+			<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div className="navbar">
+					<SignUpModal/>
+					<SignInModal/>
+					<a className="nav-item btn btn-outline-warning" href="favorite">Favorite</a>
+					<a className="nav-item btn btn-outline-warning" href="about-us">About-Us</a>
+				</div>
+			</div>
 		</nav>
 	</>
 );

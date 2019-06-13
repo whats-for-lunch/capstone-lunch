@@ -2,7 +2,7 @@ import React from "react";
 
 
 export const Favorite = () => (
-	<body>
+	<body className="Favorite" id="Favorite">
 		<div className="jumbotron jumbotron-fluid bg-dark text-warning justify-content-center py-0 mb-0">
 			<div className="container">
 				<div className="row justify-content-center">
